@@ -1,142 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/05/09/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<a id="more"></a>
-
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>ubuntu 踩坑记录</title>
+      <link href="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+      <url>/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="ubuntu-踩坑记录"><a href="#ubuntu-踩坑记录" class="headerlink" title="ubuntu 踩坑记录"></a>ubuntu 踩坑记录</h1><h2 id="显卡驱动重装"><a href="#显卡驱动重装" class="headerlink" title="显卡驱动重装"></a>显卡驱动重装</h2><p>某次装好后，遇到bug：</p><blockquote><p>Can’t run remote python interpreter: OCI runtime create failed: container_linux.go:367: starting container process caused: process_linux.go:495: container init caused: Running hook #1:: error running hook: exit status 1, stdout: , stderr: nvidia-container-cli: initialization error: driver error: failed to process request: unknown</p></blockquote><a id="more"></a><p>docker 里nvidia-smi不能用了，直接在docker外nvidia-smi也报错：</p><blockquote><p>NVIDIA-SMI couldn’t find libnvidia-ml.so library in your system. Please make sure that the NVIDIA Display Driver is properly installed and present in your system. Please also try adding directory that contains libnvidia-ml.so to your system PATH.</p></blockquote><p>估计是什么时候update弄成的。</p><p>解决方法：重装显卡驱动</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BTW this is all in console mode (for me, alt+ctrl+F2)</span></span><br><span class="line"><span class="comment"># login + password as usual</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># removing ALL nvidia software</span></span><br><span class="line">$ sudo apt-get purge nvidia* </span><br><span class="line"></span><br><span class="line"><span class="comment"># Checking what's left:</span></span><br><span class="line">$ dpkg -l | grep nvidia</span><br><span class="line"><span class="comment"># Then I deleted the ones that showed up (mostly libnvidia-* but also xserver-xorg-video-nvidia-xxx`)</span></span><br><span class="line">$ sudo apt-get purge libnvidia* xserver-xorg-video-nvidia-440 </span><br><span class="line">$ sudo apt autoremove <span class="comment"># clean it up</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># now reinstall everything including nvidia-common</span></span><br><span class="line">$ sudo apt-get nvidia-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># find the right driver again</span></span><br><span class="line">$ sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ ubuntu-drivers devices</span><br><span class="line">$ sudo apt-get install nvidia-driver-460 <span class="comment"># the recommended one by ubuntu-drivers</span></span><br><span class="line">$ update-initramfs -u <span class="comment"># needed to do this so rebooting wouldn't lose configuration I think</span></span><br><span class="line"></span><br><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure><p>然后再重装NVIDIA-docker：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line"><span class="variable">$sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> apt-get install nvidia-docker2</span><br><span class="line"><span class="variable">$sudo</span> pkill -SIGHUP dockerd</span><br><span class="line"><span class="variable">$docker</span> run --runtime=nvidia --rm nvidia/cuda nvidia-smi</span><br></pre></td></tr></table></figure><p>测试：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nvidia-docker run --rm nvidia/cuda:10.1-devel nvidia-smi</span><br></pre></td></tr></table></figure><p>万幸CUDA, CuDNN都还有。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=torch.randn(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.cuda()</span><br><span class="line">tensor([[<span class="number">-0.4678</span>,  <span class="number">0.1525</span>]], device=<span class="string">'cuda:0'</span>)</span><br></pre></td></tr></table></figure><p> 配置默认运行的是nvidia-docker 而不是 docker (<a href="https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json</a> 文件中配置如下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;default-runtime&quot;: &quot;nvidia&quot;,</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: [],</span><br><span class="line">            &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;gemfield.mirror.aliyuncs.com&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="pycharm里用docker"><a href="#pycharm里用docker" class="headerlink" title="pycharm里用docker"></a>pycharm里用docker</h2><p>python 位置：/home/shiyuuuu/anaconda3/bin/python</p><p><img src="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20210326170845579.png" alt="image-20210326170845579"></p>]]></content>
+      
+      
       <categories>
-        <category>hello</category>
-        <category>a</category>
+          
+          <category> ubuntu </category>
+          
+          <category> bug </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>200517</title>
-    <url>/2020/05/17/200517/</url>
-    <content><![CDATA[<p><img src="/2020/05/17/200517/image-20200517173258443.png" alt></p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> ubuntu </tag>
+            
+            <tag> bug </tag>
+            
+            <tag> docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>1-两数之和</title>
+      <link href="/2021/03/26/1_%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/"/>
+      <url>/2021/03/26/1_%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+      
+        <content type="html"><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h1><p><a href="https://leetcode-cn.com/problems/two-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/two-sum</a></p><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。</p><a id="more"></a><p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。<br>你可以按任意顺序返回答案。</p><p>示例 1：</p><blockquote><p>输入：nums = [2,7,11,15], target = 9<br>输出：[0,1]<br>解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。</p></blockquote><p>示例 2：</p><blockquote><p>输入：nums = [3,2,4], target = 6<br>输出：[1,2]</p></blockquote><p>示例 3</p><blockquote><p>输入：nums = [3,3], target = 6<br>输出：[0,1]</p></blockquote><p>提示：</p><blockquote><p>2 &lt;= nums.length &lt;= 103<br>-109 &lt;= nums[i] &lt;= 109<br>-109 &lt;= target &lt;= 109<br>只会存在一个有效答案</p></blockquote><h2 id="暴力解答"><a href="#暴力解答" class="headerlink" title="暴力解答"></a>暴力解答</h2><p>我自己的解答：非常暴力检索，第一个:  <code>i</code> 从0到n，第二个: <code>j</code> 从i+1 到n（或者倒序来）。这样复杂度是O(n^2)</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,len(nums)):</span><br><span class="line">                <span class="keyword">if</span> nums[i]+nums[j]==target:</span><br><span class="line">                    <span class="keyword">return</span> [i,j]</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="comment"># nums_sorted=sorted(nums)</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(nums)<span class="number">-1</span>,i,<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">if</span> nums[i]+nums[j]==target:</span><br><span class="line">                    c=sorted([i,j])</span><br><span class="line">                    <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure><h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><h3 id="思路及算法"><a href="#思路及算法" class="headerlink" title="思路及算法"></a>思路及算法</h3><p>注意到方法一的时间复杂度较高的原因是寻找 target - x 的时间复杂度过高。因此，我们需要一种更优秀的方法，能够快速寻找数组中是否存在目标元素。如果存在，我们需要找出它的索引。</p><p>使用哈希表，可以将寻找 target - x 的时间复杂度降低到从 <strong><em>O(N)</em></strong> 降低到 <strong><em>O(1)</em></strong>。</p><p>这样我们创建一个哈希表，对于每一个 x，我们首先查询哈希表中是否存在 target - x，然后将 x 插入到哈希表中，即可保证不会让 x 和自己匹配。</p><p>先建立一个空字典，查找target-num是不是hashtable的键值，如果是，直接return，如果不是，把这个num-i对以键值对的形式添加入字典。哈希表查找元素的复杂度为<strong><em>O(1)</em></strong></p><p>代码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        hashtable = dict()</span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            <span class="keyword">if</span> target - num <span class="keyword">in</span> hashtable:</span><br><span class="line">                <span class="keyword">return</span> [hashtable[target - num], i]</span><br><span class="line">            hashtable[nums[i]] = i</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">s=Solution()</span><br><span class="line"><span class="comment"># nums=[2,7,11,15]</span></span><br><span class="line"><span class="comment"># target=9</span></span><br><span class="line"><span class="comment"># nums = [3,2,4]</span></span><br><span class="line"><span class="comment"># target = 6</span></span><br><span class="line">nums = [<span class="number">3</span>,<span class="number">3</span>]</span><br><span class="line">target = <span class="number">6</span></span><br><span class="line">a=s.twoSum(nums,target)</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure><h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>时间复杂度：O(N)，其中 N是数组中的元素数量。对于每一个元素 x，我们可以 O(1) 地寻找 target - x。</p><p>空间复杂度：O(N)，其中 N 是数组中的元素数量。主要为哈希表的开销。</p>]]></content>
+      
+      
       <categories>
-        <category>hello</category>
-        <category>分类C</category>
-        <category>分类D</category>
-        <category>b</category>
+          
+          <category> LeetCode </category>
+          
+          <category> easy </category>
+          
+          <category> algorithm </category>
+          
+          <category> 哈希表 </category>
+          
       </categories>
-      <tags>
-        <tag>Segmentation</tag>
-        <tag>brain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>阅读论文 “Large Scale Image Segmentation with Structured Loss based Deep Learning forConnectome Reconstruction” （MALA-TPAMI18)</title>
-    <url>/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20MALA-TPAMI/</url>
-    <content><![CDATA[<p><img src="/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20MALA-TPAMI/image-20200510153223855.png" alt></p>
-<a id="more"></a>
-
-<p>tag：EM，分割，神经元</p>
-<p>特点：既可以用在isotropic block-face EM data，又可以用在 anisotropic serial sectioned EM data</p>
-<p>task是神经元分割</p>
-<p>输出是边界概率</p>
-<p>结合了亲和图预测</p>
-<p>3D unet：预测voxels之间的亲和图，然后是迭代区域聚集</p>
-<ol>
-<li>用3D U-Net预测3D 亲和图(affinity graphs)，loss是基于MALIS的structured loss，来最小化拓扑误差</li>
-<li>改进原来的MALIS loss function：在所有predicted的亲和图上预测梯度，而不是稀疏得采样。这样使得梯度计算更快更dense<ol>
-<li>并且分两遍计算MALIS损失：在正遍中，将GT区域之间和GT区域外的亲和图限制为0；在负遍中，将区域内的亲和图设置为1。</li>
-</ol>
-</li>
-<li></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>Segmentation</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>200517</title>
-    <url>/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20%E2%80%9CLarge%20Scale%20Image%20Segmentation%20with%20Structured%20Loss%20based%20Deep%20Learning%20forConnectome%20Reconstruction%E2%80%9D%20%EF%BC%88MALA-TPAMI/</url>
-    <content><![CDATA[<p>Connectome Reconstruction” （MALA-TPAMI 2018）</p>
-<p><img src="/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20%E2%80%9CLarge%20Scale%20Image%20Segmentation%20with%20Structured%20Loss%20based%20Deep%20Learning%20forConnectome%20Reconstruction%E2%80%9D%20%EF%BC%88MALA-TPAMI/image-20200510153223855.png" alt></p>
-<a id="more"></a>
-
-<p>tag：EM，分割，神经元</p>
-<p>特点：既可以用在isotropic block-face EM data，又可以用在 anisotropic serial sectioned EM data</p>
-<p>task是神经元分割</p>
-<p>输出是边界概率</p>
-<p>结合了亲和图预测</p>
-<p>3D unet：预测voxels之间的亲和图，然后是迭代区域聚集</p>
-<h1 id="ds"><a href="#ds" class="headerlink" title="ds"></a>ds</h1><h1 id="results"><a href="#results" class="headerlink" title="results"></a>results</h1><p><img src="/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20%E2%80%9CLarge%20Scale%20Image%20Segmentation%20with%20Structured%20Loss%20based%20Deep%20Learning%20forConnectome%20Reconstruction%E2%80%9D%20%EF%BC%88MALA-TPAMI/C:%5CUsers%5C76384%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200510182236597.png" alt="image-20200510182236597"></p>
-<p><img src="/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20%E2%80%9CLarge%20Scale%20Image%20Segmentation%20with%20Structured%20Loss%20based%20Deep%20Learning%20forConnectome%20Reconstruction%E2%80%9D%20%EF%BC%88MALA-TPAMI/C:%5CUsers%5C76384%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200510211913155.png" alt="image-20200510211913155"></p>
-<p><img src="/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20%E2%80%9CLarge%20Scale%20Image%20Segmentation%20with%20Structured%20Loss%20based%20Deep%20Learning%20forConnectome%20Reconstruction%E2%80%9D%20%EF%BC%88MALA-TPAMI/C:%5CUsers%5C76384%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200510212051333.png" alt="image-20200510212051333"></p>
-<ol>
-<li>用3D U-Net预测3D 亲和图(affinity graphs)，loss是基于MALIS的structured loss，来最小化拓扑误差</li>
-<li>改进原来的MALIS loss function：在所有predicted的亲和图上预测梯度，而不是稀疏得采样。这样使得梯度计算更快更dense<ol>
-<li>并且分两遍计算MALIS损失：在正遍中，将GT区域之间和GT区域外的亲和图限制为0；在负遍中，将区域内的亲和图设置为1。</li>
-</ol>
-</li>
-<li></li>
-</ol>
-]]></content>
-      <tags>
-        <tag>Segmentation</tag>
-        <tag>brain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu 踩坑记录</title>
-    <url>/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="ubuntu-踩坑记录"><a href="#ubuntu-踩坑记录" class="headerlink" title="ubuntu 踩坑记录"></a>ubuntu 踩坑记录</h1><h2 id="显卡驱动重装"><a href="#显卡驱动重装" class="headerlink" title="显卡驱动重装"></a>显卡驱动重装</h2><p>某次装好后，遇到bug：</p>
-<blockquote>
-<p>Can’t run remote python interpreter: OCI runtime create failed: container_linux.go:367: starting container process caused: process_linux.go:495: container init caused: Running hook #1:: error running hook: exit status 1, stdout: , stderr: nvidia-container-cli: initialization error: driver error: failed to process request: unknown</p>
-</blockquote>
-<a id="more"></a>
-
-<p>docker 里nvidia-smi不能用了，直接在docker外nvidia-smi也报错：</p>
-<blockquote>
-<p>NVIDIA-SMI couldn’t find libnvidia-ml.so library in your system. Please make sure that the NVIDIA Display Driver is properly installed and present in your system. Please also try adding directory that contains libnvidia-ml.so to your system PATH.</p>
-</blockquote>
-<p>估计是什么时候update弄成的。</p>
-<p>解决方法：重装显卡驱动</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># BTW this is all in console mode (for me, alt+ctrl+F2)</span></span><br><span class="line"><span class="comment"># login + password as usual</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># removing ALL nvidia software</span></span><br><span class="line">$ sudo apt-get purge nvidia* </span><br><span class="line"></span><br><span class="line"><span class="comment"># Checking what's left:</span></span><br><span class="line">$ dpkg -l | grep nvidia</span><br><span class="line"><span class="comment"># Then I deleted the ones that showed up (mostly libnvidia-* but also xserver-xorg-video-nvidia-xxx`)</span></span><br><span class="line">$ sudo apt-get purge libnvidia* xserver-xorg-video-nvidia-440 </span><br><span class="line">$ sudo apt autoremove <span class="comment"># clean it up</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># now reinstall everything including nvidia-common</span></span><br><span class="line">$ sudo apt-get nvidia-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># find the right driver again</span></span><br><span class="line">$ sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ ubuntu-drivers devices</span><br><span class="line">$ sudo apt-get install nvidia-driver-460 <span class="comment"># the recommended one by ubuntu-drivers</span></span><br><span class="line">$ update-initramfs -u <span class="comment"># needed to do this so rebooting wouldn't lose configuration I think</span></span><br><span class="line"></span><br><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure>
-
-<p>然后再重装NVIDIA-docker：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line"><span class="variable">$sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> apt-get install nvidia-docker2</span><br><span class="line"><span class="variable">$sudo</span> pkill -SIGHUP dockerd</span><br><span class="line"><span class="variable">$docker</span> run --runtime=nvidia --rm nvidia/cuda nvidia-smi</span><br></pre></td></tr></table></figure>
-
-<p>测试：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo nvidia-docker run --rm nvidia/cuda:10.1-devel nvidia-smi</span><br></pre></td></tr></table></figure>
-
-<p>万幸CUDA, CuDNN都还有。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=torch.randn(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.cuda()</span><br><span class="line">tensor([[<span class="number">-0.4678</span>,  <span class="number">0.1525</span>]], device=<span class="string">'cuda:0'</span>)</span><br></pre></td></tr></table></figure>
-
-<p> 配置默认运行的是nvidia-docker 而不是 docker (<a href="https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json</a> 文件中配置如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;default-runtime&quot;: &quot;nvidia&quot;,</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: [],</span><br><span class="line">            &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;gemfield.mirror.aliyuncs.com&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="pycharm里用docker"><a href="#pycharm里用docker" class="headerlink" title="pycharm里用docker"></a>pycharm里用docker</h2><p>python 位置：/home/shiyuuuu/anaconda3/bin/python</p>
-<p><img src="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20210326170845579.png" alt="image-20210326170845579"></p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> 哈希表 </tag>
+            
+            <tag> leetcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>哈希表</title>
+      <link href="/2021/03/26/%E5%93%88%E5%B8%8C%E8%A1%A8/"/>
+      <url>/2021/03/26/%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h1><p>Hash Table，也叫散列表。<a href="/2021/03/26/1_%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="力扣-两数之和">力扣-两数之和</a></p>]]></content>
+      
+      
       <categories>
-        <category>ubuntu</category>
-        <category>bug</category>
+          
+          <category> algorithm </category>
+          
+          <category> 哈希表 </category>
+          
       </categories>
-      <tags>
-        <tag>ubuntu</tag>
-        <tag>bug</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> 哈希表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
