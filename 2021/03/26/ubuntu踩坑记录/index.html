@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,14 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: 分类D - Shiyu&#39;s Blog</title>
+    <title>ubuntu 踩坑记录 - Shiyu&#39;s Blog</title>
   
+    <meta name="keywords" content="ubuntu,bug,docker">
+  
+  
+    <meta name="description" content="ubuntu 踩坑记录显卡驱动重装某次装好后，遇到bug：
+
+Can’t run remote python interpreter: OCI runtime create failed: container_linux.go:367: starting container process caused: pro...">
   
 
   <!-- feed -->
@@ -85,7 +89,37 @@
 
 <body>
   
-  <div id="loading-bar-wrapper">
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Shiyu</p>
+    
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header floatable">
@@ -306,31 +340,19 @@
 
 <script>setLoadingBarProgress(40);</script>
 
+  </div>
 
 
-  <div class="l_body nocover">
+  <div class="l_body">
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -340,11 +362,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2020/05/17/200517/">
-      200517
+  <h1 class="title">
+    <a href="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+      ubuntu 踩坑记录
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -367,9 +389,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/hello/b/' rel="nofollow">
+    <a href='/categories/ubuntu/bug/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>hello/分类C/分类D/b</p>
+      <p>ubuntu/bug</p>
     </a>
   </div>
 
@@ -380,14 +402,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：May 17, 2020</p>
+    <p>发布于：Mar 26, 2021</p>
   </a>
 </div>
-
-            
-          
-            
-              
 
             
           
@@ -405,139 +422,188 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/2020/05/17/200517/image-20200517173258443.png" alt></p>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h1 id="ubuntu-踩坑记录"><a href="#ubuntu-踩坑记录" class="headerlink" title="ubuntu 踩坑记录"></a>ubuntu 踩坑记录</h1><h2 id="显卡驱动重装"><a href="#显卡驱动重装" class="headerlink" title="显卡驱动重装"></a>显卡驱动重装</h2><p>某次装好后，遇到bug：</p>
+<blockquote>
+<p>Can’t run remote python interpreter: OCI runtime create failed: container_linux.go:367: starting container process caused: process_linux.go:495: container init caused: Running hook #1:: error running hook: exit status 1, stdout: , stderr: nvidia-container-cli: initialization error: driver error: failed to process request: unknown</p>
+</blockquote>
+<a id="more"></a>
 
-      
-    </div>
-    
-      
-    
-  </section>
-</article>
+<p>docker 里nvidia-smi不能用了，直接在docker外nvidia-smi也报错：</p>
+<blockquote>
+<p>NVIDIA-SMI couldn’t find libnvidia-ml.so library in your system. Please make sure that the NVIDIA Display Driver is properly installed and present in your system. Please also try adding directory that contains libnvidia-ml.so to your system PATH.</p>
+</blockquote>
+<p>估计是什么时候update弄成的。</p>
+<p>解决方法：重装显卡驱动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BTW this is all in console mode (for me, alt+ctrl+F2)</span></span><br><span class="line"><span class="comment"># login + password as usual</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># removing ALL nvidia software</span></span><br><span class="line">$ sudo apt-get purge nvidia* </span><br><span class="line"></span><br><span class="line"><span class="comment"># Checking what's left:</span></span><br><span class="line">$ dpkg -l | grep nvidia</span><br><span class="line"><span class="comment"># Then I deleted the ones that showed up (mostly libnvidia-* but also xserver-xorg-video-nvidia-xxx`)</span></span><br><span class="line">$ sudo apt-get purge libnvidia* xserver-xorg-video-nvidia-440 </span><br><span class="line">$ sudo apt autoremove <span class="comment"># clean it up</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># now reinstall everything including nvidia-common</span></span><br><span class="line">$ sudo apt-get nvidia-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># find the right driver again</span></span><br><span class="line">$ sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ ubuntu-drivers devices</span><br><span class="line">$ sudo apt-get install nvidia-driver-460 <span class="comment"># the recommended one by ubuntu-drivers</span></span><br><span class="line">$ update-initramfs -u <span class="comment"># needed to do this so rebooting wouldn't lose configuration I think</span></span><br><span class="line"></span><br><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure>
 
-          </div>
-        
-      
-    
-  </section>
+<p>然后再重装NVIDIA-docker：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line"><span class="variable">$sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> apt-get install nvidia-docker2</span><br><span class="line"><span class="variable">$sudo</span> pkill -SIGHUP dockerd</span><br><span class="line"><span class="variable">$docker</span> run --runtime=nvidia --rm nvidia/cuda nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nvidia-docker run --rm nvidia/cuda:10.1-devel nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p>万幸CUDA, CuDNN都还有。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=torch.randn(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.cuda()</span><br><span class="line">tensor([[<span class="number">-0.4678</span>,  <span class="number">0.1525</span>]], device=<span class="string">'cuda:0'</span>)</span><br></pre></td></tr></table></figure>
+
+<p> 配置默认运行的是nvidia-docker 而不是 docker (<a href="https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json</a> 文件中配置如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;default-runtime&quot;: &quot;nvidia&quot;,</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: [],</span><br><span class="line">            &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;gemfield.mirror.aliyuncs.com&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="pycharm里用docker"><a href="#pycharm里用docker" class="headerlink" title="pycharm里用docker"></a>pycharm里用docker</h2><p>python 位置：/home/shiyuuuu/anaconda3/bin/python</p>
+<p><img src="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20210326170845579.png" alt="image-20210326170845579"></p>
+
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
       
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg'/>
-        </a>
-      
-    
-    
     
   </div>
 </section>
 
   
 
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-26T18:00:08+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Mar 26, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-    
-    
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/ubuntu/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>ubuntu</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/bug/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>bug</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>docker</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2020/05/17/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%20MALA-TPAMI/'>
+                <p class='title'>阅读论文 “Large Scale Image Segmentation with Structured Loss based Deep Learning forConnectome Reconstruction” （MALA-TPAMI18)<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+
+
+tag：EM，分割，神经元
+特点：既可以用在isotropic block-face EM data，又可以用在 anisotropic serial sectioned EM data
+...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
   
 
-  <section class="widget category shadow desktop">
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'ubuntu 踩坑记录',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/hello/" href="/categories/hello/"
-            id="categorieshello"
-            ><div class='name'>hello</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/hello/a/" href="/categories/hello/a/"
-            id="categorieshelloa"
-            ><div class='name'>a</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/hello/b/" href="/categories/hello/b/"
-            id="categorieshellob"
-            ><div class='name'>b</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/ubuntu/" href="/categories/ubuntu/"
-            id="categoriesubuntu"
-            ><div class='name'>ubuntu</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/ubuntu/bug/" href="/categories/ubuntu/bug/"
-            id="categoriesubuntubug"
-            ><div class='name'>bug</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%88%86%E7%B1%BBC/" href="/categories/%E5%88%86%E7%B1%BBC/"
-            id="categoriesE58886E7B1BBC"
-            ><div class='name'>分类C</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E5%88%86%E7%B1%BBC/%E5%88%86%E7%B1%BBD/" href="/categories/%E5%88%86%E7%B1%BBC/%E5%88%86%E7%B1%BBD/"
-            id="categoriesE58886E7B1BBCE58886E7B1BBD"
-            ><div class='name'>分类D</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#显卡驱动重装"><span class="toc-text">显卡驱动重装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pycharm里用docker"><span class="toc-text">pycharm里用docker</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Segmentation/" style="font-size: 24px; color: #555">Segmentation</a> <a href="/tags/brain/" style="font-size: 19px; color: #777">brain</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a>
-    </div>
-  </section>
-
-
-  
 
   
 

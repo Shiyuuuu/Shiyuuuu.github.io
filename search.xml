@@ -95,4 +95,48 @@
         <tag>brain</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ubuntu 踩坑记录</title>
+    <url>/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="ubuntu-踩坑记录"><a href="#ubuntu-踩坑记录" class="headerlink" title="ubuntu 踩坑记录"></a>ubuntu 踩坑记录</h1><h2 id="显卡驱动重装"><a href="#显卡驱动重装" class="headerlink" title="显卡驱动重装"></a>显卡驱动重装</h2><p>某次装好后，遇到bug：</p>
+<blockquote>
+<p>Can’t run remote python interpreter: OCI runtime create failed: container_linux.go:367: starting container process caused: process_linux.go:495: container init caused: Running hook #1:: error running hook: exit status 1, stdout: , stderr: nvidia-container-cli: initialization error: driver error: failed to process request: unknown</p>
+</blockquote>
+<a id="more"></a>
+
+<p>docker 里nvidia-smi不能用了，直接在docker外nvidia-smi也报错：</p>
+<blockquote>
+<p>NVIDIA-SMI couldn’t find libnvidia-ml.so library in your system. Please make sure that the NVIDIA Display Driver is properly installed and present in your system. Please also try adding directory that contains libnvidia-ml.so to your system PATH.</p>
+</blockquote>
+<p>估计是什么时候update弄成的。</p>
+<p>解决方法：重装显卡驱动</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># BTW this is all in console mode (for me, alt+ctrl+F2)</span></span><br><span class="line"><span class="comment"># login + password as usual</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># removing ALL nvidia software</span></span><br><span class="line">$ sudo apt-get purge nvidia* </span><br><span class="line"></span><br><span class="line"><span class="comment"># Checking what's left:</span></span><br><span class="line">$ dpkg -l | grep nvidia</span><br><span class="line"><span class="comment"># Then I deleted the ones that showed up (mostly libnvidia-* but also xserver-xorg-video-nvidia-xxx`)</span></span><br><span class="line">$ sudo apt-get purge libnvidia* xserver-xorg-video-nvidia-440 </span><br><span class="line">$ sudo apt autoremove <span class="comment"># clean it up</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># now reinstall everything including nvidia-common</span></span><br><span class="line">$ sudo apt-get nvidia-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># find the right driver again</span></span><br><span class="line">$ sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">$ sudo apt update</span><br><span class="line">$ ubuntu-drivers devices</span><br><span class="line">$ sudo apt-get install nvidia-driver-460 <span class="comment"># the recommended one by ubuntu-drivers</span></span><br><span class="line">$ update-initramfs -u <span class="comment"># needed to do this so rebooting wouldn't lose configuration I think</span></span><br><span class="line"></span><br><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure>
+
+<p>然后再重装NVIDIA-docker：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -</span><br><span class="line"><span class="variable">$curl</span> -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line"><span class="variable">$sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> apt-get install nvidia-docker2</span><br><span class="line"><span class="variable">$sudo</span> pkill -SIGHUP dockerd</span><br><span class="line"><span class="variable">$docker</span> run --runtime=nvidia --rm nvidia/cuda nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo nvidia-docker run --rm nvidia/cuda:10.1-devel nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p>万幸CUDA, CuDNN都还有。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> torch</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.cuda.is_available()</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=torch.randn(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.cuda()</span><br><span class="line">tensor([[<span class="number">-0.4678</span>,  <span class="number">0.1525</span>]], device=<span class="string">'cuda:0'</span>)</span><br></pre></td></tr></table></figure>
+
+<p> 配置默认运行的是nvidia-docker 而不是 docker (<a href="https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/37519492)，在/etc/docker/daemon.json</a> 文件中配置如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;default-runtime&quot;: &quot;nvidia&quot;,</span><br><span class="line">    &quot;runtimes&quot;: &#123;</span><br><span class="line">        &quot;nvidia&quot;: &#123;</span><br><span class="line">            &quot;path&quot;: &quot;&#x2F;usr&#x2F;bin&#x2F;nvidia-container-runtime&quot;,</span><br><span class="line">            &quot;runtimeArgs&quot;: [],</span><br><span class="line">            &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;gemfield.mirror.aliyuncs.com&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="pycharm里用docker"><a href="#pycharm里用docker" class="headerlink" title="pycharm里用docker"></a>pycharm里用docker</h2><p>python 位置：/home/shiyuuuu/anaconda3/bin/python</p>
+<p><img src="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/image-20210326170845579.png" alt="image-20210326170845579"></p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+        <category>bug</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>bug</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
 </search>
