@@ -5,6 +5,8 @@
   <!-- SEO相关 -->
   
     
+      <meta name="robots" content="noindex,follow">
+    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -16,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>所有标签 - Shiyu&#39;s Blog</title>
+    <title>Tag: Super-resolution - Shiyu&#39;s Blog</title>
   
   
 
@@ -314,35 +316,291 @@
 <div class='l_main'>
   
     
-      <section class="post-list ">
-        <div class='post-wrapper'>
-          <article id="archive-page" class="post article white-box reveal shadow">
-            <section class="archive">
-              <div class="archive-item archive-year mark">
-                <h2>所有标签</h2>
-              </div>
-              <div class="archive-item all-tags">
-                
-                <a href="/tags/GAN/" style="font-size: 14px; color: #999">GAN</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 24px; color: #555">哈希表</a>
-              </div>
-              <br>
+      
+  <section class="post-list ">
+    
+      
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/">
+      阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
               
-            </section>
-          </article>
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg">
+    <p>Shiyu</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Paper-reading/super-resolution/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Paper reading/super-resolution</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 29, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
         </div>
-      </section>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329170458177.png" alt></p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+    
+  </section>
+  
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
+      <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
     
   
 </div>
 <aside class='l_side'>
   
   
+    
+    
+
+<section class="widget blogger shadow desktop mobile">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box' href='/about/'>
+          <img no-lazy src='https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg'/>
+        </a>
+      
+    
+    
+    
+  </div>
+</section>
+
+  
 
   
     
     
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
 
 
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/LeetCode/" href="/categories/LeetCode/"
+            id="categoriesLeetCode"
+            ><div class='name'>LeetCode</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/LeetCode/easy/" href="/categories/LeetCode/easy/"
+            id="categoriesLeetCodeeasy"
+            ><div class='name'>easy</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Paper-reading/" href="/categories/Paper-reading/"
+            id="categoriesPaper-reading"
+            ><div class='name'>Paper reading</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Paper-reading/super-resolution/" href="/categories/Paper-reading/super-resolution/"
+            id="categoriesPaper-readingsuper-resolution"
+            ><div class='name'>super-resolution</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/algorithm/" href="/categories/algorithm/"
+            id="categoriesalgorithm"
+            ><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/" href="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/"
+            id="categoriesalgorithmE59388E5B88CE8A1A8"
+            ><div class='name'>哈希表</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/ubuntu/" href="/categories/ubuntu/"
+            id="categoriesubuntu"
+            ><div class='name'>ubuntu</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/ubuntu/bug/" href="/categories/ubuntu/bug/"
+            id="categoriesubuntubug"
+            ><div class='name'>bug</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/GAN/" style="font-size: 14px; color: #999">GAN</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 24px; color: #555">哈希表</a>
+    </div>
+  </section>
+
+
+  
 
   
 

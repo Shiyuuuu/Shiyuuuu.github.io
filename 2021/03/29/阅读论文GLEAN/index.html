@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: leetcode - Shiyu&#39;s Blog</title>
+    <title>阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution - Shiyu&#39;s Blog</title>
+  
+    <meta name="keywords" content="Super-resolution,GAN,highly ill-posed">
   
   
 
@@ -85,7 +85,37 @@
 
 <body>
   
-  <div id="loading-bar-wrapper">
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Shiyu</p>
+    
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header floatable">
@@ -306,31 +336,19 @@
 
 <script>setLoadingBarProgress(40);</script>
 
+  </div>
 
 
-  <div class="l_body nocover">
+  <div class="l_body">
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -340,11 +358,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2021/03/26/1_%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">
-      1-两数之和
+  <h1 class="title">
+    <a href="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/">
+      阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -367,9 +385,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/' rel="nofollow">
+    <a href='/categories/Paper-reading/super-resolution/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>LeetCode/algorithm/easy/哈希表</p>
+      <p>Paper reading/super-resolution</p>
     </a>
   </div>
 
@@ -380,14 +398,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 26, 2021</p>
+    <p>发布于：Mar 29, 2021</p>
   </a>
 </div>
-
-            
-          
-            
-              
 
             
           
@@ -405,149 +418,274 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h1><p><a href="https://leetcode-cn.com/problems/two-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/two-sum</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。<br></p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2021/03/26/1_%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329170458177.png" alt></p>
+<a id="more"></a>
+<p><a href="https://ckkelvinchan.github.io/projects/GLEAN/" target="_blank" rel="noopener">project</a>  code <a href="https://arxiv.org/pdf/2012.00739.pdf" target="_blank" rel="noopener">paper</a></p>
+<p>任务是： 大尺度超分辨率（8$\times$ 到 64$\times$），most details and textures are lost during downsampling.</p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>已有的SR方法：<ul>
+<li>solely rely on $L_2$ loss: 视觉质量不好 (over-smoothing artifacts)。</li>
+<li>adverssrial loss [ESRGAN]: Generator既要捕获图像characteristics又要保真（maintaining the fidelity to the GT）, 限制了其近似自然图像的能力，产生artifacts</li>
+<li>GAN inversion methods [PULSE]：反转pre-trained GAN的生成过程：把image mapping回latent space；再由latent space中optimal vector重建图像。<strong>只靠低维隐向量不足以指导重建的过程</strong>，使得产生的结果low fidelity. 需要image-specific, iterative的优化.</li>
+</ul>
+</li>
+<li>利用pre-trained GAN作为latent bank， 充分利用pre-trained GAN中封装的丰富且多样的先验。换用不同的bank可以不同类的图像：cat，building，human face，car. 利用字典学习的方式，测试阶段，只需要一次前传即可得到恢复后的图像。</li>
+<li>GLEAN 的整体结构：encoder-bank-decoder</li>
+</ul>
+<h2 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h2><h3 id="large-factor-SR"><a href="#large-factor-SR" class="headerlink" title="large-factor SR"></a>large-factor SR</h3><ol>
+<li>fully probabilistic pixel recursive network for upsampling extremely coarse images with resolution 8×8. (Ryan Dahl, Mohammad Norouzi, and Jonathon Shlens. Pixel recursive super resolution. In ICCV, 2017.)</li>
+<li>RFB-ESRGAN：adopts multi-scale receptive fields blocks for 16× SR. (Taizhang Shang, Qiuju Dai, Shengchen Zhu, Tong Yang, and Yandong Guo. Perceptual extreme super resolution network with receptive field block. In CVPRW, 2020.)</li>
+<li>VarSR: 8× SR by matching the latent distributions of LR and HR images to recover the missing details. (Sangeek Hyun and Jae-Pil Heo. VarSR: Variational super-resolution network for very low resolution images. In ECCV, 2020.)</li>
+<li>perform 16× reference-based SR on paintings with a non-local matching module and a wavelet texture loss. (Yulun Zhang, Zhifei Zhang, Stephen DiVerdi, Zhaowen Wang, Jose Echevarria, and Yun Fu. Texture hallucination for large-scale painting super-resolution. In ECCV, 2020.)</li>
+</ol>
+<h3 id="GAN-inversion"><a href="#GAN-inversion" class="headerlink" title="GAN inversion"></a>GAN inversion</h3><ol>
+<li><p>David Bau, Hendrik Strobelt, William Peebles, Bolei Zhou, Jun-Yan Zhu, Antonio Torralba, et al. Semantic photo manipulation with a generative image prior. TOG, 2020.</p>
+</li>
+<li><p>Jinjin Gu, Yujun Shen, and Bolei Zhou. Image processing using multi-code GAN prior. In CVPR, 2020.</p>
+</li>
+<li><p>Sachit Menon, Alexandru Damian, Shijia Hu, Nikhil Ravi, and Cynthia Rudin. <strong>PULSE</strong>: Self-supervised photo upsampling via latent space exploration of generative models. In CVPR, 2020.</p>
+<p> 通过pixel-wise约束，迭代优化styleGAN的隐变量。</p>
+</li>
+<li><p>Xingang Pan, Xiaohang Zhan, Bo Dai, Dahua Lin, Chen Change Loy, and Ping Luo. Exploiting deep generative prior for versatile image restoration and manipulation. In ECCV, 2020.</p>
+<p> finetune generator和latent code来缩小训练集和测试集分布的gap.</p>
+</li>
+</ol>
+<p>降质图像$x$，latent space：$\mathcal{Z}$：</p>
+<script type="math/tex; mode=display">
+z^*=argmin_{z \in \mathcal{Z}}\mathcal{L}(G(z), x)</script><p><strong><em>缺点：</em></strong></p>
+<p>低维的隐向量不能保持图像的spatial information.</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>passing both the latent vectors and multi-resolution convolutional features from the encoder.</p>
+<p>multi-resolution cues need to be passed from the bank to the decoder.</p>
+<p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329194816287.png" alt></p>
+<ul>
+<li>整个结构为encoder-bank-decoder</li>
+<li>encoder：$E_0$为RRDB-Net，$E_i, i \in\{1,…,N\}$代表堆叠一个stride=2的conv和一个stride=1的conv. 最后由FC层得到$C$, $C$表示隐向量，提供high-level信息。为了更好的指导结构重建，将多分辨率的特征和隐向量都送入bank.</li>
+<li>Generative latent bank: 用pre-trained的Generator, styleGAN，提供纹理和细节生成的先验。<ul>
+<li>对generator的每个block输入不同的隐向量$C_i$, $i \in \{0,…,k-1\}$</li>
+<li>$\{g_i\}$代表每个block输出的feature, 它是由$C_i, g_{i-1}, f_{N-i}$由augmented style block得到。</li>
+<li>不直接输出结果，而是将特征$\{g_i\}$输入到decoder</li>
+<li>优势：像reference-based SR，HR reference image作为显式图像字典。性能很受 输入和reference相似度的影响。GLEAN用GAN-based的字典，不依赖于任何具体的图像，它获取的是图像的分布。而且没有global matching和reference images selection， 计算简便。</li>
+</ul>
+</li>
+<li>decoder：progressive地聚合来自encoder和latent bank的特征。每个conv后跟着pixel-shuffle层。由于有encoder和decoder之间的skip-connection，encoder捕获的信息可以被强化，bank专注于纹理和细节的生成。</li>
+<li>训练：$\mathcal{l_2}$ loss, perceptual loss, adversarial loss. 训练时fix住latent bank，实验发现，finetune latent bank没有性能提升，而且可能使latent bank偏向训练集的分布。</li>
+</ul>
+<h2 id="主要结果"><a href="#主要结果" class="headerlink" title="主要结果"></a>主要结果</h2><p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329171413782.png" alt></p>
+<p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329203432053.png" alt></p>
+<p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329203534511.png" alt></p>
+<h3 id="image-retouching"><a href="#image-retouching" class="headerlink" title="image retouching"></a>image retouching</h3><p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329203631010.png" alt></p>
+<h2 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h2><p>[ESRGAN]: Xintao Wang, Ke Yu, Shixiang Wu, Jinjin Gu, Yihao Liu, Chao Dong, Chen Change Loy, Yu Qiao, and Xiaoou Tang. ESRGAN: Enhanced super-resolution generative adversarial networks. In ECCVW, 2018. </p>
+<p>[PULSE]: Sachit Menon, Alexandru Damian, Shijia Hu, Nikhil Ravi, and Cynthia Rudin. PULSE: Self-supervised photo upsampling via latent space exploration of generative models. In CVPR, 2020.</p>
+<h3 id="reference-based-SR"><a href="#reference-based-SR" class="headerlink" title="reference-based SR"></a>reference-based SR</h3><ol>
+<li>Xiaoming Li, Chaofeng Chen, Shangchen Zhou, Xianhui Lin, Wangmeng Zuo, and Lei Zhang. Blind face restoration via deep multi-scale component dictionaries. In ECCV, 2020.</li>
+<li>Xiaoming Li, Wenyu Li, Dongwei Ren, Hongzhi Zhang, Meng Wang, and Wangmeng Zuo. Enhanced blind face restoration with multi-exemplar images and adaptive spatial feature fusion. In CVPR, 2020.</li>
+<li>Xu Yan, Weibing Zhao, Kun Yuan, Ruimao Zhang, Zhen Li, and Shuguang Cui. Towards content-independent multi-reference super-resolution: Adaptive pattern matching and feature aggregation. In ECCV, 2020.</li>
+<li>Yang Zhang, Ivor W Tsang, Yawei Luo, Changhui Hu, Xiaobo Lu, and Xin Yu. Copy and Paste GAN: Face hallucination from shaded thumbnails. In CVPR, 2020.</li>
+<li>Zhifei Zhang, Zhaowen Wang, Zhe Lin, and Hairong Qi. Image super-resolution by neural texture transfer. In CVPR, 2019.</li>
+</ol>
 
-          </div>
-        
-      
-    
-  </section>
+          
+            <div class='article_footer'>
+              
+                
   
     
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
-    
+
+
 
   
 
-
-    
-  
-</div>
-<aside class='l_side'>
-  
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
       
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg'/>
-        </a>
-      
-    
-    
     
   </div>
 </section>
 
   
 
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-29T20:49:59+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Mar 29, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-    
-    
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Super-resolution/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Super-resolution</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/GAN/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>GAN</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/highly-ill-posed/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>highly ill-posed</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/'>
+                <p class='title'>ubuntu 踩坑记录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>ubuntu 踩坑记录显卡驱动重装某次装好后，遇到bug：
+
+Can’t run remote python interpreter: OCI runtime create failed: co...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
   
 
-  <section class="widget category shadow desktop">
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/LeetCode/" href="/categories/LeetCode/"
-            id="categoriesLeetCode"
-            ><div class='name'>LeetCode</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/LeetCode/easy/" href="/categories/LeetCode/easy/"
-            id="categoriesLeetCodeeasy"
-            ><div class='name'>easy</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Paper-reading/" href="/categories/Paper-reading/"
-            id="categoriesPaper-reading"
-            ><div class='name'>Paper reading</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/super-resolution/" href="/categories/Paper-reading/super-resolution/"
-            id="categoriesPaper-readingsuper-resolution"
-            ><div class='name'>super-resolution</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/algorithm/" href="/categories/algorithm/"
-            id="categoriesalgorithm"
-            ><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/" href="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/"
-            id="categoriesalgorithmE59388E5B88CE8A1A8"
-            ><div class='name'>哈希表</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/ubuntu/" href="/categories/ubuntu/"
-            id="categoriesubuntu"
-            ><div class='name'>ubuntu</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/ubuntu/bug/" href="/categories/ubuntu/bug/"
-            id="categoriesubuntubug"
-            ><div class='name'>bug</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#related-work"><span class="toc-text">related work</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#large-factor-SR"><span class="toc-text">large-factor SR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GAN-inversion"><span class="toc-text">GAN inversion</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要结果"><span class="toc-text">主要结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#image-retouching"><span class="toc-text">image retouching</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献："><span class="toc-text">参考文献：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reference-based-SR"><span class="toc-text">reference-based SR</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/GAN/" style="font-size: 14px; color: #999">GAN</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 24px; color: #555">哈希表</a>
-    </div>
-  </section>
-
-
-  
 
   
 

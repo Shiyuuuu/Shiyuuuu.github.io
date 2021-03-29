@@ -390,7 +390,7 @@
   <div class='new-meta-item category'>
     <a href='/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>LeetCode/easy/algorithm/哈希表</p>
+      <p>LeetCode/algorithm/easy/哈希表</p>
     </a>
   </div>
 
@@ -425,9 +425,7 @@
         <div class="article-entry" itemprop="articleBody">
           
           <h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h1><p><a href="https://leetcode-cn.com/problems/two-sum" target="_blank" rel="noopener">https://leetcode-cn.com/problems/two-sum</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。</p>
-<a id="more"></a>
-<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。<br>你可以按任意顺序返回答案。</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 的那 两个 整数，并返回它们的数组下标。<br><a id="more"></a><br>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。<br>你可以按任意顺序返回答案。</p>
 <p>示例 1：</p>
 <blockquote>
 <p>输入：nums = [2,7,11,15], target = 9<br>输出：[0,1]<br>解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。</p>
@@ -446,21 +444,14 @@
 </blockquote>
 <h2 id="暴力解答"><a href="#暴力解答" class="headerlink" title="暴力解答"></a>暴力解答</h2><p>我自己的解答：非常暴力检索，第一个:  <code>i</code> 从0到n，第二个: <code>j</code> 从i+1 到n（或者倒序来）。这样复杂度是O(n^2)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,len(nums)):</span><br><span class="line">                <span class="keyword">if</span> nums[i]+nums[j]==target:</span><br><span class="line">                    <span class="keyword">return</span> [i,j]</span><br></pre></td></tr></table></figure>
-
-
-
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        <span class="comment"># nums_sorted=sorted(nums)</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(nums)<span class="number">-1</span>,i,<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">if</span> nums[i]+nums[j]==target:</span><br><span class="line">                    c=sorted([i,j])</span><br><span class="line">                    <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><h3 id="思路及算法"><a href="#思路及算法" class="headerlink" title="思路及算法"></a>思路及算法</h3><p>注意到方法一的时间复杂度较高的原因是寻找 target - x 的时间复杂度过高。因此，我们需要一种更优秀的方法，能够快速寻找数组中是否存在目标元素。如果存在，我们需要找出它的索引。</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>哈希表博文：<a href="/2021/03/26/%E5%93%88%E5%B8%8C%E8%A1%A8/" title="哈希表">哈希表</a></p>
+<h3 id="思路及算法"><a href="#思路及算法" class="headerlink" title="思路及算法"></a>思路及算法</h3><p>注意到方法一的时间复杂度较高的原因是寻找 target - x 的时间复杂度过高。因此，我们需要一种更优秀的方法，能够快速寻找数组中是否存在目标元素。如果存在，我们需要找出它的索引。</p>
 <p>使用哈希表，可以将寻找 target - x 的时间复杂度降低到从 <strong><em>O(N)</em></strong> 降低到 <strong><em>O(1)</em></strong>。</p>
 <p>这样我们创建一个哈希表，对于每一个 x，我们首先查询哈希表中是否存在 target - x，然后将 x 插入到哈希表中，即可保证不会让 x 和自己匹配。</p>
 <p>先建立一个空字典，查找target-num是不是hashtable的键值，如果是，直接return，如果不是，把这个num-i对以键值对的形式添加入字典。哈希表查找元素的复杂度为<strong><em>O(1)</em></strong></p>
 <p>代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twoSum</span><span class="params">(self, nums: List[int], target: int)</span> -&gt; List[int]:</span></span><br><span class="line">        hashtable = dict()</span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> enumerate(nums):</span><br><span class="line">            <span class="keyword">if</span> target - num <span class="keyword">in</span> hashtable:</span><br><span class="line">                <span class="keyword">return</span> [hashtable[target - num], i]</span><br><span class="line">            hashtable[nums[i]] = i</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">s=Solution()</span><br><span class="line"><span class="comment"># nums=[2,7,11,15]</span></span><br><span class="line"><span class="comment"># target=9</span></span><br><span class="line"><span class="comment"># nums = [3,2,4]</span></span><br><span class="line"><span class="comment"># target = 6</span></span><br><span class="line">nums = [<span class="number">3</span>,<span class="number">3</span>]</span><br><span class="line">target = <span class="number">6</span></span><br><span class="line">a=s.twoSum(nums,target)</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
-
-
 <h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>时间复杂度：O(N)，其中 N是数组中的元素数量。对于每一个元素 x，我们可以 O(1) 地寻找 target - x。</p>
 <p>空间复杂度：O(N)，其中 N 是数组中的元素数量。主要为哈希表的开销。</p>
 
@@ -511,7 +502,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-26T19:46:07+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-26T19:53:27+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Mar 26, 2021</p>

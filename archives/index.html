@@ -353,6 +353,20 @@
 	          </div>
 	      
 	          <div class="archive-item archive-post mark">
+	            <a href="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/">
+	              <time>03-29</time>
+	              <span class="title">
+	                
+	                  阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution
+	                
+	                
+									
+									
+	              </span>
+	            </a>
+	          </div>
+	      
+	          <div class="archive-item archive-post mark">
 	            <a href="/2021/03/26/ubuntu%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
 	              <time>03-26</time>
 	              <span class="title">
@@ -448,6 +462,16 @@
             ><div class='name'>easy</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/Paper-reading/" href="/categories/Paper-reading/"
+            id="categoriesPaper-reading"
+            ><div class='name'>Paper reading</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Paper-reading/super-resolution/" href="/categories/Paper-reading/super-resolution/"
+            id="categoriesPaper-readingsuper-resolution"
+            ><div class='name'>super-resolution</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/algorithm/" href="/categories/algorithm/"
             id="categoriesalgorithm"
             ><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
@@ -489,7 +513,7 @@
 
 
     <div class='content'>
-      <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 24px; color: #555">哈希表</a>
+      <a href="/tags/GAN/" style="font-size: 14px; color: #999">GAN</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 24px; color: #555">哈希表</a>
     </div>
   </section>
 
@@ -571,6 +595,60 @@
 
 	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
 	
+
+	
+	    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
 	
 
