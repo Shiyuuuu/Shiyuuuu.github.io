@@ -173,4 +173,118 @@ z^*=argmin_{z \in \mathcal{Z}}\mathcal{L}(G(z), x)</script><p><strong><em>缺点
         <tag>highly ill-posed</tag>
       </tags>
   </entry>
+  <entry>
+    <title>阅读论文-Zero-Reference deep curve estimation for low-light image enhancement</title>
+    <url>/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/</url>
+    <content><![CDATA[<p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/image-20210329210553083.png" alt><br>出处：CVPR2020<br><a id="more"></a></p>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper PDF</a></p>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.pdf" target="_blank" rel="noopener">supplemental materials</a></p>
+<p>project: <a href="https://li-chongyi.github.io/Proj_Zero-DCE.html" target="_blank" rel="noopener">https://li-chongyi.github.io/Proj_Zero-DCE.html</a></p>
+<p>code: <a href="https://github.com/Li-Chongyi/Zero-DCE" target="_blank" rel="noopener">https://github.com/Li-Chongyi/Zero-DCE</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>图像编辑软件通过调节曲线来增强图像=&gt;image-specific 曲线估计：</p>
+<p>根据给定图像估计pixel-wise的调整曲线。不需要任何成对或不成对的训练数据（不需要reference/GT) </p>
+<p>图像增强=&gt;非线性曲线映射  而不是通过image-to-image mapping</p>
+<p><strong>方法：</strong> non-reference loss functions</p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ol>
+<li>no reference: 避免了需要paired/unpaired数据的方法中的overfitting的问题</li>
+<li>设计image-specific曲线：高次、pixel-wise</li>
+<li>提升人脸识别的性能</li>
+</ol>
+<h2 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h2><h3 id="传统方法"><a href="#传统方法" class="headerlink" title="传统方法"></a>传统方法</h3><p>调整图像的直方图分布调整，增大图像的动态范围。</p>
+<p>global level: </p>
+<p>[1]. Dinu Coltuc, Philippe Bolon, and Jean-Marc Chassery. Exact histogram specification. IEEE Transactions on Image Processing, 15(5):1143–1152, 2006.   </p>
+<p>[2]. Haidi Ibrahim and Nicholas Sia Pik Kong. Brightness preserving dynamic histogram equalization for image contrast enhancement. IEEE Transactions on Consumer Electronics, 53(4):1752–1758, 2007.</p>
+<p>local level:</p>
+<p>[3].  Chulwoo Lee, Chul Lee, and Chang-Su Kim. Contrast enhancement based on layered difference representation of 2d histograms. IEEE Transactions on Image Processing, 22(12):5372–5384, 2013.</p>
+<p>[4]. J Alex Stark. Adaptive image contrast enhancement using generalizations of histogram equalization. IEEE Transactions on Image Processing, 9(5):889–896, 2000.</p>
+<p>Retinex theory (将图像分解为reflectance和illumination，其中reflectance分量在任何光照条件下保持一致，图像质量增强任务变为illumination estimation问题):</p>
+<p>[5].  Edwin H Land. The retinex theory of color vision. Scientific American, 237(6):108–128, 1977.</p>
+<p>自然的信息保存方法：</p>
+<p>[6].  Shuhang Wang, Jin Zheng, Hai-Miao Hu, and Bo Li. Naturalness preserved enhancement algorithm for non-uniform illumination images. IEEE Transactions on Image Processing, 22(9):3538–3548, 2013.</p>
+<p><strong>weighted vatiation:</strong></p>
+<p>[7]. <em>Xueyang Fu,</em> Delu Zeng, Yue Huang, Xiao-Ping Zhang, and Xinghao Ding. A weighted variational model for simultaneous reflectance and illumination estimation. In CVPR, 2016.</p>
+<p>coarse illumination map: 搜索RGB中最大intensity的pixel</p>
+<p>[8]. Xiaojie Guo, Yu Li, and Haibin Ling. Lime: Low-light image enhancement via illumination map estimation. IEEE Transactions on Image Processing, 26(2):982–993, 2017.</p>
+<p>考虑噪声：</p>
+<p>[9]. Mading Li, Jiaying Liu, Wenhan Yang, Xiaoyan Sun, and Zongming Guo. Structure-revealing low-light image enhancement via robust retinex model. IEEE Transactions on Image Processing, 27(6):2828–2841, 2018</p>
+<p>自动exposure校正方法：</p>
+<p>通过全局优化方法估计图像的S形曲线。</p>
+<p>[10]. Lu Yuan and Jian Sun. Automatic exposure correction of consumer photographs. In ECCV, 2012. </p>
+<h3 id="Data-driven方法"><a href="#Data-driven方法" class="headerlink" title="Data-driven方法"></a>Data-driven方法</h3><h4 id="CNN-based"><a href="#CNN-based" class="headerlink" title="CNN-based"></a>CNN-based</h4><p>一般需要pair对的数据：资源密集型(resource-intensive)。一般这种成对的数据通过  自动光照退化、改变相机的设置  采集  </p>
+<p>或者用image retouching合成</p>
+<ol>
+<li><p><strong>LOL数据集</strong>[Chen Wei, Wenjing Wang, Wenhan Yang, and Jiaying Liu. Deep retinex decomposition for low-light enhancement. In BMVC, 2018.] 通过改变曝光时间和ISO获取成对的low/normal光照的图像。</p>
+</li>
+<li><p><strong>MIT-adobe FiveK数据集</strong>[Vladimir Bychkovsky, Sylvain Paris, Eric Chan, and Fredo ´ Durand. Learning photographic global tonal adjustment with a database of input/output image pairs. In CVPR, 2011.]包括5000raw图，每一张raw图由专家生成5个retouched图像。</p>
+</li>
+</ol>
+<p>[11]提出了一种估计illumination的方法：poor generalization capability</p>
+<p>[11].  Ruixing Wang, Qing Zhang, Chi-Wing Fu, Xiaoyong Shen, Wei-Shi Zheng, and Jiaya Jia. Underexposed photo enhancement using deep illumination estimation. In CVPR, 2019.</p>
+<h4 id="GAN-based"><a href="#GAN-based" class="headerlink" title="GAN-based"></a>GAN-based</h4><p>EnlightenGAN[Yifan Jiang, Xinyu Gong, Ding Liu, Yu Cheng, Chen Fang, Xiaohui Shen, Jianchao Yang, Pan Zhou, and Zhangyang Wang. EnlightenGAN: Deep light enhancement without paired supervision. In CVPR, 2019.]</p>
+<p>用unpair的low/normal光照的数据。需要仔细挑选unpaired的训练数据。</p>
+<h2 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h2><p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/b0821ec0907d0582c30b9aecd76e5b2.png" alt></p>
+<p>通过non-reference loss function实现不需要paired/unpaired的数据。通过迭代训练得到结果。</p>
+<h3 id="Light-enhancement-curve"><a href="#Light-enhancement-curve" class="headerlink" title="Light-enhancement curve"></a>Light-enhancement curve</h3><p>自适应的曲线参数只由输入图像决定。曲线要是单调的来保持周围像素的区别。曲线要处处可微保证可以梯度反传。</p>
+<script type="math/tex; mode=display">
+LE(I(x);\alpha)=I(x)+\alpha I(x)(1-I(x))</script><p>其中$\alpha \in [-1,1]$, 将LE曲线分别作用于R\G\B通道，而不仅仅作用于illumination通道。调节3个通道可以更好的保持固有的色彩，减少过饱和。</p>
+<p>上式可以多次迭代，写为：</p>
+<script type="math/tex; mode=display">
+LE_n (x)=LE_{n-1}(x)+\alpha_nLE_{n-1}(x)(1-LE_{n-1}(x))</script><p>其中n为迭代次数，他们设为8. 多次迭代有更强的调节能力。</p>
+<p>但是如果$\alpha$在每一个点是固定值，只能是全局调节。全局调节容易带来over-/under- enhance local区域。为了解决这个问题，他们将$\alpha$设置为pixel-wise的参数。上式变为：</p>
+<script type="math/tex; mode=display">
+LE_n (x)=LE_{n-1}(x)+A_n(x)LE_{n-1}(x)(1-LE_{n-1}(x))</script><p>其中A是一个与原图等大小的parameter map。</p>
+<p>假设，<strong>一个局部区域的像素点有相同的intensity.</strong> 所以输出图像里的相邻像素也有单调的关系。</p>
+<p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/502493d9ba2415b1b60e47d715c939c.png" alt></p>
+<p>DCE-Net（具体结构见补充材料）</p>
+<ul>
+<li>输入：低光照图像</li>
+<li>输出：pixel-wise的高阶curve参数图。8次迭代共24个parameter maps</li>
+<li>网络细节：不包括down-sampling和BN，它们会丢失相邻像素的关系。最后一层conv接Tanh</li>
+</ul>
+<h3 id="1-spatial-consistency-loss"><a href="#1-spatial-consistency-loss" class="headerlink" title="1. spatial consistency loss"></a>1. spatial consistency loss</h3><p>使增强后的图像保持时域的连贯性(coherence)</p>
+<script type="math/tex; mode=display">
+L_{spa}=\frac{1}{K}\sum_{i=1}^K\sum_{j \in \Omega(i)}(|(Y_i-Y_j|-|I_i-I_j|)^2</script><p>$K$为局部区域数，$\Omega(i)$为4个相邻区域（上下左右）。Y和I是局部区域的平均强度值(intensity)。局部区域的大小设为4*4. 相当于对K个4*4的局部区域，要求enhance前后图的局部区域与其邻域的强度差，差不多。</p>
+<h3 id="2-exposure-control-loss"><a href="#2-exposure-control-loss" class="headerlink" title="2. exposure control loss"></a>2. exposure control loss</h3><p>控制曝光的程度。测量局部区域的平均强度与well-exposedness的级别E之间的距离。E=0.6、在[0.4,0.7]之间差不多。</p>
+<script type="math/tex; mode=display">
+L_{exp}=\frac{1}{M}\sum_{k=1}^M|Y_k-E|</script><p>M代表M个16*16的没有overlap的局部区域，Y是enhanced图像中局部的平均强度值。</p>
+<h3 id="3-color-constancy-loss"><a href="#3-color-constancy-loss" class="headerlink" title="3. color constancy loss"></a>3. color constancy loss</h3><p>校正色彩偏差。</p>
+<script type="math/tex; mode=display">
+L_{loc}=\sum_{\forall(p,q)\in \varepsilon}(J^p-J^q)^2,\varepsilon=\{(R,G),(R,B),(G,B)\}</script><p>其中，$J^p$代表enhanced图像p channel的平均强度。</p>
+<h3 id="4-illumination-smoothness-loss"><a href="#4-illumination-smoothness-loss" class="headerlink" title="4. illumination smoothness loss"></a>4. illumination smoothness loss</h3><p>保持相邻pixel的单调性。对每个curve参数图A有：</p>
+<script type="math/tex; mode=display">
+L_{tv_\mathcal{A}}=\frac{1}{N}\sum_{n=1}^N\sum_{c \in \xi}(|\nabla_x\mathcal{A}_n^c|+|\nabla_y\mathcal{A}_n^c|)^2,\xi=\{R,G,B\}</script><p>N为迭代次数。求梯度的操作有点像TV loss。</p>
+<h3 id="total-loss"><a href="#total-loss" class="headerlink" title="total loss"></a>total loss</h3><script type="math/tex; mode=display">
+L_{total}=L_{spa}+L_{exp}+W_{col}L_{col}+W_{tv_A}L_{tv_A}</script><p>$W_{col}=0.5,W_{tv\mathcal{A}}=20$.</p>
+<h3 id="ablation"><a href="#ablation" class="headerlink" title="ablation"></a>ablation</h3><p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/d2a9106b97a950ec909bedb23c9f87f.png" alt></p>
+<p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/a0389d8f096a01b816a148cc38e3030.png" alt></p>
+<p>训练数据：用multi-exposure的训练数据更好。</p>
+<h2 id="benchmark-results"><a href="#benchmark-results" class="headerlink" title="benchmark results"></a>benchmark results</h2><h3 id="no-reference-结果（US-PI）"><a href="#no-reference-结果（US-PI）" class="headerlink" title="no reference 结果（US/PI）"></a>no reference 结果（US/PI）</h3><p>视觉评判标准：</p>
+<p>1) whether the results contain over-/under-exposed artifacts or over-/under enhanced regions; </p>
+<p>2) whether the results introduce color deviation; </p>
+<p>3) whether the results have unnatural texture and obvious noise.  </p>
+<p>指标：</p>
+<ul>
+<li><p>user study (US) score</p>
+</li>
+<li><p>non-reference perceptual index (PI)</p>
+<p>[Yochai Blau and Tomer Michaeli. The perception-distortion tradeoff. In CVPR, 2018.]</p>
+<p>[Chao Ma, Chih-Yuan Yang, Xiaokang Yang, and MingHsuan Yang. Learning a no-reference quality metric for single-image super-resolution. Computer Vision and Image Understanding, 158:1–16, 2017.]</p>
+</li>
+</ul>
+<p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/1608020620(1" alt>.png)</p>
+<h3 id="full-reference-结果（PSNR-SSIM"><a href="#full-reference-结果（PSNR-SSIM" class="headerlink" title="full reference 结果（PSNR/SSIM)"></a>full reference 结果（PSNR/SSIM)</h3><p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/image-20210329210658313.png" alt></p>
+<h3 id="face-detection"><a href="#face-detection" class="headerlink" title="face detection"></a>face detection</h3><p>用SOTA的face detector(DSFD: <a href="https://github.com/Ir1d/DARKFACE_eval_tools" target="_blank" rel="noopener">https://github.com/Ir1d/DARKFACE_eval_tools</a> )</p>
+<p>将不同enhance方法得到的图送入DSFD，得到P-R curve。</p>
+<p><img src="/2021/03/29/Zero-DCE_CVPR2020_zero-reference-deep-curve-estimation-for-low-light-image-enhancement/image-20210329210832265.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>enhancement</category>
+      </categories>
+      <tags>
+        <tag>enhancement</tag>
+        <tag>loss functions</tag>
+        <tag>zero-reference</tag>
+      </tags>
+  </entry>
 </search>
