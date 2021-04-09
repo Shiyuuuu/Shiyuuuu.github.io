@@ -98,6 +98,7 @@
     <title>阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution</title>
     <url>/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/</url>
     <content><![CDATA[<p><img src="/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/image-20210329170458177.png" alt></p>
+<p>出处：CVPR2021 (oral)</p>
 <a id="more"></a>
 <p><a href="https://ckkelvinchan.github.io/projects/GLEAN/" target="_blank" rel="noopener">project</a>  code <a href="https://arxiv.org/pdf/2012.00739.pdf" target="_blank" rel="noopener">paper</a></p>
 <p>任务是： 大尺度超分辨率（8$\times$ 到 64$\times$），most details and textures are lost during downsampling.</p>
@@ -285,6 +286,394 @@ L_{total}=L_{spa}+L_{exp}+W_{col}L_{col}+W_{tv_A}L_{tv_A}</script><p>$W_{col}=0.
         <tag>enhancement</tag>
         <tag>loss functions</tag>
         <tag>zero-reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Unpaired Image Super-Resolution using Pseudo-Supervision</title>
+    <url>/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/</url>
+    <content><![CDATA[<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409155557355.png" alt></p>
+<p>出处：CVPR2020</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Maeda_Unpaired_Image_Super-Resolution_Using_Pseudo-Supervision_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://openaccess.thecvf.com/content_CVPR_2020/supplemental/Maeda_Unpaired_Image_Super-Resolution_CVPR_2020_supplemental.pdf" target="_blank" rel="noopener">supplemental</a>   </p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li><p>unpaired super-resolution，当aligned 的HR-LR training set is unavailable.</p>
+</li>
+<li><p>deviation between the generated LR distribution and the true LR distribution causes train-test discrepancy</p>
+</li>
+</ul>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><p>（author: propose a new training method that overcomes the shortcomings of the existing GAN based unpaired super-resolution methods: generated LR distribution and the true LR distribution causes train-test discrepancy）</p>
+<ol>
+<li>bridge the gap between the well-studied existing SR methods and the real-world SR problem without paired datasets.</li>
+<li>Because our correction network is trained on not only the generated LR images but also the true LR images through the bi-directional structure (因为我们的校正网络不仅通过生成的LR图像进行训练，而且还通过双向结构对真实的LR图像进行训练) : minimize the train-test discrepancy</li>
+<li>any existing SR networks and pixel-wise loss function can be integrated because the SR network is separated to be able to learn in a paired manner. (SR网络可以pair对的学习)</li>
+</ol>
+<p>包含unpaired kernel/noise correction network和pseudo-paired SR network</p>
+<p><strong>unpaired kernel/noise correction network</strong>: 去除噪声、调整输入图像的kernel，从输入的HR图像生成pseudo-clean的LR图像</p>
+<p><strong>pseudo paired SR network</strong>: 学习pseudo-clean的LR image到输入的HR image的映射</p>
+<p>SR网络独立于效验网络(correction network)</p>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><ol>
+<li><p>paired SR：</p>
+<p>VDSR, EDSR, RCAN，LapSRN，DBPN</p>
+</li>
+<li><p>blind SR [39,12,57]</p>
+<p>由任意的kernel降质得到的LR，学习由这样的LR到HR的映射，但当真实图像不是以假设的degradation降质的，（degradation估计不准），就会让真实图像SR的任务很差。</p>
+<p>ZSSR， IKC， </p>
+<p>关于blind SR的研究很少涉及blur kernels以外的综合降质问题（比如noise，compression artifact)。</p>
+</li>
+<li><p>GAN based methods [51,4,56, 32]</p>
+<p>可以直接学习LR 到HR的映射，不需要degradation的假设。</p>
+<p>可以大致分为两类：一类是直接从LR image出发，在生成的HR image和真实的HR image之间加discriminator. 这种方式的确定是无法用pixel wise的loss，因为real HR是未知的。</p>
+</li>
+</ol>
+<p>另一类是，在HR到LR的过程加GAN，生成的LR image和真实的LR image之间加discriminator，使生成的LR尽可能逼近真实的LR image。然后生成的LR与原来的HR之间用pixel-wise的loss训练一个LR2HR的网络，也就是U。与cycleGAN的区别：HR端没有discriminator。缺点：生成的LR分布与真实的LR分布存在偏差，导致在training set和test set性能差别大。（当test set的图像分布在training set中完全没有）</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409160510814.png" alt></p>
+<p>ICCV 2017: DualGAN: Unsupervised Dual Learning for Image-to-Image Translation </p>
+<p>ICCV 2017: CycleGAN</p>
+<p>ECCV 2018：To learn image super-resolution, use a gan to learn how to do image degradation first  </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409160610485.png" alt></p>
+<p>ICCVW 2019：Unsupervised learning for real-world super-resolution  </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409160931259.png" alt></p>
+<p>以上两个第一次训练HR2LR的网络，并用degraded的输出训练LR2HR的网络。</p>
+<p>CVPRW 2018：Unsupervised image super-resolution using cycle-in-cycle generative adversarial networks  </p>
+<p>提出cycle-in-cycle network，但他们的degradation网络是确定的，并且SR网络与bi-cycle网络合在一起。选择loss function的时候有局限性</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161306839.png" alt></p>
+<p>input LR $x$， GT HR $z$， $z$ bicubic下采样得到$y$ (clean LR)</p>
+<p>先看里面的LR2clean LR，$x\sim x’ $  (半个cycleGAN)</p>
+<p>生成得到的clean LR 进SR网络，与GT送入判别器$D_2$，通过$G_3$再回到real LR space，$x \sim x’’$</p>
+<p>【pixel-wise loss不能用在HR space】</p>
+<p>arxiv 2018：Unsupervised degradation learning for single image super-resolution </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161600361.png" alt></p>
+<p>利用了双向的结构，他们也在选择loss function的时候有局限性</p>
+<p>以上4种，ECCV 2018人脸的和arxiv 2018的这篇基本基于cycleGAN的结构。</p>
+<p>这篇文章和以上这些文章最主要的区别是，解决了在训练数据集和测试数据集分布不一致的问题。也就是pseudo-clean LR 和 real LR</p>
+<ol>
+<li><p>通过硬件和数据对齐的操作建立 real SR的数据集：</p>
+<p>ICCV 2019：Toward real-world single image super-resolution: A new benchmark and a new model  </p>
+<p>CVPR 2019：Camera lens super-resolution  </p>
+<p>CVPR 2019：Zoom to learn, learn to zoom  </p>
+</li>
+</ol>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p>解决其他GAN-based unpaired SR的缺点：separating the entire network into an unpaired kernel/noise correction network and a pseudo-paired<br>SR network  </p>
+<p>correction network：是一个cycleGAN， 完成的是unpaired的real LR和 clean LR之间的translation。clean LR由HR经过predetermined operation得到。</p>
+<p>SR network：成对的学习pseudo-clean LR到HR mapping</p>
+<p>在训练阶段，correction network也先由clean LR到true LR再回到clean LR生成pseudo-clean的LR 图像。SR network成对的学习pseudo-clean LR image到HR的mapping。</p>
+<p>学习印射$F_{XY}:(X)LR-&gt;(Y)HR$, 定义 clean LR：$Y_\downarrow$是由$Y$经过一个指定的下采样操作得到的：$Y\rightarrow Y_\downarrow$是bicubic 下采样和gaussian blur的组合得到的。本文将$F_{XY}$拆分为两个mapping$G_{XY_\downarrow}$和$U_{Y_\downarrow Y}$的组合。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161658477.png" alt></p>
+<p><strong>domain transfer in LR</strong>，其中学习mapping$G_{XY_\downarrow}$是通过上图蓝框中cycleGAN的结构</p>
+<p><strong>mapping from LR to HR</strong>，只看绿线部分，由HR domain出发，先经过bicubic+Gaussian的下采样得到clean LR $Y_\downarrow$, 再把它依次过cycleGAN的两个generator得到pseudo-clean LR $\mathring{y_{\downarrow}}$ , pseudo-clean LR到HR的mapping为$U_{Y_\downarrow Y}$. 而$\mathring{y_{\downarrow}}$和y是成pair的，所以经过$U_{Y_\downarrow Y}$上采样得到的$U_{Y_\downarrow Y}(\mathring{y_{\downarrow}})$与y 之间可以用任意的pixel-wise的loss。</p>
+<p><strong>HR discriminator</strong>, 希望减小训练和测试的偏差，尽管$\mathring{y_{\downarrow}}$用来训练SR网络，但是实际应用的时候，输入的LR image是$G_{XY_\downarrow}(x)$。所以pseudo clean LR和由real LR生成的clean LR的超分辨率后的差异尽可能小，所以最后还在这二者过$U_{Y_\downarrow Y}$的输出上加判别器$D_{X_\uparrow}$ </p>
+<p><strong>test phase</strong>, 黑色实线部分，由real LR image先印射到 clean LR image $G_{XY_\downarrow}(x)$，（cycleGAN训练到比较理想情况的时候, clean LR 与由real LR生成的clean LR 以及pseudo clean LR都很接近）</p>
+<h3 id="loss-function"><a href="#loss-function" class="headerlink" title="loss function"></a>loss function</h3><p>对于两个生成器和3个判别器，总共的loss：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{trans}=\mathcal{L}_{adv}(G_{XY_\downarrow}, D_{Y_\downarrow}, X, Y_\downarrow)+\mathcal{L}_{adv}(G_{Y_\downarrow X}, D_{X}, Y_\downarrow, X)\\
++\gamma\mathcal{L}_{adv}((G_{XY_\downarrow},G_{Y_\downarrow X}),D_{X_\uparrow}, Y_\downarrow,X_\uparrow)\\
++\lambda_{cyc}\mathcal{L}_{cyc}(G_{Y_\downarrow X},G_{XY_\downarrow})+\lambda_{idt}\mathcal{L}_{idt}(G_{XY_\downarrow})+\lambda_{geo}\mathcal{L}_{geo}(G_{XY_\downarrow})</script><p>其中，$\mathcal{L}_{adv}((G_{XY_\downarrow},G_{Y_\downarrow X}),D_{X_\uparrow}, Y_\downarrow,X_\uparrow)$是HR discriminator的loss:</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{adv}((G_{XY_\downarrow},G_{Y_\downarrow X}),D_{X_\uparrow}, Y_\downarrow,X_\uparrow)\\
+=\mathbb{E}_{x\sim P_x}[logD_{X_\uparrow}(U_{Y_\downarrow Y}\circ G_{XY_\downarrow}(x))]\\
++\mathbb{E}_{y_\downarrow \sim P_{Y_\downarrow}}[log(1-D_{X_\uparrow}(U_{Y_\downarrow Y}(\mathring{y_\downarrow})))]</script><p>cycle consistency loss 被放松到只有单向的：</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{cyc}=||G_{XY_\downarrow}\circ G_{Y_\downarrow X}(y_\downarrow)-y_\downarrow||_1</script><p>这使$G_{Y_\downarrow X}$可以一对多，满足不同的噪声和LR图像的分布。</p>
+<p>identity loss在cycleGAN里用来保持图像的色彩，本文中也用了identity loss来避免色彩偏差:</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{idt}(G_{XY_\downarrow})=||G_{XY_\downarrow}(y_\downarrow)-y_\downarrow||_1</script><p><strong>geometric ensemble loss</strong> [CVPR 2019: Geometry consistent generative adversarial networks for one-sided unsupervised domain mapping] 减少可能的translation来保持场景的几何形状。本文中的geometric ensemble loss用来保证输入图像翻转、旋转不改变结果。</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{geo}(G_{XY_\downarrow})=||G_{XY_\downarrow}(x)-\sum_{i=1}^{8}T_i^{-1}(G_{XY_\downarrow}(T_i(x)))/8||_1</script><p>共带有8中翻转旋转模式。</p>
+<p>而SR网络$U_{Y_\downarrow Y}$是与生成器、判别器无关的网络，只是用来放大图像的局部特征来作为HR端判别器的输入。用下式来更新SR网络:</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{rec}=||U_{Y_\downarrow Y(\mathring y_{\downarrow})}-y||_1</script><p>这里的$\mathcal{L}_{rec}$可以由任意的pixel wise的loss代替。（perceptual loss, texture loss, adversarial loss)</p>
+<h3 id="network-architecture"><a href="#network-architecture" class="headerlink" title="network architecture"></a>network architecture</h3><p>最上面那路的$G_{XY_\downarrow}$和 $U_{Y_\downarrow Y}$用RCAN的网络</p>
+<p>而$G_{Y_\downarrow X}$的网络结构：resBlock+fusion layers+BN+Leaky ReLU</p>
+<p>判别器：patchGAN，LR的判别器的stride=1,5层卷积, HR的判别器前面几层stride=2.</p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="synthetic-distortions"><a href="#synthetic-distortions" class="headerlink" title="synthetic distortions"></a>synthetic distortions</h3><p>DIV2K realistic-wild dataset (800 训练图像)</p>
+<p>simulate ： 4倍下采样、运动模糊、pixel shifting、加性噪声</p>
+<p>每张图只有一种degradation，但是图像与图像之间的degradation不同，对于每张训练图像，合成4张降质图像。</p>
+<p>训练：800 HR+3200 LR（unpair）</p>
+<p>测试：100张validation set</p>
+<p>超参：$\lambda_{cyc}=1, \lambda_{idt}=1,\gamma=0.1$, 4倍SR</p>
+<p><strong>intermediate images</strong> </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161744947.png" alt></p>
+<p><strong>compare with blind methods</strong> </p>
+<p>blind denoising: <strong>NC</strong> [The noise clinic: a blind image denoising algorithm], <strong>RL-restore</strong> [ CVPR 2018: Crafting a toolchain for image restoration by deep reinforcement learning]</p>
+<p>【blind denoising还有CVPR 2019: Toward Convolutional Blind Denoising of Real Photographs (Kai Zhang)】</p>
+<p>blind deblurring: <strong>SRN-Deblur</strong>[CVPR 2018: Scale-recurrent network for deep image deblurring], <strong>DeblurGAN-v2</strong> [Arxiv2019：Deblurgan-v2: Deblurring (orders-of-magnitude) faster and better]</p>
+<p>SR: DBPN(non-blind), <strong>ZSSR</strong>, <strong>IKC</strong> (blind)（zssr: CVPR2018, IKC: cvpr 2019)</p>
+<p>ZSSR+KernelGAN </p>
+<p>这些方法是用的各自论文里提及的数据集训练，没有在这里的数据集上训练。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161830641.png" alt></p>
+<p><strong>compare with NTIRE 2018 baselines</strong> 这些baseline是pair-trained （upper bounds) 这篇论文的方法PSNR比不过 baseline方法，但是SSIM与baseline方法相当. 因为PSNR高估了整体的亮度和色彩的细微差别，这些差别不会显著影响perceptual quality。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161857570.png" alt></p>
+<p><strong>ablation study</strong> </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409161919268.png" alt></p>
+<p>第2行：去除HR的判别器</p>
+<p>第3行：SR network是在$y_\downarrow$上训练的，而不是$\mathring{y_\downarrow}$上，这就相当于一个real LR和Gaussian+bicubic LR之间translation的网络(cycle GAN)加一个SR网络。</p>
+<p>第4行：SR network是在$G_{Y_\downarrow X}(y_\downarrow)$ 上训练的，而不是$\mathring{y_\downarrow}$上. 相当于图1 的b</p>
+<p>第5行：在第4行基础上，用RCAN官方的模型做validation。</p>
+<p><strong>perception-oriented training</strong> </p>
+<p>在HR的$\mathcal{L}_{rec}$里加上perceptual loss, content loss (ESRGAN里面的)，relativistic adversarial loss.</p>
+<p>加上这些loss 后视觉效果比L1 loss好</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162036375.png" alt></p>
+<h3 id="realistic-distortion-1"><a href="#realistic-distortion-1" class="headerlink" title="realistic distortion 1"></a>realistic distortion 1</h3><p>follow unsupervised 人脸SR [ECCV 2018: To learn image super-resolution, use a gan to learn how to do image degradation ﬁrst]</p>
+<p>HR face images: Celeb-A, AFLW, LS3D-W, VGGFace2 (64*64)</p>
+<p>LR face images: 50000张Widerface 包含多种degradation（留出3000作为测试）(16*16)</p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{\bar{idt}}(G_{XY_\downarrow})=||G_{XY_\downarrow}(x)-x||_1</script><p>他们实验发现identity loss加在x上比加在$y_\downarrow$ 上好。</p>
+<p>超参：$\lambda_{cyc}=1,\lambda_{\bar{idt}}=2,\lambda_{geo}=1,\gamma=0.1$</p>
+<p>训练2倍SR：32*32=&gt;64*64</p>
+<p>视觉指标FID比较：高亮的为基于GAN的unpaired的方法。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162101131.png" alt></p>
+<p><strong>one-to-many degradation</strong> </p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162120879.png" alt></p>
+<h3 id="realistic-distortion-2"><a href="#realistic-distortion-2" class="headerlink" title="realistic distortion 2"></a>realistic distortion 2</h3><p>aerial  image dataset DOTA</p>
+<p>GSD (ground sample distances), </p>
+<p>62 LR images GSD在[55cm, 65cm]之间， HR image的GSD为30cm</p>
+<p>超参：$\lambda_{cyc}=1,\lambda_{\bar{idt}}=10,\lambda_{geo}=100,\gamma=0.1$ , 2倍SR</p>
+<p>在这种数据集里，物体的像素点很少，所以对identity loss和geometric loss用了更大的权重。在训练初期，逐步提高geometric loss的权重。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162312918.png" alt></p>
+<p>只提供视觉上的比较，因为没有GT。</p>
+<p>先用RL-restore（强化学习blind去噪修复）在input的LR image上去噪。但是他的输出over-smoothed. 即使再用SOTA的blind SR方法ZSSR超分辨，artifacts也不能被完全移除。</p>
+<p>geometric loss的作用：</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162239831.png" alt></p>
+<h3 id="AIM-2019-real-world-SR-challenge"><a href="#AIM-2019-real-world-SR-challenge" class="headerlink" title="AIM 2019 real world SR challenge"></a>AIM 2019 real world SR challenge</h3><p>没有HR-LR pair,测试时有官方的脚步来计算PSNR/SSIM。 $\lambda_{cyc}=1,\lambda_{\bar{idt}}=5,\lambda_{geo}=1,\gamma=0.1$</p>
+<p>​        LPIPS: 视觉指标，越低越好。</p>
+<p><img src="/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/image-20210409162216094.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>pseudo-supervision</tag>
+        <tag>unpaired</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Dual super-resolution learning for semantic segmentation</title>
+    <url>/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/</url>
+    <content><![CDATA[<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164117461.png" alt></p>
+<p>出处：CVPR2020 (oral)</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_Dual_Super-Resolution_Learning_for_Semantic_Segmentation_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https:
+//github.com/wanglixilinx/DSRL">code</a>  <a href="https://github.com/Dootmaan/DSRL" target="_blank" rel="noopener">unofficial-code</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>在不增加计算开销的前提下提高语义分割的性能，而语义分割依赖于HR feature representations，如果直接输入HR images会产生很大的计算开销，所以做SSSR。而只依赖于SSSR的decoder难以恢复original details，所以他们用了SISR来guide SSSR，如何guide呢？用feature affinity module，核心是feature相似矩阵的距离。</p>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><p>现有的语义分割方法能取得好的性能依赖于HR的深度特征表示：large computation budgets</p>
+<p>现有的语义分割方法保持HR representations:</p>
+<ol>
+<li>用空洞卷积代替 strided 卷积，比如DeepLabs</li>
+<li>结合HR的pathway，比如Unet</li>
+</ol>
+<p>这些方法的输入通常是original HR image，当限制输入图像的大小的时候，他们的性能有明显的下降。（现有语义分割方法：FCN, DeepLabs, PSPNet, 空洞卷积，pyramid pooling module, attention， context encoding）</p>
+<p>现有的轻量级的语音分割：通过factorization加速卷积，ESPNets（split-merge，reduce-expand加速卷积计算），采用一些有效的分类网络（mobileNet、shuffleNet），知识蒸馏帮助训练对抗网络。但他们的性能比SOTA差很多。</p>
+<p>本文提出一种two-stream的framework (dual super-resolution learning, DSRL) 在不产生额外计算开销的情况下提高semantic 分割的准确率: 对于LR的输入保持HR representations。具体的，SISR得到的HR features用来guide spatial维度的相关性学习。DSRL可以在相同的resolution下，显著提高准确率。</p>
+<p>现有的SISR方法：</p>
+<ol>
+<li>pre-upsampling SR：先通过bicubic上采样得到HR图像，再用网络refine HR图像（计算开销大：网络在HR上做的）</li>
+<li>post-upsampling SR：在网络的最后面用可学习的上采样层</li>
+<li>progressive SR：逐渐提高分辨率，可以handle multi-scale的SR（deep laplacian pyramid networks）</li>
+<li>iterative up-and-down SR：通过iterative上\下采样的层得到中间图像，结合中间图像重建最终图像(deep back-projection networks) </li>
+</ol>
+<p>multi tasks：</p>
+<p>mask R-cnn（检测+实例分割）</p>
+<p>RCNN（姿态估计+动作识别）</p>
+<p>cross tasks：</p>
+<p>（希望把语义分割作为主要任务，SISR作为附加任务）</p>
+<h2 id="proposed-method"><a href="#proposed-method" class="headerlink" title="proposed method"></a>proposed method</h2><h4 id="Review-of-encoder-decoder-framework"><a href="#Review-of-encoder-decoder-framework" class="headerlink" title="Review of encoder-decoder framework"></a>Review of encoder-decoder framework</h4><p>用来提取特征的encoder的scaling step是2，OS通常是8或者16（the ratio of input image spatial resolution to the Encoder output resolution），把最后两层strided conv换成空洞卷积。在decoder端，用一个bilinear 上采样层恢复分辨率。</p>
+<p>现有的方法只能将feature上采样至与input image同样的大小，可能比original image小。（分割网络的输入往往是对原图做了下采样）。这样可能损失了一部分有用的label信息，另一方面，也难以只依赖decoder恢复original details。</p>
+<h4 id="DSRL"><a href="#DSRL" class="headerlink" title="DSRL"></a>DSRL</h4><p><strong>contribution</strong>：</p>
+<ol>
+<li>在不额外增加计算开销的前提下，通过保持HR representations，提高性能</li>
+<li>泛化性：可以扩展到需要HR representation的任务中，比如人体姿态估计</li>
+<li>实验：在语音分割和人体姿态估计任务上都获得了良好的性能，相同计算开销，提高2%</li>
+</ol>
+<p>包含三个部分：</p>
+<ol>
+<li>semantic segmentation super-resolution (SSSR)</li>
+<li>single image super-resolution (SISR)</li>
+<li>feature affinity (FA)</li>
+</ol>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164518013.png" alt></p>
+<p>其中SISR与SSSR共享特征提取器，</p>
+<p><strong>SSSR：</strong>加额外的上采样层（一些deconv）来得到最终的prediction mask，比如输入的是512<em>1024，输出1024\</em>2048. 他们的方法可以利用全部的label</p>
+<p><strong>SISR：</strong>只依赖decoder不足够恢复HR semantic特征表示，因为decoder的上采样结构不是简单的bilinear上采样，就是简单的sub-net，这并不会引入额外的信息，因为输入是LR的。 而SISR可以有效恢复图像细节，SSSR和SISR的feature如下图所示，SISR的feature包含更多的物体更多的复杂结构，尽管这些结构不能直接揭示物体属于哪一类，但他们可以根据像素与像素、区域与区域直接的相关性group起来，而这些像素区域的关联揭示了语义信息。</p>
+<p>所以，SISR得到的HR feature用来guide SSSR的HR feature的学习。SISR根据original image的GT来优化。</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164654590.png" alt></p>
+<p><strong>FA: feature affinity</strong> SISR得到的structure information如何guide SSSR？用 feature affinity learning，FA来学习SSSR和SISR feature上相似矩阵的距离，相似矩阵刻画的是像素直接pairwise的关系。理论上，应该计算所有像素对的affinity，为了节省计算开销，他们subsamples得到1/8的像素对。为了减少由SISR和SSSR不一致引起的训练的不稳定性，他们还附加了一个feature transform模块。</p>
+<script type="math/tex; mode=display">
+S_{ij}=(\frac{F_i}{||F_i||_p})^{T}(\frac{F_j}{||F_j||_p})</script><p>最后的FA loss为：</p>
+<script type="math/tex; mode=display">
+    L_{fa}=\frac{1}{W^2H^2}\sum_{i=1}^{W'H'}\sum_{j=1}^{W'H'}||S_{ij}^{seg}-S_{ij}^{sr}||_q</script><p>$p=2, q=1$，总的loss：</p>
+<script type="math/tex; mode=display">
+L=L_{ce}+w_1L_{mse}+w_2L_{fa},\\</script><p>其中，</p>
+<script type="math/tex; mode=display">
+L_{ce}=\frac{1}{N}\sum_{i=1}^{N}-y_ilog(p_i),\\
+L_{mse}=\frac{1}{N}\sum_{i=1}^{N}||SISR(X_i)-Y_i||^2</script><p>$L_{ce}$ 为cross entropy loss, $w_1=0.1, w_2=1.0$</p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p>semantic segmentation：CitySpace数据集，将一张图分为19类。1024<em>2048；CamVid数据集，11类，960\</em>720。</p>
+<p>metric：mIoU（mean Intersection over Union）</p>
+<p>segmentation architecture: ESPNetv2, DeepLabv3+(ablation study), PSPNet, BiseNet, DABNet (lightweight)</p>
+<h4 id="effect-of-components"><a href="#effect-of-components" class="headerlink" title="effect of components"></a>effect of components</h4><p>输入：256<em>512(resize, 1024\</em>2048=&gt;256*512)</p>
+<p>输出：+SR的输出是512<em>1024（2倍），不加SR的输出：256\</em>512</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164919074.png" alt></p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164720479.png" alt></p>
+<p>+SSSR+SISR+FA &gt; +SSSR+SISR &gt; SSSR &gt; 不加</p>
+<p>原图下采样作为baseline和自己方法的输入，输出分辨率不同</p>
+<p>【输出分辨率不同怎么比的？】</p>
+<ol>
+<li><p>把原图的label分别下采样到256*512和512*1024比</p>
+</li>
+<li><p>output统统上采样到原图的分辨率（1024*2048）和label比。（保持同分辨率下比较，并且不对原始的label降质）</p>
+</li>
+</ol>
+<p>第2 种比较相当于比的是bicubic+seg和SR+seg</p>
+<h4 id="effect-of-various-input-resolutions"><a href="#effect-of-various-input-resolutions" class="headerlink" title="effect of various input resolutions"></a>effect of various input resolutions</h4><p>input resolution：256*512, 320*640, 384*768, 448*896, 512*1024 (CitySpace)</p>
+<p>对于每一种input resolution，用他们的framework都比不用性能好，且随着input resolution逐渐增大，性能增值越来越小。</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164742539.png" alt></p>
+<h4 id="human-pose-estimation"><a href="#human-pose-estimation" class="headerlink" title="human pose estimation"></a>human pose estimation</h4><p>metric：object keypoint similarity (OKS)</p>
+<p>architecture: HRNet-w32, 用offline person detection的结果预测关键点</p>
+<p>输入human detection box (缩放到固定大小：256<em>192， 162\</em>128, 128*96)</p>
+<p>输出heatmap（64*48）</p>
+<h4 id="results"><a href="#results" class="headerlink" title="results"></a>results</h4><p>visualization of segmentation features</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164851703.png" alt></p>
+<p>对于structured objection提升尤其明显，比如人，车</p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>segmentation</tag>
+        <tag>LV+HV</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Learning to Have an Ear for Face Super-Resolution</title>
+    <url>/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/</url>
+    <content><![CDATA[<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170554550.png" alt></p>
+<p>出处：CVPR2020 (oral)</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Meishvili_Learning_to_Have_an_Ear_for_Face_Super-Resolution_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/gmeishvili/ear_for_face_super_resolution" target="_blank" rel="noopener">code</a>  <a href="https://gmeishvili.github.io/ear_for_face_super_resolution/" target="_blank" rel="noopener">project</a></p>
+<p>task: 用audio和LR图像做16倍的人脸超分辨率，输入的LR图像非常小：8*8 pixels, 这些图像的很多重要细节都被丢失了。如果LR的人脸图像是从视频中提取的，那么我们也可以得到这个人的音频信息，而audio中带有一些脸部的特征：性别和年龄。结合听觉和视觉，他们提出了一个：先从单独的音轨构建脸部特征的latent 表示，再从LR图像简历脸部特征潜在的表示。然后再fusion这两个表示。</p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ol>
+<li><p>limited information</p>
+<p> <img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170710329.png" alt></p>
+</li>
+<li><p>ambiguous mapping</p>
+</li>
+</ol>
+<p>=&gt; incorporate alternative source of information: audio</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170737702.png" alt></p>
+<ol>
+<li>audio carries information about age and gender, audio tracks are available in videos, audio and visual signals both capture some shared attributes of a person.</li>
+</ol>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ol>
+<li>the first attempt to use audio for image restoration</li>
+<li>use both audio and a LR image to perform extreme face super-resolution ($16\times$) </li>
+<li>do not use human annotation and thus can be easily trained with video datasets</li>
+<li>建立了图像和音频的分解表示，因此它可以混合来自不同视频的LR图像和音频，并生成语义上有意义的真实面孔。（our model builds a factorized representation of images and audio as it allows one to mix low-resolution images and audio from different videos and to generate realistic faces with semantically meaningful combinations.  ）</li>
+</ol>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><h3 id="speech2Face"><a href="#speech2Face" class="headerlink" title="speech2Face"></a>speech2Face</h3><p>audio to image: speech2Face [CVPR 2019:  Speech2face: Learning the face behind a voice]</p>
+<h3 id="styleGAN"><a href="#styleGAN" class="headerlink" title="styleGAN"></a>styleGAN</h3><p>给定512维随机向量， styleGAN可以从这个向量重构维一张从未见过的人脸照片。</p>
+<p>如果训练一个model，是从图片到512维latent encoding, 这个latent encoding可以通过styleGAN还原为原图。（图=&gt;512维latent code=&gt;原图 ）</p>
+<p>也就是说，可以用这512维向量生成原图。</p>
+<p>如果对这512维的空间稍微做点改变？这个超高维的空间对应人脸的不同属性（肤色、年龄、性别）</p>
+<p>如何知道年龄对应的维度是哪些？</p>
+<blockquote>
+<p>1、作者一开始会训练一个分类器，分类器的训练样本、label来自于CelebA，40维label中就有一个维度是年龄（作者贴出来的代码里的wp.npy文件我猜就是CELEBA的label文件）</p>
+<p>2、分类器收敛后，用个随机噪声z作为stylegan输入，生成图片x，再把这个x送入分类器，得到分类结果y，用个线性变换（或非线性也行）建立起z与y的关系。。。。然后你就可以通过控制y的变换方向来得到z，再生成想要的x了</p>
+</blockquote>
+<p>总之，styleGAN可以从latent code生成逼真的人脸，更重要的是latent code对应人脸不同属性，可以通过改变latent code得到不同的人脸。（比如得到XX小时候的照片）。</p>
+<h3 id="Naive-end-to-end-training"><a href="#Naive-end-to-end-training" class="headerlink" title="Naive end-to-end training"></a>Naive end-to-end training</h3><p>带有两个编码网络的多模态网络，再把encoder的输出concate再一起送入decoding网络得到HR图像。但这种多模态网络以传统的训练方法很难训练好，因为：不同模态的收敛速度不同。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170854501.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170915033.png" alt></p>
+<p>实验发现，这样直接一起训练会忽略audio信号。audio信号需要更长的处理更强的网络来拟合其latent space。</p>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171414333.png" alt></p>
+<p>包含这样几个部分：LR encoder $E_l$, audio encoder $E_a$，fusion network $F$, face generator$G$  </p>
+<p>分开训练LR image encoder和audio encoder，这样他们的解耦精度就相等。fusion: audio作用在LR image固定的中间representation中，这样audio中的人脸属性可以解耦出来。</p>
+<p>为什么styleGAN？styleGAN可以通过操控latent code的某些维度，改变生成人脸的某些属性。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171047634.png" alt></p>
+<h3 id="Inverting-the-Generator"><a href="#Inverting-the-Generator" class="headerlink" title="Inverting the Generator"></a>Inverting the Generator</h3><ol>
+<li><p>首先训练一个从高斯隐空间$z \sim \mathcal{N}(0,I_d)$（d维）开始的输出高分辨率图像的generator $G(z)$ 【styleGAN: 人脸生成，可以控制所生成图像的高层级属性：头发等，以高斯分布作为输入，输出高质量的samples和隐空间】，再，用自编码器的限制，通过固定$G(z)$得到generator(fixed) 反转后的encoder ($E_h$). 再将这两部分$G(z)$和$E_h$fine-tuning。这个encoder的映射是HR image到generator输入的隐空间，这个$E_h$可以得到图像$x_i$对应的representations ($z_i$)<strong>可以当做LR,audio，fusion network的encoder的目标</strong>，generator的输出是input HR的近似。【这个模型可以作为生成HR人脸图像的先验，并且中间的representations应该可以由audio编辑】</p>
+<p>给定数据集$\mathcal{D}=\{(x_i^h,x_i^l,a_i)|i=1,…,n \}$, </p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+\mathcal{L}_{pre-train}=\sum_{i=1}^{n}|G(z_i)-x_i^h|_1+\lambda_f\mathcal{l}_{feat}(G(z_i),x_i^h)</script><p>其中$z_i=E_h(x_i^h)$ ，$l_{feat}$ 是perceptual loss (VGG feature)</p>
+<p>他们实验发现只回归一个$z_i$不足以很好的恢复$x_i^h$，所以像styleGAN一样，把$z_i$非线性变换得到$w_i$，所以他们生成$k$个不同的$z_{ij},j=1,…,k$. 将非线性变换得到的$w_{ij}$分别插入到generator的不同层。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171104847.png" alt></p>
+<p>再fine-tuning：</p>
+<script type="math/tex; mode=display">
+min_{E_h,G}\mathcal{L}_{pre-train}+\lambda_t|G_{init}-G|_2^2</script><p>其中$G_{init}$是styleGAN训练后$G$的权重。训练过程中，总的loss最小后，将$\lambda_t$减小为原来1/2，pre-training和减小正则化：<strong>让encoder和decoder逐渐收敛，不至于过早失去G的latent representation的结构</strong></p>
+<p>总结，(1). 从标准高斯分布学习G(z)（styleGAN），获得HR 图像的分布</p>
+<p>(2). 固定$G(z)$, 用公式1用autoencoder的方式训练reference encoder$E_h$, </p>
+<p>(3). fine-tuning $G(z)$和$E_h$，$E_h$可以得到HR图像的latent representations.</p>
+<h3 id="Pre-training-Low-Res-and-Audio-encoders"><a href="#Pre-training-Low-Res-and-Audio-encoders" class="headerlink" title="Pre-training Low-Res and Audio encoders"></a>Pre-training Low-Res and Audio encoders</h3><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171237776.png" alt></p>
+<p>给定HR-LR pair，pre-train一个LR encoder，将输入的LR映射到与HR相同的的reference encoder（前面训练的）输出的latent representations</p>
+<p>如果直接训练fusion network，使fusion model$F(x_i^l,a_i)$映射到$z_i=E_h(x_i^h)$，会使网络完全忽略音频信号$a_i$。所以他们先分开训练encoder$E_l$和$E_a$， 让他们尽可能从这两种模态多提取信息，再fusion他们。</p>
+<p>为了防止过拟合，pre-train $E_l$和$E_a$时，只用一半数量的训练数据（记为$\mathcal{D}_{pre}$），在fusion的训练阶段用整个训练数据。</p>
+<p>训练$E_l$的目标函数：</p>
+<script type="math/tex; mode=display">
+min_{E_l}\sum_{x_i^l,x_i^h \in \mathcal{D_{pre}}}|E_l(x_i^l)-z_i|_1+\lambda|D \circ G(E_l(x_i^l))-x_i^l|_1</script><p>其中$D \circ x$是$x$的16倍下采样。$\lambda=40$.</p>
+<p>前面一项很好理解：希望$E_l$在LR图像$x_i^l$上得到的latent representation与HR图像上的latent representation($z_i=E_h(x_i^h)$)相似。第二项：LR图像$x_i^l$经过encoder(得到HR图像的latent representation)再经过decoder$G$（得到HR图像$x_i^h$）再16倍下采样得到LR 图像$x_i^l$  （因为$x_i^l$与$x_i^h$成pair）</p>
+<p>而对于音频encoder：如果将$E_a(a_i)$回归到$z_i$必然有overfitting，因为一些$z_i$中有的属性，$a_i$中没有，比如脸部的姿态(朝左朝右？)。为了消除$z_i$中与$a_i$无关的属性，将$E_a(a_i)$的目标定义为：</p>
+<script type="math/tex; mode=display">
+\bar{z_i}=\frac{1}{2}(E_h(x_i^h)+E_h(\hat{x}_i^h))</script><p>这里的 $\hat{x}_i^h$是$x_i^h$的水平翻转版本（将原HR图像水平翻转）。</p>
+<p>训练$E_a$的目标函数： </p>
+<script type="math/tex; mode=display">
+min_{E_a}\sum_{a_i,x_i^h \in \mathcal{D}_{pre}}|E_a(a_i)-\bar{z_i}|_1</script><p>【这里没懂】由于styleGAN的分层的结构，水平翻转的图片的latent code求平均，就消除了音频无法传递的信息。比如图里，输入朝左的面部图像和它水平翻转后的图像（这个水平翻转图像的面部朝向是朝右的），把encoder提取到的latent code求平均，再经过decoder，就得到了朝向正面的图像（消除了音频无法传递的面部朝向信息）。</p>
+<p>小结：</p>
+<p>audio encoder, fusion network: 固定LR image encoder， 提升他的latent representation 。为了加快audio encoder的训练速度，将HR reference encoder的输出和其水平镜像的平均值作为latent representation 对audio encoder预训练。而这个平均消除了音频无法传递的信息，比如视点。</p>
+<h3 id="fusing-audio-and-low-resolution-encodings"><a href="#fusing-audio-and-low-resolution-encodings" class="headerlink" title="fusing audio and low-resolution encodings"></a>fusing audio and low-resolution encodings</h3><p>现在希望聚合pre-train得到的encoder$E_l$和$E_a$提取的信息。由于$E_l$已经是$E_h$的近似，那么希望引入的音频能补出residual：$\Delta z_i=z_i-z_i^l$, 所以fusion network $F$应满足：</p>
+<script type="math/tex; mode=display">
+z_i^f=E_l(x_i^l)+F(E_l(x_i^l),E_a(a_i))</script><p>因为$E_a$更难训练，所以继续把$E_a$和$F$一起优化。所以，fusion network的优化目标是:</p>
+<script type="math/tex; mode=display">
+min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ G(z_i^f)-x_i^l|_1</script><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171311165.png" alt></p>
+<p>(a). matching inputs; (b) LR image与audio来自不同video</p>
+<p>把LR image(8*8)输入到$E_l$得到latent representation, fusion network 融合$E_a$编码后的音轨和encoded LR image, 这一部分与前面的latent representation相加得到的新的latent representation 与预先训练得到的HR image的latent representation很相似，再通过decoder G输出HR图像</p>
+<hr>
+<p>共有3个mappings： </p>
+<ol>
+<li>audio to HR (speech2face是用预训练的人脸识别网络作为额外监督，而我们的方法是完全无监督的)</li>
+<li>LR to HR</li>
+<li>LR+audio to HR</li>
+</ol>
+<hr>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p><strong>dataset</strong>： VoxCeleb2 Dataset, 包含145K 人说话的video</p>
+<p>2M frames at 128*128 pixels. 将每个speaker的一半的数据放入$\mathcal{D_{pre}}$</p>
+<p>test set: 同人的不同video.</p>
+<h3 id="audio-to-image"><a href="#audio-to-image" class="headerlink" title="audio to image"></a>audio to image</h3><p>简单的比较了一下他们的audio-only model ($E_a+G$) 和speech2Face</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172555985.png" alt></p>
+<p>第一行是speech2face的结果，第二行是他们的audio2image的结果 ($E_a+G$)</p>
+<p>性别分类：96%~97%准确率（没有在性别分类上与speech2face比，因为speech2face训练时用了分类器的监督）</p>
+<h3 id="classification-as-a-performance-measure"><a href="#classification-as-a-performance-measure" class="headerlink" title="classification as a performance measure"></a>classification as a performance measure</h3><p>预训练好的  身份分类器、性别分类器、年龄分类器</p>
+<p>closed set：training set和test set用同一个人的不同video</p>
+<p>open set：training set和 test set不同人</p>
+<p><strong>ablations</strong> </p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172636752.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171454635.png" alt></p>
+<p>(a), (b): 训练$E_h$后时候和$G$一起fine-tune 【(b): HR 图像的表现，upper bound】</p>
+<p>(c), (d)：without fusion F。只要LR 或者只要音频</p>
+<p>​            c与d相比，Audio更能提供性别信息。$\mathcal{C}_g$</p>
+<p>(e)~(h): (f)(g)(h)相比：不加audio&lt;固定audio encoder&lt;fine-tuning </p>
+<p>​            (e)与(h)相比：一个全连接层&lt;三个全连接层</p>
+<p>​            (g)与(h)相比：在训练fusion网络时也fine-tuning $E_a$ 对结果有些许提升。</p>
+<p>gender和age在open set上也能预测比较准确。</p>
+<p><strong>comparisons to other SR methods</strong> </p>
+<p>LapSR(CVPR 2017) , W-SRNet (ICCV 2017 人脸SR) 在这个数据集上重新训练。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172740704.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172747369.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172758166.png" alt></p>
+<h3 id="mixing"><a href="#mixing" class="headerlink" title="mixing"></a>mixing</h3><p>给定LR，与不同的audio混合</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172835492.png" alt></p>
+<h3 id="failure-cases"><a href="#failure-cases" class="headerlink" title="failure cases"></a>failure cases</h3><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172905749.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>audio+image</tag>
       </tags>
   </entry>
 </search>

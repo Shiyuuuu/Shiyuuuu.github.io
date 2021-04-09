@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#2.6.6'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>阅读论文-Dual super-resolution learning for semantic segmentation - Shiyu&#39;s Blog</title>
+  
+    <meta name="keywords" content="super-resolution,segmentation,LV+HV">
+  
+  
+    <meta name="description" content="
+出处：CVPR2020 (oral)">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Shiyu's Blog">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name='theme-color' content='#FFFFFF'>
+    
+      <meta name='msapplication-TileColor' content='#1BC3FB'>
+    
+      <meta name='msapplication-config' content='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/browserconfig.xml'>
+    
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+
+  
+
+  <!-- import link -->
+  
+  
+  <link rel='shortcut icon' type='image/x-icon' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico'>
+  <link rel='icon' type='image/x-icon' sizes='32x32' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/favicon-32x32.png'>
+  <link rel='apple-touch-icon' type='image/png' sizes='180x180' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/apple-touch-icon.png'>
+  <link rel='mask-icon' color='#1BC3FB' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/safari-pinned-tab.svg'>
+  <link rel='manifest' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/site.webmanifest'>
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Shiyu</p>
+    
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header floatable">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Shiyu
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/">
+      阅读论文-Dual super-resolution learning for semantic segmentation
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg">
+    <p>Shiyu</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Paper-reading/super-resolution/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Paper reading/super-resolution</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 9, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164117461.png" alt></p>
+<p>出处：CVPR2020 (oral)</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_Dual_Super-Resolution_Learning_for_Semantic_Segmentation_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https:
+//github.com/wanglixilinx/DSRL">code</a>  <a href="https://github.com/Dootmaan/DSRL" target="_blank" rel="noopener">unofficial-code</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>在不增加计算开销的前提下提高语义分割的性能，而语义分割依赖于HR feature representations，如果直接输入HR images会产生很大的计算开销，所以做SSSR。而只依赖于SSSR的decoder难以恢复original details，所以他们用了SISR来guide SSSR，如何guide呢？用feature affinity module，核心是feature相似矩阵的距离。</p>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><p>现有的语义分割方法能取得好的性能依赖于HR的深度特征表示：large computation budgets</p>
+<p>现有的语义分割方法保持HR representations:</p>
+<ol>
+<li>用空洞卷积代替 strided 卷积，比如DeepLabs</li>
+<li>结合HR的pathway，比如Unet</li>
+</ol>
+<p>这些方法的输入通常是original HR image，当限制输入图像的大小的时候，他们的性能有明显的下降。（现有语义分割方法：FCN, DeepLabs, PSPNet, 空洞卷积，pyramid pooling module, attention， context encoding）</p>
+<p>现有的轻量级的语音分割：通过factorization加速卷积，ESPNets（split-merge，reduce-expand加速卷积计算），采用一些有效的分类网络（mobileNet、shuffleNet），知识蒸馏帮助训练对抗网络。但他们的性能比SOTA差很多。</p>
+<p>本文提出一种two-stream的framework (dual super-resolution learning, DSRL) 在不产生额外计算开销的情况下提高semantic 分割的准确率: 对于LR的输入保持HR representations。具体的，SISR得到的HR features用来guide spatial维度的相关性学习。DSRL可以在相同的resolution下，显著提高准确率。</p>
+<p>现有的SISR方法：</p>
+<ol>
+<li>pre-upsampling SR：先通过bicubic上采样得到HR图像，再用网络refine HR图像（计算开销大：网络在HR上做的）</li>
+<li>post-upsampling SR：在网络的最后面用可学习的上采样层</li>
+<li>progressive SR：逐渐提高分辨率，可以handle multi-scale的SR（deep laplacian pyramid networks）</li>
+<li>iterative up-and-down SR：通过iterative上\下采样的层得到中间图像，结合中间图像重建最终图像(deep back-projection networks) </li>
+</ol>
+<p>multi tasks：</p>
+<p>mask R-cnn（检测+实例分割）</p>
+<p>RCNN（姿态估计+动作识别）</p>
+<p>cross tasks：</p>
+<p>（希望把语义分割作为主要任务，SISR作为附加任务）</p>
+<h2 id="proposed-method"><a href="#proposed-method" class="headerlink" title="proposed method"></a>proposed method</h2><h4 id="Review-of-encoder-decoder-framework"><a href="#Review-of-encoder-decoder-framework" class="headerlink" title="Review of encoder-decoder framework"></a>Review of encoder-decoder framework</h4><p>用来提取特征的encoder的scaling step是2，OS通常是8或者16（the ratio of input image spatial resolution to the Encoder output resolution），把最后两层strided conv换成空洞卷积。在decoder端，用一个bilinear 上采样层恢复分辨率。</p>
+<p>现有的方法只能将feature上采样至与input image同样的大小，可能比original image小。（分割网络的输入往往是对原图做了下采样）。这样可能损失了一部分有用的label信息，另一方面，也难以只依赖decoder恢复original details。</p>
+<h4 id="DSRL"><a href="#DSRL" class="headerlink" title="DSRL"></a>DSRL</h4><p><strong>contribution</strong>：</p>
+<ol>
+<li>在不额外增加计算开销的前提下，通过保持HR representations，提高性能</li>
+<li>泛化性：可以扩展到需要HR representation的任务中，比如人体姿态估计</li>
+<li>实验：在语音分割和人体姿态估计任务上都获得了良好的性能，相同计算开销，提高2%</li>
+</ol>
+<p>包含三个部分：</p>
+<ol>
+<li>semantic segmentation super-resolution (SSSR)</li>
+<li>single image super-resolution (SISR)</li>
+<li>feature affinity (FA)</li>
+</ol>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164518013.png" alt></p>
+<p>其中SISR与SSSR共享特征提取器，</p>
+<p><strong>SSSR：</strong>加额外的上采样层（一些deconv）来得到最终的prediction mask，比如输入的是512<em>1024，输出1024\</em>2048. 他们的方法可以利用全部的label</p>
+<p><strong>SISR：</strong>只依赖decoder不足够恢复HR semantic特征表示，因为decoder的上采样结构不是简单的bilinear上采样，就是简单的sub-net，这并不会引入额外的信息，因为输入是LR的。 而SISR可以有效恢复图像细节，SSSR和SISR的feature如下图所示，SISR的feature包含更多的物体更多的复杂结构，尽管这些结构不能直接揭示物体属于哪一类，但他们可以根据像素与像素、区域与区域直接的相关性group起来，而这些像素区域的关联揭示了语义信息。</p>
+<p>所以，SISR得到的HR feature用来guide SSSR的HR feature的学习。SISR根据original image的GT来优化。</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164654590.png" alt></p>
+<p><strong>FA: feature affinity</strong> SISR得到的structure information如何guide SSSR？用 feature affinity learning，FA来学习SSSR和SISR feature上相似矩阵的距离，相似矩阵刻画的是像素直接pairwise的关系。理论上，应该计算所有像素对的affinity，为了节省计算开销，他们subsamples得到1/8的像素对。为了减少由SISR和SSSR不一致引起的训练的不稳定性，他们还附加了一个feature transform模块。</p>
+<script type="math/tex; mode=display">
+S_{ij}=(\frac{F_i}{||F_i||_p})^{T}(\frac{F_j}{||F_j||_p})</script><p>最后的FA loss为：</p>
+<script type="math/tex; mode=display">
+    L_{fa}=\frac{1}{W^2H^2}\sum_{i=1}^{W'H'}\sum_{j=1}^{W'H'}||S_{ij}^{seg}-S_{ij}^{sr}||_q</script><p>$p=2, q=1$，总的loss：</p>
+<script type="math/tex; mode=display">
+L=L_{ce}+w_1L_{mse}+w_2L_{fa},\\</script><p>其中，</p>
+<script type="math/tex; mode=display">
+L_{ce}=\frac{1}{N}\sum_{i=1}^{N}-y_ilog(p_i),\\
+L_{mse}=\frac{1}{N}\sum_{i=1}^{N}||SISR(X_i)-Y_i||^2</script><p>$L_{ce}$ 为cross entropy loss, $w_1=0.1, w_2=1.0$</p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p>semantic segmentation：CitySpace数据集，将一张图分为19类。1024<em>2048；CamVid数据集，11类，960\</em>720。</p>
+<p>metric：mIoU（mean Intersection over Union）</p>
+<p>segmentation architecture: ESPNetv2, DeepLabv3+(ablation study), PSPNet, BiseNet, DABNet (lightweight)</p>
+<h4 id="effect-of-components"><a href="#effect-of-components" class="headerlink" title="effect of components"></a>effect of components</h4><p>输入：256<em>512(resize, 1024\</em>2048=&gt;256*512)</p>
+<p>输出：+SR的输出是512<em>1024（2倍），不加SR的输出：256\</em>512</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164919074.png" alt></p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164720479.png" alt></p>
+<p>+SSSR+SISR+FA &gt; +SSSR+SISR &gt; SSSR &gt; 不加</p>
+<p>原图下采样作为baseline和自己方法的输入，输出分辨率不同</p>
+<p>【输出分辨率不同怎么比的？】</p>
+<ol>
+<li><p>把原图的label分别下采样到256*512和512*1024比</p>
+</li>
+<li><p>output统统上采样到原图的分辨率（1024*2048）和label比。（保持同分辨率下比较，并且不对原始的label降质）</p>
+</li>
+</ol>
+<p>第2 种比较相当于比的是bicubic+seg和SR+seg</p>
+<h4 id="effect-of-various-input-resolutions"><a href="#effect-of-various-input-resolutions" class="headerlink" title="effect of various input resolutions"></a>effect of various input resolutions</h4><p>input resolution：256*512, 320*640, 384*768, 448*896, 512*1024 (CitySpace)</p>
+<p>对于每一种input resolution，用他们的framework都比不用性能好，且随着input resolution逐渐增大，性能增值越来越小。</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164742539.png" alt></p>
+<h4 id="human-pose-estimation"><a href="#human-pose-estimation" class="headerlink" title="human pose estimation"></a>human pose estimation</h4><p>metric：object keypoint similarity (OKS)</p>
+<p>architecture: HRNet-w32, 用offline person detection的结果预测关键点</p>
+<p>输入human detection box (缩放到固定大小：256<em>192， 162\</em>128, 128*96)</p>
+<p>输出heatmap（64*48）</p>
+<h4 id="results"><a href="#results" class="headerlink" title="results"></a>results</h4><p>visualization of segmentation features</p>
+<p><img src="/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/image-20210409164851703.png" alt></p>
+<p>对于structured objection提升尤其明显，比如人，车</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-09T16:49:26+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 9, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/super-resolution/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>super-resolution</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/segmentation/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>segmentation</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/LV-HV/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>LV+HV</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>阅读论文-Unpaired Image Super-Resolution using Pseudo-Supervision</p>
+                <p class='content'>
+出处：CVPR2020
+
+paper  supplemental   
+motivation
+unpaired super-resolution，当aligned 的HR-LR trainin...</p>
+              </a>
+            
+            
+              <a class='next' href='/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/'>
+                <p class='title'>阅读论文-Learning to Have an Ear for Face Super-Resolution<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+出处：CVPR2020 (oral)
+
+paper  code  project
+task: 用audio和LR图像做16倍的人脸超分辨率，输入的LR图像非常小：8*8 pixels, 这些图...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '阅读论文-Dual super-resolution learning for semantic segmentation',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#related-works"><span class="toc-text">related works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#proposed-method"><span class="toc-text">proposed method</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Review-of-encoder-decoder-framework"><span class="toc-text">Review of encoder-decoder framework</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DSRL"><span class="toc-text">DSRL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#experiments"><span class="toc-text">experiments</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#effect-of-components"><span class="toc-text">effect of components</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#effect-of-various-input-resolutions"><span class="toc-text">effect of various input resolutions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#human-pose-estimation"><span class="toc-text">human pose estimation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#results"><span class="toc-text">results</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/Shiyuuuu"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://xaoxuu.com" target="_blank" rel="noopener">Copyright © 2017-2020 Mr. X</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN/Sakura-bloom-pink-flowers-twigs-spring_3840x2160.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

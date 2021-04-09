@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#2.6.6'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>阅读论文-Learning to Have an Ear for Face Super-Resolution - Shiyu&#39;s Blog</title>
+  
+    <meta name="keywords" content="super-resolution,audio+image">
+  
+  
+    <meta name="description" content="
+出处：CVPR2020 (oral)">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Shiyu's Blog">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name='theme-color' content='#FFFFFF'>
+    
+      <meta name='msapplication-TileColor' content='#1BC3FB'>
+    
+      <meta name='msapplication-config' content='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/browserconfig.xml'>
+    
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+
+  
+
+  <!-- import link -->
+  
+  
+  <link rel='shortcut icon' type='image/x-icon' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico'>
+  <link rel='icon' type='image/x-icon' sizes='32x32' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/favicon-32x32.png'>
+  <link rel='apple-touch-icon' type='image/png' sizes='180x180' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/apple-touch-icon.png'>
+  <link rel='mask-icon' color='#1BC3FB' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/safari-pinned-tab.svg'>
+  <link rel='manifest' href='https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicons/site.webmanifest'>
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Shiyu</p>
+    
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header floatable">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Shiyu
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/">
+      阅读论文-Learning to Have an Ear for Face Super-Resolution
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg">
+    <p>Shiyu</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Paper-reading/super-resolution/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Paper reading/super-resolution</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 9, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170554550.png" alt></p>
+<p>出处：CVPR2020 (oral)</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Meishvili_Learning_to_Have_an_Ear_for_Face_Super-Resolution_CVPR_2020_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/gmeishvili/ear_for_face_super_resolution" target="_blank" rel="noopener">code</a>  <a href="https://gmeishvili.github.io/ear_for_face_super_resolution/" target="_blank" rel="noopener">project</a></p>
+<p>task: 用audio和LR图像做16倍的人脸超分辨率，输入的LR图像非常小：8*8 pixels, 这些图像的很多重要细节都被丢失了。如果LR的人脸图像是从视频中提取的，那么我们也可以得到这个人的音频信息，而audio中带有一些脸部的特征：性别和年龄。结合听觉和视觉，他们提出了一个：先从单独的音轨构建脸部特征的latent 表示，再从LR图像简历脸部特征潜在的表示。然后再fusion这两个表示。</p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ol>
+<li><p>limited information</p>
+<p> <img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170710329.png" alt></p>
+</li>
+<li><p>ambiguous mapping</p>
+</li>
+</ol>
+<p>=&gt; incorporate alternative source of information: audio</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170737702.png" alt></p>
+<ol>
+<li>audio carries information about age and gender, audio tracks are available in videos, audio and visual signals both capture some shared attributes of a person.</li>
+</ol>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ol>
+<li>the first attempt to use audio for image restoration</li>
+<li>use both audio and a LR image to perform extreme face super-resolution ($16\times$) </li>
+<li>do not use human annotation and thus can be easily trained with video datasets</li>
+<li>建立了图像和音频的分解表示，因此它可以混合来自不同视频的LR图像和音频，并生成语义上有意义的真实面孔。（our model builds a factorized representation of images and audio as it allows one to mix low-resolution images and audio from different videos and to generate realistic faces with semantically meaningful combinations.  ）</li>
+</ol>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><h3 id="speech2Face"><a href="#speech2Face" class="headerlink" title="speech2Face"></a>speech2Face</h3><p>audio to image: speech2Face [CVPR 2019:  Speech2face: Learning the face behind a voice]</p>
+<h3 id="styleGAN"><a href="#styleGAN" class="headerlink" title="styleGAN"></a>styleGAN</h3><p>给定512维随机向量， styleGAN可以从这个向量重构维一张从未见过的人脸照片。</p>
+<p>如果训练一个model，是从图片到512维latent encoding, 这个latent encoding可以通过styleGAN还原为原图。（图=&gt;512维latent code=&gt;原图 ）</p>
+<p>也就是说，可以用这512维向量生成原图。</p>
+<p>如果对这512维的空间稍微做点改变？这个超高维的空间对应人脸的不同属性（肤色、年龄、性别）</p>
+<p>如何知道年龄对应的维度是哪些？</p>
+<blockquote>
+<p>1、作者一开始会训练一个分类器，分类器的训练样本、label来自于CelebA，40维label中就有一个维度是年龄（作者贴出来的代码里的wp.npy文件我猜就是CELEBA的label文件）</p>
+<p>2、分类器收敛后，用个随机噪声z作为stylegan输入，生成图片x，再把这个x送入分类器，得到分类结果y，用个线性变换（或非线性也行）建立起z与y的关系。。。。然后你就可以通过控制y的变换方向来得到z，再生成想要的x了</p>
+</blockquote>
+<p>总之，styleGAN可以从latent code生成逼真的人脸，更重要的是latent code对应人脸不同属性，可以通过改变latent code得到不同的人脸。（比如得到XX小时候的照片）。</p>
+<h3 id="Naive-end-to-end-training"><a href="#Naive-end-to-end-training" class="headerlink" title="Naive end-to-end training"></a>Naive end-to-end training</h3><p>带有两个编码网络的多模态网络，再把encoder的输出concate再一起送入decoding网络得到HR图像。但这种多模态网络以传统的训练方法很难训练好，因为：不同模态的收敛速度不同。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170854501.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409170915033.png" alt></p>
+<p>实验发现，这样直接一起训练会忽略audio信号。audio信号需要更长的处理更强的网络来拟合其latent space。</p>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171414333.png" alt></p>
+<p>包含这样几个部分：LR encoder $E_l$, audio encoder $E_a$，fusion network $F$, face generator$G$  </p>
+<p>分开训练LR image encoder和audio encoder，这样他们的解耦精度就相等。fusion: audio作用在LR image固定的中间representation中，这样audio中的人脸属性可以解耦出来。</p>
+<p>为什么styleGAN？styleGAN可以通过操控latent code的某些维度，改变生成人脸的某些属性。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171047634.png" alt></p>
+<h3 id="Inverting-the-Generator"><a href="#Inverting-the-Generator" class="headerlink" title="Inverting the Generator"></a>Inverting the Generator</h3><ol>
+<li><p>首先训练一个从高斯隐空间$z \sim \mathcal{N}(0,I_d)$（d维）开始的输出高分辨率图像的generator $G(z)$ 【styleGAN: 人脸生成，可以控制所生成图像的高层级属性：头发等，以高斯分布作为输入，输出高质量的samples和隐空间】，再，用自编码器的限制，通过固定$G(z)$得到generator(fixed) 反转后的encoder ($E_h$). 再将这两部分$G(z)$和$E_h$fine-tuning。这个encoder的映射是HR image到generator输入的隐空间，这个$E_h$可以得到图像$x_i$对应的representations ($z_i$)<strong>可以当做LR,audio，fusion network的encoder的目标</strong>，generator的输出是input HR的近似。【这个模型可以作为生成HR人脸图像的先验，并且中间的representations应该可以由audio编辑】</p>
+<p>给定数据集$\mathcal{D}=\{(x_i^h,x_i^l,a_i)|i=1,…,n \}$, </p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+\mathcal{L}_{pre-train}=\sum_{i=1}^{n}|G(z_i)-x_i^h|_1+\lambda_f\mathcal{l}_{feat}(G(z_i),x_i^h)</script><p>其中$z_i=E_h(x_i^h)$ ，$l_{feat}$ 是perceptual loss (VGG feature)</p>
+<p>他们实验发现只回归一个$z_i$不足以很好的恢复$x_i^h$，所以像styleGAN一样，把$z_i$非线性变换得到$w_i$，所以他们生成$k$个不同的$z_{ij},j=1,…,k$. 将非线性变换得到的$w_{ij}$分别插入到generator的不同层。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171104847.png" alt></p>
+<p>再fine-tuning：</p>
+<script type="math/tex; mode=display">
+min_{E_h,G}\mathcal{L}_{pre-train}+\lambda_t|G_{init}-G|_2^2</script><p>其中$G_{init}$是styleGAN训练后$G$的权重。训练过程中，总的loss最小后，将$\lambda_t$减小为原来1/2，pre-training和减小正则化：<strong>让encoder和decoder逐渐收敛，不至于过早失去G的latent representation的结构</strong></p>
+<p>总结，(1). 从标准高斯分布学习G(z)（styleGAN），获得HR 图像的分布</p>
+<p>(2). 固定$G(z)$, 用公式1用autoencoder的方式训练reference encoder$E_h$, </p>
+<p>(3). fine-tuning $G(z)$和$E_h$，$E_h$可以得到HR图像的latent representations.</p>
+<h3 id="Pre-training-Low-Res-and-Audio-encoders"><a href="#Pre-training-Low-Res-and-Audio-encoders" class="headerlink" title="Pre-training Low-Res and Audio encoders"></a>Pre-training Low-Res and Audio encoders</h3><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171237776.png" alt></p>
+<p>给定HR-LR pair，pre-train一个LR encoder，将输入的LR映射到与HR相同的的reference encoder（前面训练的）输出的latent representations</p>
+<p>如果直接训练fusion network，使fusion model$F(x_i^l,a_i)$映射到$z_i=E_h(x_i^h)$，会使网络完全忽略音频信号$a_i$。所以他们先分开训练encoder$E_l$和$E_a$， 让他们尽可能从这两种模态多提取信息，再fusion他们。</p>
+<p>为了防止过拟合，pre-train $E_l$和$E_a$时，只用一半数量的训练数据（记为$\mathcal{D}_{pre}$），在fusion的训练阶段用整个训练数据。</p>
+<p>训练$E_l$的目标函数：</p>
+<script type="math/tex; mode=display">
+min_{E_l}\sum_{x_i^l,x_i^h \in \mathcal{D_{pre}}}|E_l(x_i^l)-z_i|_1+\lambda|D \circ G(E_l(x_i^l))-x_i^l|_1</script><p>其中$D \circ x$是$x$的16倍下采样。$\lambda=40$.</p>
+<p>前面一项很好理解：希望$E_l$在LR图像$x_i^l$上得到的latent representation与HR图像上的latent representation($z_i=E_h(x_i^h)$)相似。第二项：LR图像$x_i^l$经过encoder(得到HR图像的latent representation)再经过decoder$G$（得到HR图像$x_i^h$）再16倍下采样得到LR 图像$x_i^l$  （因为$x_i^l$与$x_i^h$成pair）</p>
+<p>而对于音频encoder：如果将$E_a(a_i)$回归到$z_i$必然有overfitting，因为一些$z_i$中有的属性，$a_i$中没有，比如脸部的姿态(朝左朝右？)。为了消除$z_i$中与$a_i$无关的属性，将$E_a(a_i)$的目标定义为：</p>
+<script type="math/tex; mode=display">
+\bar{z_i}=\frac{1}{2}(E_h(x_i^h)+E_h(\hat{x}_i^h))</script><p>这里的 $\hat{x}_i^h$是$x_i^h$的水平翻转版本（将原HR图像水平翻转）。</p>
+<p>训练$E_a$的目标函数： </p>
+<script type="math/tex; mode=display">
+min_{E_a}\sum_{a_i,x_i^h \in \mathcal{D}_{pre}}|E_a(a_i)-\bar{z_i}|_1</script><p>【这里没懂】由于styleGAN的分层的结构，水平翻转的图片的latent code求平均，就消除了音频无法传递的信息。比如图里，输入朝左的面部图像和它水平翻转后的图像（这个水平翻转图像的面部朝向是朝右的），把encoder提取到的latent code求平均，再经过decoder，就得到了朝向正面的图像（消除了音频无法传递的面部朝向信息）。</p>
+<p>小结：</p>
+<p>audio encoder, fusion network: 固定LR image encoder， 提升他的latent representation 。为了加快audio encoder的训练速度，将HR reference encoder的输出和其水平镜像的平均值作为latent representation 对audio encoder预训练。而这个平均消除了音频无法传递的信息，比如视点。</p>
+<h3 id="fusing-audio-and-low-resolution-encodings"><a href="#fusing-audio-and-low-resolution-encodings" class="headerlink" title="fusing audio and low-resolution encodings"></a>fusing audio and low-resolution encodings</h3><p>现在希望聚合pre-train得到的encoder$E_l$和$E_a$提取的信息。由于$E_l$已经是$E_h$的近似，那么希望引入的音频能补出residual：$\Delta z_i=z_i-z_i^l$, 所以fusion network $F$应满足：</p>
+<script type="math/tex; mode=display">
+z_i^f=E_l(x_i^l)+F(E_l(x_i^l),E_a(a_i))</script><p>因为$E_a$更难训练，所以继续把$E_a$和$F$一起优化。所以，fusion network的优化目标是:</p>
+<script type="math/tex; mode=display">
+min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ G(z_i^f)-x_i^l|_1</script><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171311165.png" alt></p>
+<p>(a). matching inputs; (b) LR image与audio来自不同video</p>
+<p>把LR image(8*8)输入到$E_l$得到latent representation, fusion network 融合$E_a$编码后的音轨和encoded LR image, 这一部分与前面的latent representation相加得到的新的latent representation 与预先训练得到的HR image的latent representation很相似，再通过decoder G输出HR图像</p>
+<hr>
+<p>共有3个mappings： </p>
+<ol>
+<li>audio to HR (speech2face是用预训练的人脸识别网络作为额外监督，而我们的方法是完全无监督的)</li>
+<li>LR to HR</li>
+<li>LR+audio to HR</li>
+</ol>
+<hr>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p><strong>dataset</strong>： VoxCeleb2 Dataset, 包含145K 人说话的video</p>
+<p>2M frames at 128*128 pixels. 将每个speaker的一半的数据放入$\mathcal{D_{pre}}$</p>
+<p>test set: 同人的不同video.</p>
+<h3 id="audio-to-image"><a href="#audio-to-image" class="headerlink" title="audio to image"></a>audio to image</h3><p>简单的比较了一下他们的audio-only model ($E_a+G$) 和speech2Face</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172555985.png" alt></p>
+<p>第一行是speech2face的结果，第二行是他们的audio2image的结果 ($E_a+G$)</p>
+<p>性别分类：96%~97%准确率（没有在性别分类上与speech2face比，因为speech2face训练时用了分类器的监督）</p>
+<h3 id="classification-as-a-performance-measure"><a href="#classification-as-a-performance-measure" class="headerlink" title="classification as a performance measure"></a>classification as a performance measure</h3><p>预训练好的  身份分类器、性别分类器、年龄分类器</p>
+<p>closed set：training set和test set用同一个人的不同video</p>
+<p>open set：training set和 test set不同人</p>
+<p><strong>ablations</strong> </p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172636752.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409171454635.png" alt></p>
+<p>(a), (b): 训练$E_h$后时候和$G$一起fine-tune 【(b): HR 图像的表现，upper bound】</p>
+<p>(c), (d)：without fusion F。只要LR 或者只要音频</p>
+<p>​            c与d相比，Audio更能提供性别信息。$\mathcal{C}_g$</p>
+<p>(e)~(h): (f)(g)(h)相比：不加audio&lt;固定audio encoder&lt;fine-tuning </p>
+<p>​            (e)与(h)相比：一个全连接层&lt;三个全连接层</p>
+<p>​            (g)与(h)相比：在训练fusion网络时也fine-tuning $E_a$ 对结果有些许提升。</p>
+<p>gender和age在open set上也能预测比较准确。</p>
+<p><strong>comparisons to other SR methods</strong> </p>
+<p>LapSR(CVPR 2017) , W-SRNet (ICCV 2017 人脸SR) 在这个数据集上重新训练。</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172740704.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172747369.png" alt></p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172758166.png" alt></p>
+<h3 id="mixing"><a href="#mixing" class="headerlink" title="mixing"></a>mixing</h3><p>给定LR，与不同的audio混合</p>
+<p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172835492.png" alt></p>
+<h3 id="failure-cases"><a href="#failure-cases" class="headerlink" title="failure cases"></a>failure cases</h3><p><img src="/2021/04/09/Learning%20to%20Have%20an%20Ear%20for%20Face%20Super-Resolution/image-20210409172905749.png" alt></p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-09T17:29:10+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 9, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/super-resolution/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>super-resolution</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/audio-image/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>audio+image</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2021/04/09/Dual%20super-resolution%20learning%20for%20semantic%20segmentation/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>阅读论文-Dual super-resolution learning for semantic segmentation</p>
+                <p class='content'>
+出处：CVPR2020 (oral)
+
+paper  code  unofficial-code
+motivation在不增加计算开销的前提下提高语义分割的性能，而语义分割依赖于HR feat...</p>
+              </a>
+            
+            
+              <a class='next' href='/2021/03/29/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87GLEAN/'>
+                <p class='title'>阅读论文-GLEAN Generative Latent Bank for Large-Factor Image Super-Resolution<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+出处：CVPR2021 (oral)
+
+project  code paper
+任务是： 大尺度超分辨率（8$\times$ 到 64$\times$），most details and te...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '阅读论文-Learning to Have an Ear for Face Super-Resolution',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#contribution"><span class="toc-text">contribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#related-works"><span class="toc-text">related works</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#speech2Face"><span class="toc-text">speech2Face</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#styleGAN"><span class="toc-text">styleGAN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Naive-end-to-end-training"><span class="toc-text">Naive end-to-end training</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#method"><span class="toc-text">method</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Inverting-the-Generator"><span class="toc-text">Inverting the Generator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pre-training-Low-Res-and-Audio-encoders"><span class="toc-text">Pre-training Low-Res and Audio encoders</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fusing-audio-and-low-resolution-encodings"><span class="toc-text">fusing audio and low-resolution encodings</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-text">Experiments</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#audio-to-image"><span class="toc-text">audio to image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#classification-as-a-performance-measure"><span class="toc-text">classification as a performance measure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mixing"><span class="toc-text">mixing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#failure-cases"><span class="toc-text">failure cases</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+            
+              <a href="https://github.com/Shiyuuuu"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://xaoxuu.com" target="_blank" rel="noopener">Copyright © 2017-2020 Mr. X</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '8px',
+        duration: '800',
+        interval: '100',
+        scale: '1'
+      });
+    });
+  </script>
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN/Sakura-bloom-pink-flowers-twigs-spring_3840x2160.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.6.5/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-check-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-check-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-times-circle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('fa-times-circle');
+          $icon.addClass('fa-copy');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 标准 markdown 描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
