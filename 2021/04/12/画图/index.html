@@ -16,13 +16,10 @@
 
   <!-- 页面元数据 -->
   
-    <title>阅读论文-Toward Convolutional Blind Denoising of Real Photographs - Shiyu&#39;s Blog</title>
+    <title>画出好看的图 - Shiyu&#39;s Blog</title>
   
-    <meta name="keywords" content="denoising,blind">
+    <meta name="keywords" content="工具,画图">
   
-  
-    <meta name="description" content="
-出处：CVPR2019">
   
 
   <!-- feed -->
@@ -362,8 +359,8 @@
         
           
   <h1 class="title">
-    <a href="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/">
-      阅读论文-Toward Convolutional Blind Denoising of Real Photographs
+    <a href="/2021/04/12/%E7%94%BB%E5%9B%BE/">
+      画出好看的图
     </a>
   </h1>
 
@@ -388,9 +385,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Paper-reading/denoising/' rel="nofollow">
+    <a href='/categories/%E5%B7%A5%E5%85%B7/%E7%94%BB%E5%9B%BE/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Paper reading/denoising</p>
+      <p>工具/画图</p>
     </a>
   </div>
 
@@ -401,7 +398,7 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Apr 10, 2021</p>
+    <p>发布于：Apr 12, 2021</p>
   </a>
 </div>
 
@@ -424,34 +421,10 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210410205830196.png" alt></p>
-<p>出处：CVPR2019</p>
+          <p><img src="/2021/04/12/%E7%94%BB%E5%9B%BE/image-20210412160217935.png" alt></p>
 <a id="more"></a>
-<p><a href="https://arxiv.org/pdf/1807.04686.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/GuoShi28/CBDNet" target="_blank" rel="noopener">code</a>  </p>
-<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>尽管之前一些基于CNN的算法在图像的加性高斯白噪声去除上取得了很好的效果，但这些方法往往是在过拟合AWGN，而在真实噪声去除上效果并不好。这篇文章提出了一种更加真实的噪声模型，既考虑了信号依赖噪声也考虑了相机内的ISP。另一方面为了进一步提供交互方法，方便纠正去噪结果，他们设计了一个噪声估计的子网络，它利用了非对称学习的策略避免噪声水平的低估。他们的方法在3个real-world noisy image的数据集上取得了state-of-the-art的结果。</p>
-<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
-<li>同时考虑heteroscedastic Gaussian noise和in-camera processing pipeline</li>
-<li>非对称学习的噪声估计子网络</li>
-<li>三个real-world noisy image dataset上性能SOTA</li>
-</ul>
-<h2 id="噪声模型"><a href="#噪声模型" class="headerlink" title="噪声模型"></a>噪声模型</h2><p>在真实成像系统中，图像噪声有多个来源，并且受到相机内ISP 的影响，包括去马赛克，gamma校正和压缩。泊松高斯分布被认为是比AWGN更适合模拟真实噪声分布的模型，包含了平稳噪声部分和信号依赖部分。实际上，由传感产生的噪声可以被建模成泊松，其余的平稳噪声可以被建模为高斯，所以泊松高斯模型是一个合理的噪声模型。泊松高斯模型可以近似为异方差高斯。L 为raw图像的数值（辐照度），它的噪声可以建模为两部分：信号依赖噪声部分和平稳噪声部分。前一项通常和图像亮度有关，一般亮度越暗，噪声水平越大（比如夜景）<br>文章还进一步考虑了相机内ISP 流程，这里的y表示合成的噪声图像，DM 表示去马赛克，f（）表示相机响应函数CRF<br>进一步考虑压缩效应，JPEG压缩后的合成噪声图像为3式所示<br>对于RAW图像，可以使用第一个公式合成噪声；对于未压缩图像，可以使用第二个公式合成图像；对于压缩图像，使用第三个公式合成图像。<br>有了这个噪声模型就可以生成合成的noisy images</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412110823484.png" alt></p>
-<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="network-architecture"><a href="#network-architecture" class="headerlink" title="network architecture"></a>network architecture</h3><p>网络包含两个子网络，一个是噪声估计子网络，一个是非盲去噪子网络。<br>噪声估计子网络将噪声观测图像y转换为估计的噪声水平图σ^(y)。然后，非盲去噪子网络将y和σ^(y)作为输入得到学习到的残差项，再加上y 最终的去噪结果x^。<br>噪声估计子网络使用五层全卷积网络，卷积核为3×3×323×3×32，并且不进行pooling和batch normalization。<br>非盲去噪子网络使用16层的U-Net结构<br>另外，虽然在DnCNN中提到，batch normalization成功应用于高斯去噪中，但是对于真实图像的噪声去除并没有多大帮助，这可能是由于真实世界的噪声分别与高斯分布相差较大。<br>除此之外，噪声估计子网络允许用户在估计的噪声水平图σ^(y) 输入到非盲去噪子网络之前对应进行调整。(红框）</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412110955127.png" alt></p>
-<h3 id="Asymmetric-Loss"><a href="#Asymmetric-Loss" class="headerlink" title="Asymmetric Loss"></a>Asymmetric Loss</h3><p>作者观察到非盲去噪方法（如BM3D、FFDNet等）对噪声估计的误差具有非对称敏感性。在之前的非盲去噪方法中，如果输入的噪声和真实的噪声匹配，可以较好的去噪，如果输入噪声水平（估计））高于真实噪声水平（高估）去噪结果仍能保持较好的效果，虽然也平滑了部分低对比度的纹理。但当输入噪声标准差低于真实值时（低估），去噪结果包含可察觉的噪声。正是因为这个特性，BM3D可以通过设置相对较高的输入噪声标准差得到满意的真实图像去噪效果。<br>因此，非盲去噪方法对低估误差比较敏感，而对高估的误差比较鲁棒。本文就提出了这种非对称loss 用来避免噪声水平图的低估。给定像素i的估计噪声水平σ^(yi)和真实噪声水平σ(yi)，当估计值小于真实值时，应该对其MSE引入更多的惩罚。0&lt;alpha&lt;0.5，低估时，前一项大于0.5，高估时，前一项小于0.5。<br>另外引入TV loss约束噪声水平图的平滑性，最后是一个重建误差，L2 loss，总的loss是这三项加权相加。</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111041194.png" alt></p>
-<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p>如果只用合成数据，真实图像的噪声并不能由本文的噪声模型完美的刻画，而如果只用真实噪声图像，在获取clean image的时候，需要上百张noisy images 做平均，这个成本很高，而且由这样做平均得到的图像往往过于平滑。<br>为了提高网络的泛化能力，交替使用一批合成图像和一批真实图像进行训练。</p>
-<h3 id="results-on-real-datasets"><a href="#results-on-real-datasets" class="headerlink" title="results on real datasets"></a>results on real datasets</h3><p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111439635.png" alt></p>
-<p>NC12没有GT，DND包括50对真实噪声图像和对应的干净图像（由low-ISO image后处理得到），Nam包括11个静止场景，每个场景的无噪图像由500张JPEG带噪图像平均得到。<br>在这三个数据集上都取得了最佳的效果。</p>
-<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p>验证不同噪声模型的效果：第一种是最普通的高斯噪声，第二种是本文里用的异方差高斯，第三种是普通高斯加ISP ，第四种是异方差高斯加ISP ，也就是本文所用的模型。</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111726402.png" alt></p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412112004636.png" alt></p>
-<p>验证训练时是否既用合成数据集又用真实数据集的效果是否最好，有两个对照组：只用合成噪声图像训练，或者只用真实噪声图像训练。</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111910871.png" alt></p>
-<p>验证非对称loss，alpha=0.5时，在低估和高估情况下，加的惩罚一样多，alpha&lt;0.5时，给低估加更多惩罚。Alpha=0.3时，效果最好</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111936419.png" alt></p>
-<p>对于给定的噪声估计图，用户可以交互式的修改σ(y)，来修正去噪效果，具体是在σ(y)前乘一个系数，第一幅图当这个系数等于0.7时，效果最好，第二幅图是系数为1.3时效果最好。</p>
-<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412112056745.png" alt></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA4MjEyNTA5Mw==&amp;mid=2652577438&amp;idx=2&amp;sn=5903becae76d016b8afe6868d00bdc4e&amp;chksm=846536d4b312bfc2c4c9ee6e5ad7a9a8223d9da7f348d66cf1101c0dd38b76da47259794a3dd&amp;mpshare=1&amp;scene=1&amp;srcid=0412bcaR3nz4OPXsn5zJlZWU&amp;sharer_sharetime=1618188473619&amp;sharer_shareid=830756841a1facbb06db3dcc0906fe0f&amp;key=6b62ea248264eadbdb7ffb6417146bd38e137a69e73ac25314b1ff429d2882caa5613e08868063d16320bac933c4e08c8cb1aada1c97faad16e64bb994cee7a7353148b2423a83b9a2f911ae425c14af8ffe84dc74ac3fd14c03277d2d17757104346afa78f7962f19abb07cfcef40903a8241c8e8de4401411322087a2a0e34&amp;ascene=1&amp;uin=NzI2MDMzNzA3&amp;devicetype=Windows+XP&amp;version=62060841&amp;lang=zh_CN&amp;exportkey=AUKiXJ7uaIJ%2FKCDoV7PXouo%3D&amp;pass_ticket=TkojhHDgehTysLkk8Hn7AidJL40Gxu%2FR73zne%2BPOyZWQ%2B7YOrM8F8qHZLz7Mze0%2B&amp;wx_header=0" target="_blank" rel="noopener">吊打 Pyecharts，这个新 Python 绘图库竟然这么漂亮！</a></p>
+<p>链接: <a href="https://pan.baidu.com/s/1ccJBCiB_O_Xo-ci0UwjcDg" target="_blank" rel="noopener">https://pan.baidu.com/s/1ccJBCiB_O_Xo-ci0UwjcDg</a>  密码: ah9a</p>
 
           
             <div class='article_footer'>
@@ -500,7 +473,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-12T11:21:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-12T16:03:55+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Apr 12, 2021</p>
@@ -512,7 +485,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/denoising/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>denoising</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/blind/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>blind</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%B7%A5%E5%85%B7/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>工具</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%94%BB%E5%9B%BE/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>画图</p></a></div>
 
 
         
@@ -535,24 +508,25 @@
         
           <div class="prev-next">
             
-              <a class='prev' href='/2021/04/12/%E7%94%BB%E5%9B%BE/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>画出好看的图</p>
+              <a class='prev' href='/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations</p>
                 <p class='content'>
+出处：CVPR2019
 
-吊打 Pyecharts，这个新 Python 绘图库竟然这么漂亮！
-链接: https://pan.baidu.com/s/1ccJBCiB_O_Xo-ci0UwjcDg  密码: ah9a
-</p>
+paper  code
+motivation
+之前的方法大多需要成对的训练数据，在实际中采集成对数据较困难。
+现有的无监督方法比如cycleGAN这种，往往编码了色彩...</p>
               </a>
             
             
-              <a class='next' href='/2021/04/09/Unpaired%20Image%20Super-Resolution%20using%20Pseudo-Supervision/'>
-                <p class='title'>阅读论文-Unpaired Image Super-Resolution using Pseudo-Supervision<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+              <a class='next' href='/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/'>
+                <p class='title'>阅读论文-Toward Convolutional Blind Denoising of Real Photographs<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>
-出处：CVPR2020
+出处：CVPR2019
 
-paper  supplemental   
-motivation
-unpaired super-resolution，当aligned 的HR-LR trainin...</p>
+paper  code  
+motivation尽管之前一些基于CNN的算法在图像的加性高斯白噪声去除上取得了很好的效果，但这些方法往往是在过拟合AWGN，而在真实噪...</p>
               </a>
             
           </div>
@@ -634,7 +608,7 @@ unpaired super-resolution，当aligned 的HR-LR trainin...</p>
 
   <script>
     window.subData = {
-      title: '阅读论文-Toward Convolutional Blind Denoising of Real Photographs',
+      title: '画出好看的图',
       tools: true
     }
   </script>
@@ -649,20 +623,6 @@ unpaired super-resolution，当aligned 的HR-LR trainin...</p>
     
     
 
-
-  <section class="widget toc-wrapper shadow desktop mobile">
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#contribution"><span class="toc-text">contribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#噪声模型"><span class="toc-text">噪声模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#method"><span class="toc-text">method</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#network-architecture"><span class="toc-text">network architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Asymmetric-Loss"><span class="toc-text">Asymmetric Loss</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#experiments"><span class="toc-text">experiments</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#results-on-real-datasets"><span class="toc-text">results on real datasets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ablation-study"><span class="toc-text">ablation study</span></a></li></ol></li></ol>
-    </div>
-  </section>
 
 
   
