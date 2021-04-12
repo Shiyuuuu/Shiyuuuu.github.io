@@ -676,4 +676,128 @@ min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ 
         <tag>audio+image</tag>
       </tags>
   </entry>
+  <entry>
+    <title>阅读论文-Unpaired Image Super-Resolution using Pseudo-Supervision</title>
+    <url>/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/</url>
+    <content><![CDATA[<p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210409174629273.png" alt></p>
+<p>出处：CVPR2019 (oral)</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Dai_Second-Order_Attention_Network_for_Single_Image_Super-Resolution_CVPR_2019_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://openaccess.thecvf.com/content_CVPR_2019/supplemental/Dai_Second-Order_Attention_Network_CVPR_2019_supplemental.pdf" target="_blank" rel="noopener">supp</a>   <a href="https://www.youtube.com/watch?v=IyPQqqGPHws&amp;t=2822" target="_blank" rel="noopener">video</a>  <a href="https://github.com/daitao/SAN" target="_blank" rel="noopener">code</a></p>
+<p><strong>bicubic SR 的 SOTA</strong></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>现有的SISR方法专注于更宽更深的结构设计，而忽略了挖掘中间层特征之间的相关性。本文受启发于ICCV 2017一篇做识别分类的文章（利用了二阶统计信息），提出了一个深度二阶注意力网络SAN 以获得更好的特征表达和特征相关性学习。特别地，提出了一个二阶通道注意力机制<strong>SOCA</strong>来进行相关性学习。同时，提出了一个non-locally增强残差组NLRG来捕获长距离空间内容信息。性能方面取得了SISR最好的结果。</p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>设计了一个利用了二阶统计信息的网络：second-order attention network (SAN)</li>
+<li>特别的，SAN网络包含second-order channel attention (SOCA)模块</li>
+<li>然后还结合了non-locally enhanced residual group (NLRG)来捕获长距离空间内容信息。</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210409175308354.png" alt="image-20210409175308354"></p>
+<h3 id="RL-NL模块"><a href="#RL-NL模块" class="headerlink" title="RL-NL模块"></a>RL-NL模块</h3><p>non-local模块是用来在high-level任务中捕获整幅图像的长范围依赖的。但是，全局non-local操作可能会受限于：<br>1)全局non-local操作需要大量的计算量; 2)对于low-level的任务来说，在一定的区域范围中进行non-local操作是更有效的<br>所以在SAN里，将图像划为k*k个region, 在每个region中进行non-local 操作，RL-NL充分利用LR feature的结构关联</p>
+<h3 id="LSRAG模块"><a href="#LSRAG模块" class="headerlink" title="LSRAG模块"></a>LSRAG模块</h3><p>每一个同源残差组结构（SSRG）包括G 个局部模块LSRAG加上一个同源残差连接结构SSC，简单的LSRAG堆叠不能取得更好的性能，于是加入SSC（share-source skip connections），使LR的低频信息通过，且利用训练。<br>所谓同源残差连接，就是把LR的特征加到每个group的输入x中，这种连接不仅可以帮助深度CNN的训练，同时还可以传递LR图像中丰富的低频信息给high-level的层。<br>Wssc是一个可学习参数，一开始被设置为0。对于每个group来说，都会收到SSC传递过来的F0</p>
+<p>每个LSRAG包括M个简单的residual blocks 和local source skip connection，最后还包含一个二阶channel attention 模块（second-order channel attention module）<br>在LSRAG模块最后有一个二阶channel attention 模块，这是本文的重点</p>
+<h3 id="关于channel-attention"><a href="#关于channel-attention" class="headerlink" title="关于channel attention"></a>关于channel attention</h3><p><strong>RCAN</strong>中：</p>
+<p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410200452480.png" alt></p>
+<p>如上图所示，输入是一个 H×W×C 的特征，我们先进行一个空间的全局平均池化得到一个 1×1×C 的通道描述。接着，再经过一个下采样层和一个上采样层得到每一个通道的权重系数，将权重系数和原来的特征相乘即可得到缩放后的新特征，整个过程实际上就是对不同通道的特征重新进行了加权分配。<br>其中，下采样和上采样层都利用 1×1 的卷积来实现，下采样层的通道数减少 r 倍，f 是激活函数 sigmoid</p>
+<p>文本的二阶channel attention和RCAN的channel attention的区别在于将 全局平均池化 替代为全局协方差池化。</p>
+<p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410200550769.png" alt></p>
+<p>文本的二阶channel attention和RCAN的channel attention的区别在于将 全局平均池化 替代为全局协方差池化。</p>
+<h3 id="协方差归一化（就是所谓的二阶）"><a href="#协方差归一化（就是所谓的二阶）" class="headerlink" title="协方差归一化（就是所谓的二阶）"></a>协方差归一化（就是所谓的二阶）</h3><p>协方差可以用来描述变量之间的相关性，所以对于HxWxC的特征，reshape为WH（C个维度），可以用协方差矩阵描述C个通道之间的相关性。<br>$I$和1分别是sxs的单位矩阵和全1矩阵。因为这个协方差矩阵是个实对称矩阵，实对称矩阵必可由正交矩阵对角化，可对协方差矩阵作特征值分解，U为正交矩阵，Λ为对角阵，对角元素为特征值，按非增顺序排列。再对协方差做正则化，因为协方差的正则化对表示特征非常重要。Alpha=0.5</p>
+<p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410200836365.png" alt></p>
+<p>在具体实现上，在SSRG模块里包含20个LSRAG，和一前一后共两个region-level non-local模块，RL-NL中将图像分为2*2的region，在每个LSRAG里用了10个residual blocks.<br>上采样模块用的是sub-pixel上采样。</p>
+<h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410204057798.png" alt></p>
+<h3 id="与其他SR方法对比"><a href="#与其他SR方法对比" class="headerlink" title="与其他SR方法对比"></a>与其他SR方法对比</h3><p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410204311454.png" alt></p>
+<p>这个是视觉上的比较，对于丰富复杂的纹理，SAN能更好的恢复</p>
+<p><img src="/2021/04/09/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87SAN/image-20210410204337413.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>pseudo-supervision</tag>
+        <tag>unpaired</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Toward Convolutional Blind Denoising of Real Photographs</title>
+    <url>/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/</url>
+    <content><![CDATA[<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210410205830196.png" alt></p>
+<p>出处：CVPR2019</p>
+<a id="more"></a>
+<p><a href="https://arxiv.org/pdf/1807.04686.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/GuoShi28/CBDNet" target="_blank" rel="noopener">code</a>  </p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>尽管之前一些基于CNN的算法在图像的加性高斯白噪声去除上取得了很好的效果，但这些方法往往是在过拟合AWGN，而在真实噪声去除上效果并不好。这篇文章提出了一种更加真实的噪声模型，既考虑了信号依赖噪声也考虑了相机内的ISP。另一方面为了进一步提供交互方法，方便纠正去噪结果，他们设计了一个噪声估计的子网络，它利用了非对称学习的策略避免噪声水平的低估。他们的方法在3个real-world noisy image的数据集上取得了state-of-the-art的结果。</p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>同时考虑heteroscedastic Gaussian noise和in-camera processing pipeline</li>
+<li>非对称学习的噪声估计子网络</li>
+<li>三个real-world noisy image dataset上性能SOTA</li>
+</ul>
+<h2 id="噪声模型"><a href="#噪声模型" class="headerlink" title="噪声模型"></a>噪声模型</h2><p>在真实成像系统中，图像噪声有多个来源，并且受到相机内ISP 的影响，包括去马赛克，gamma校正和压缩。泊松高斯分布被认为是比AWGN更适合模拟真实噪声分布的模型，包含了平稳噪声部分和信号依赖部分。实际上，由传感产生的噪声可以被建模成泊松，其余的平稳噪声可以被建模为高斯，所以泊松高斯模型是一个合理的噪声模型。泊松高斯模型可以近似为异方差高斯。L 为raw图像的数值（辐照度），它的噪声可以建模为两部分：信号依赖噪声部分和平稳噪声部分。前一项通常和图像亮度有关，一般亮度越暗，噪声水平越大（比如夜景）<br>文章还进一步考虑了相机内ISP 流程，这里的y表示合成的噪声图像，DM 表示去马赛克，f（）表示相机响应函数CRF<br>进一步考虑压缩效应，JPEG压缩后的合成噪声图像为3式所示<br>对于RAW图像，可以使用第一个公式合成噪声；对于未压缩图像，可以使用第二个公式合成图像；对于压缩图像，使用第三个公式合成图像。<br>有了这个噪声模型就可以生成合成的noisy images</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412110823484.png" alt></p>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="network-architecture"><a href="#network-architecture" class="headerlink" title="network architecture"></a>network architecture</h3><p>网络包含两个子网络，一个是噪声估计子网络，一个是非盲去噪子网络。<br>噪声估计子网络将噪声观测图像y转换为估计的噪声水平图σ^(y)。然后，非盲去噪子网络将y和σ^(y)作为输入得到学习到的残差项，再加上y 最终的去噪结果x^。<br>噪声估计子网络使用五层全卷积网络，卷积核为3×3×323×3×32，并且不进行pooling和batch normalization。<br>非盲去噪子网络使用16层的U-Net结构<br>另外，虽然在DnCNN中提到，batch normalization成功应用于高斯去噪中，但是对于真实图像的噪声去除并没有多大帮助，这可能是由于真实世界的噪声分别与高斯分布相差较大。<br>除此之外，噪声估计子网络允许用户在估计的噪声水平图σ^(y) 输入到非盲去噪子网络之前对应进行调整。(红框）</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412110955127.png" alt></p>
+<h3 id="Asymmetric-Loss"><a href="#Asymmetric-Loss" class="headerlink" title="Asymmetric Loss"></a>Asymmetric Loss</h3><p>作者观察到非盲去噪方法（如BM3D、FFDNet等）对噪声估计的误差具有非对称敏感性。在之前的非盲去噪方法中，如果输入的噪声和真实的噪声匹配，可以较好的去噪，如果输入噪声水平（估计））高于真实噪声水平（高估）去噪结果仍能保持较好的效果，虽然也平滑了部分低对比度的纹理。但当输入噪声标准差低于真实值时（低估），去噪结果包含可察觉的噪声。正是因为这个特性，BM3D可以通过设置相对较高的输入噪声标准差得到满意的真实图像去噪效果。<br>因此，非盲去噪方法对低估误差比较敏感，而对高估的误差比较鲁棒。本文就提出了这种非对称loss 用来避免噪声水平图的低估。给定像素i的估计噪声水平σ^(yi)和真实噪声水平σ(yi)，当估计值小于真实值时，应该对其MSE引入更多的惩罚。0&lt;alpha&lt;0.5，低估时，前一项大于0.5，高估时，前一项小于0.5。<br>另外引入TV loss约束噪声水平图的平滑性，最后是一个重建误差，L2 loss，总的loss是这三项加权相加。</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111041194.png" alt></p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p>如果只用合成数据，真实图像的噪声并不能由本文的噪声模型完美的刻画，而如果只用真实噪声图像，在获取clean image的时候，需要上百张noisy images 做平均，这个成本很高，而且由这样做平均得到的图像往往过于平滑。<br>为了提高网络的泛化能力，交替使用一批合成图像和一批真实图像进行训练。</p>
+<h3 id="results-on-real-datasets"><a href="#results-on-real-datasets" class="headerlink" title="results on real datasets"></a>results on real datasets</h3><p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111439635.png" alt></p>
+<p>NC12没有GT，DND包括50对真实噪声图像和对应的干净图像（由low-ISO image后处理得到），Nam包括11个静止场景，每个场景的无噪图像由500张JPEG带噪图像平均得到。<br>在这三个数据集上都取得了最佳的效果。</p>
+<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p>验证不同噪声模型的效果：第一种是最普通的高斯噪声，第二种是本文里用的异方差高斯，第三种是普通高斯加ISP ，第四种是异方差高斯加ISP ，也就是本文所用的模型。</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111726402.png" alt></p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412112004636.png" alt></p>
+<p>验证训练时是否既用合成数据集又用真实数据集的效果是否最好，有两个对照组：只用合成噪声图像训练，或者只用真实噪声图像训练。</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111910871.png" alt></p>
+<p>验证非对称loss，alpha=0.5时，在低估和高估情况下，加的惩罚一样多，alpha&lt;0.5时，给低估加更多惩罚。Alpha=0.3时，效果最好</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412111936419.png" alt></p>
+<p>对于给定的噪声估计图，用户可以交互式的修改σ(y)，来修正去噪效果，具体是在σ(y)前乘一个系数，第一幅图当这个系数等于0.7时，效果最好，第二幅图是系数为1.3时效果最好。</p>
+<p><img src="/2021/04/10/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Toward%20Convolutional%20Blind%20Denoising%20of%20Real%20Photographs/image-20210412112056745.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>denoising</category>
+      </categories>
+      <tags>
+        <tag>denoising</tag>
+        <tag>blind</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations</title>
+    <url>/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/</url>
+    <content><![CDATA[<p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412113117919.png" alt></p>
+<p>出处：CVPR2019</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Lu_Unsupervised_Domain-Specific_Deblurring_via_Disentangled_Representations_CVPR_2019_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/ustclby/Unsupervised-Domain-Specific-Deblurring" target="_blank" rel="noopener">code</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>之前的方法大多需要成对的训练数据，在实际中采集成对数据较困难。</li>
+<li>现有的无监督方法比如cycleGAN这种，往往编码了色彩、纹理等模糊之外的信息。</li>
+</ul>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>提出了一直特定域的无监督特征解耦的去模糊方法。通过将模糊图像中的内容和模糊特征解开，以将模糊信息准确地编码到去模糊框架中。</li>
+<li>他们在人脸图像和文本图像去模糊上达到了与最好的监督学习方法comparable的效果。</li>
+</ul>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152435021.png" alt></p>
+<p>目的是实现图像的去模糊，为什么要添加模糊编码器？<br>作者的思路：既然清晰的图像是不含模糊信息的，可以认为，<strong>清晰图像的内容编码器提取到了清晰图像的内容信息</strong>，如果清晰的图像通过结合模糊编码器模糊特征去生成出模糊图像，是不是可以说，模糊编码器是在对清晰图像做模糊化处理，这个的前提就是  模糊编码器确实提取到了图像的模糊特征。所以说由清晰图像生成模糊图像也保证了模糊编码器是对图像的模糊信息进行编码的作用。清晰图像到模糊图像是为了优化模糊编码和模糊图像的内容编码的作用。</p>
+<p>如何去保证这个模糊编码器是真的提取到模糊图像的模糊特征了呢？又怎么保证模糊图像的内容编码器真的提取到图像的内容信息？</p>
+<ol>
+<li>让清晰图像内容编码器从清晰图像S 提取到的特征和模糊编码器从模糊图像b提取的模糊特征一同经过Gb生成模糊图像bs，并让bs是模糊化后的s，而不包含b的任何内容，也就是模糊编码器Eb不编码模糊图像的内容信息。</li>
+<li>通过添加一个 KL 散度损失来规范模糊特征的分布，使其接近正态分布 p(z)∼N(0,1)。这个思路和 VAE 中的限制数据编码的潜在空间的分布思路是相近的，这里将模糊编码器的编码向量限制住，旨在控制模糊编码器仅对图像的模糊信息进行编码。</li>
+</ol>
+<p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152701796.png" alt></p>
+<h3 id="loss-function"><a href="#loss-function" class="headerlink" title="loss function"></a>loss function</h3><p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152753767.png" alt></p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p>内容编码器由三个卷积层和四个残差块组成。模糊编码器包含四个卷积层和一个全连接层。<br>对于生成器，该架构与内容编码器对称，具有四个残差块，后面是三个反卷积层。<br>对于判别器，    采用多尺度结构，其中每个尺度的特征图经过五个卷积层，然后被送到 sigmoid 输出。</p>
+<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152846257.png" alt></p>
+<p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152852355.png" alt></p>
+<h3 id="results"><a href="#results" class="headerlink" title="results"></a>results</h3><p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152922347.png" alt></p>
+<p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152934111.png" alt></p>
+<p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412152940368.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>deblurring</category>
+      </categories>
+      <tags>
+        <tag>unpaired</tag>
+        <tag>deblurring</tag>
+        <tag>unsupervised</tag>
+      </tags>
+  </entry>
 </search>
