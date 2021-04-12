@@ -819,4 +819,21 @@ min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ 
         <tag>画图</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CVPR 2021 待读论文列表</title>
+    <url>/2021/04/13/CVPR21_toRead/</url>
+    <content><![CDATA[<ol>
+<li><strong>Contrastive Learning for Compact Single Image Dehazing</strong></li>
+</ol>
+<p><img src="/2021/04/13/CVPR21_toRead/image-20210412225732809.png" alt></p>
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>CVPR21</category>
+      </categories>
+      <tags>
+        <tag>To Do</tag>
+      </tags>
+  </entry>
 </search>
