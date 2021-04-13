@@ -838,8 +838,8 @@ min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ 
   </entry>
   <entry>
     <title>阅读论文 DualSR- Zero-Shot Dual Learning for Real-World Super-Resolution</title>
-    <url>/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/</url>
-    <content><![CDATA[<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412203538357.png" alt></p>
+    <url>/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/</url>
+    <content><![CDATA[<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412203538357.png" alt></p>
 <a id="more"></a>
 <p><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Emad_DualSR_Zero-Shot_Dual_Learning_for_Real-World_Super-Resolution_WACV_2021_paper.pdf" target="_blank" rel="noopener">paper</a>   <a href="https://github.com/memad73/DualSR" target="_blank" rel="noopener">code</a></p>
 <h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
@@ -857,7 +857,7 @@ min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ 
 <p>  <strong>有paired images</strong></p>
 </li>
 </ul>
-<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412214204249.png" alt></p>
+<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412214204249.png" alt></p>
 <h3 id="blind-SR"><a href="#blind-SR" class="headerlink" title="blind SR"></a>blind SR</h3><script type="math/tex; mode=display">
 I_{LR}=(I_{HR}*k)\downarrow_s+n</script><p>估image-specific downsampler的：</p>
 <ul>
@@ -876,7 +876,7 @@ I_{LR}=(I_{HR}*k)\downarrow_s+n</script><p>估image-specific downsampler的：</
 </ul>
 <h3 id="non-blind"><a href="#non-blind" class="headerlink" title="non-blind"></a>non-blind</h3><p>SRMD[36] 用dimensionality stretching使网络输入degradation的参数（blur kernel，noise level）</p>
 <p>USRNet [35]分开解决数据子问题和先验子问题，用MAP</p>
-<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="architecture"><a href="#architecture" class="headerlink" title="architecture"></a>architecture</h3><p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412234545365.png" alt></p>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="architecture"><a href="#architecture" class="headerlink" title="architecture"></a>architecture</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412234545365.png" alt></p>
 <p>$G_{DN}$通过下采样输入的LR图像，使之与他自己（LR图像）在patch level上尽可能相似。</p>
 <p>patch的internal分布可以由internalGAN在输入图像的patch上训练得到。</p>
 <script type="math/tex; mode=display">
@@ -884,14 +884,14 @@ I_{LR}=(I_{HR}*k)\downarrow_s+n</script><p>估image-specific downsampler的：</
 <script type="math/tex; mode=display">
 \mathcal{L}_{GAN}=\mathbb{E}_y[D_{DN}(G_{DN}(y))-1]^2+\mathcal{R}</script><p>其中$\mathcal{R}$是kernelGAN中估计的kernel的explicit先验。</p>
 <h3 id="masked-interpolation-loss"><a href="#masked-interpolation-loss" class="headerlink" title="masked interpolation loss"></a>masked interpolation loss</h3><p>保持色彩组成，消除输出图像的blurry。</p>
-<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000523260.png" alt></p>
+<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000523260.png" alt></p>
 <p>upsampler的训练没有直接的监督，输出图在sharp edge的地方有ringing effects. 特别是在低频区域。引入一个loss 最小化bicubic上采样和输出的结果之差。（bicubic interpolation能正确上采样低频区域，但不能恢复高频细节。）所以如果对整张图加这个loss，效果也是不好的，如上图b。所以需要masked loss。</p>
 <p>由sobel算子得到频率mask。</p>
 <script type="math/tex; mode=display">
 f_{mask}=1-Sobel(Bicubic(x))</script><p>这个mask在低频部分值大，高频部分值小。</p>
 <p>masked interpolation loss为：</p>
 <script type="math/tex; mode=display">
-\mathcal{L}_{interp}=\mathbb{E}_x||[G_{UP}(x)-Bicubic(x)]*f_{mask}||_1</script><h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><h3 id="loss权重的影响"><a href="#loss权重的影响" class="headerlink" title="loss权重的影响"></a>loss权重的影响</h3><p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000552714.png" alt></p>
+\mathcal{L}_{interp}=\mathbb{E}_x||[G_{UP}(x)-Bicubic(x)]*f_{mask}||_1</script><h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><h3 id="loss权重的影响"><a href="#loss权重的影响" class="headerlink" title="loss权重的影响"></a>loss权重的影响</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000552714.png" alt></p>
 <h3 id="synthesized-images"><a href="#synthesized-images" class="headerlink" title="synthesized images"></a>synthesized images</h3><ul>
 <li><strong>DIV2KRK</strong>：生成LR：11*11的anisotropic的高斯核，每张图的kernel都有不同的形状和sigma。再下采样，再非均匀的乘性噪声。</li>
 <li><p><strong>urban100</strong>：生成LR的方法同上。</p>
@@ -899,8 +899,8 @@ f_{mask}=1-Sobel(Bicubic(x))</script><p>这个mask在低频部分值大，高频
 <li><p><strong>NTIRE2017</strong>：SISR track2的数据集，用DIV2K的验证集作为HR。降质未知。</p>
 </li>
 </ul>
-<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413101652084.png" alt></p>
-<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413102024913.png" alt></p>
+<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413101652084.png" alt></p>
+<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413102024913.png" alt></p>
 <p>比较的方法：</p>
 <ul>
 <li>第一类：在bicubic下采样上训练的模型。如EDSR+, SAN+, ZSSR(用bicubic下采样)</li>
@@ -912,8 +912,8 @@ f_{mask}=1-Sobel(Bicubic(x))</script><p>这个mask在低频部分值大，高频
 <p>但是kernelGAN+USRNet比不过bicubic类的方法，就不是很能理解。</p>
 <h3 id="real-images"><a href="#real-images" class="headerlink" title="real images"></a>real images</h3><p>用的数据集：RealSR数据集（NTIRE2019中所用），由DSLR相机获得。用28mm焦距得到的图像作为LR，50mm焦距得到的图像作为HR。长焦得到的图像有finer的细节。由于很难完全对齐，所以还是没有成pair的图像。（畅师兄的camera lens SR）</p>
 <p>kernelGAN或者blindSR都不能准确估计出退化模型。</p>
-<p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413111403584.png" alt></p>
-<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p><img src="/2021/04/13/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413112657120.png" alt></p>
+<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413111403584.png" alt></p>
+<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413112657120.png" alt></p>
 <h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>没有跟cycleGAN，cycle-in-cycle这类方法比较。</p>
 <h2 id="future-work"><a href="#future-work" class="headerlink" title="future work"></a>future work</h2><p>larger scale factors</p>
 <p>harder use-cases with more extreme degradation settings</p>
