@@ -77,6 +77,36 @@
   </entry>
   
   <entry>
+    <title>阅读论文 DualGAN- Unsupervised Dual Learning for Image-to-Image Translation</title>
+    <link href="https://shiyuuuu.github.io/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/"/>
+    <id>https://shiyuuuu.github.io/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/</id>
+    <published>2021-04-12T16:00:00.000Z</published>
+    <updated>2021-04-13T08:19:35.110Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413114408951.png" alt></p><p>ICCV 2017</p><a id="more"></a><p><a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Yi_DualGAN_Unsupervised_Dual_ICCV_2017_paper.pdf" target="_blank" rel="noopener">paper</a>   <a href="https://github.com/duxingren14/DualGAN" target="_blank" rel="noopener">code</a></p><p><a href="https://zhuanlan.zhihu.com/p/91745671" target="_blank" rel="noopener">CycleGAN、DualGAN、DiscoGAN孪生三兄弟</a></p><h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul><li>cGAN用于cross-domain的image-to-image translation（需要pairs）</li><li>dual learning from natural language translation （同时训练两个相反的语言翻译器French-to-English和English-to-French）</li></ul><h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul><li>在2个domain上的两个unlabel图像集上训练。general-purpose：不需要domain-specific的信息和pre-trained domain表征。</li><li>与在全标注的书记上训练的cGAN有comparable results</li></ul><h2 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h2><p>CycleGAN</p><p>CoGAN（Coupled generative adversarial networks）：也是不需要paired数据训练两个GAN，但这两个GAN没有cycle consistency约束。learns a joint distribution over images from two domains. 对2个G和2个D在高层语义上共享权重。但这样就使该方法不能得到general-purpose的方案。</p><h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p>segmentation，stylization，abstraction都可以视为image-to-image translation的任务。用FCNs而不是LSTM或者GRU。</p><p>primal task：$G_A: U\rightarrow V$</p><p>dual task: $G_B: V \rightarrow U$</p><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413150352364.png" alt></p><p>上面的$z$是随机噪声。</p><p>用了WGAN提升训练的稳定性。</p><script type="math/tex; mode=display">l_A^d(u,v)=D_A(G_A(u,z))-D_A(v)</script><script type="math/tex; mode=display">l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B(v,z'))-D_A(G_A(u,z))</script><p>（感觉好像cycleGAN，除了这个WGAN），作者是这么说的：</p><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413151854820.png" alt></p><h3 id="training-details"><a href="#training-details" class="headerlink" title="training details"></a>training details</h3><p>依照WGAN的训练，先把判别器训练$n_{critic}$次，再训练一次生成器。用RMSProp（基于动量的adam优化器会导致训练不稳定）</p><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413161908860.png" alt></p><h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413154509752.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413114408951.png&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;ICCV 2017&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Paper reading" scheme="https://shiyuuuu.github.io/categories/Paper-reading/"/>
+    
+      <category term="GAN" scheme="https://shiyuuuu.github.io/categories/Paper-reading/GAN/"/>
+    
+    
+      <category term="GAN" scheme="https://shiyuuuu.github.io/tags/GAN/"/>
+    
+      <category term="unsupervised" scheme="https://shiyuuuu.github.io/tags/unsupervised/"/>
+    
+      <category term="image-to-image" scheme="https://shiyuuuu.github.io/tags/image-to-image/"/>
+    
+  </entry>
+  
+  <entry>
     <title>阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations</title>
     <link href="https://shiyuuuu.github.io/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/"/>
     <id>https://shiyuuuu.github.io/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/</id>

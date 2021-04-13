@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,8 +16,13 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: deblurring - Shiyu&#39;s Blog</title>
+    <title>阅读论文 DualGAN- Unsupervised Dual Learning for Image-to-Image Translation - Shiyu&#39;s Blog</title>
   
+    <meta name="keywords" content="GAN,unsupervised,image-to-image">
+  
+  
+    <meta name="description" content="
+ICCV 2017">
   
 
   <!-- feed -->
@@ -85,7 +88,37 @@
 
 <body>
   
-  <div id="loading-bar-wrapper">
+  <div class="cover-wrapper">
+    
+      <cover class='cover post half'>
+        <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Shiyu</p>
+    
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      </cover>
+    
+    <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header floatable">
@@ -306,31 +339,19 @@
 
 <script>setLoadingBarProgress(40);</script>
 
+  </div>
 
 
-  <div class="l_body nocover">
+  <div class="l_body">
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
+
   
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -340,11 +361,11 @@
       <div class="meta" id="header-meta">
         
           
-  <h2 class="title">
-    <a href="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/">
-      阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations
+  <h1 class="title">
+    <a href="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/">
+      阅读论文 DualGAN- Unsupervised Dual Learning for Image-to-Image Translation
     </a>
-  </h2>
+  </h1>
 
 
         
@@ -367,9 +388,9 @@
               
   
   <div class='new-meta-item category'>
-    <a href='/categories/Paper-reading/deblurring/' rel="nofollow">
+    <a href='/categories/Paper-reading/GAN/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Paper reading/deblurring</p>
+      <p>Paper reading/GAN</p>
     </a>
   </div>
 
@@ -380,14 +401,9 @@
               <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Apr 12, 2021</p>
+    <p>发布于：Apr 13, 2021</p>
   </a>
 </div>
-
-            
-          
-            
-              
 
             
           
@@ -405,238 +421,197 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/image-20210412113117919.png" alt></p>
-<p>出处：CVPR2019</p>
-      
-    </div>
-    
-      
-        <div class="button readmore">
-          <a href="/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/">
-            阅读全文 <i class="fas fa-chevron-right"></i>
-          </a>
-        </div>
-      
-    
-  </section>
-</article>
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413114408951.png" alt></p>
+<p>ICCV 2017</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Yi_DualGAN_Unsupervised_Dual_ICCV_2017_paper.pdf" target="_blank" rel="noopener">paper</a>   <a href="https://github.com/duxingren14/DualGAN" target="_blank" rel="noopener">code</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/91745671" target="_blank" rel="noopener">CycleGAN、DualGAN、DiscoGAN孪生三兄弟</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>cGAN用于cross-domain的image-to-image translation（需要pairs）</li>
+<li>dual learning from natural language translation （同时训练两个相反的语言翻译器French-to-English和English-to-French）</li>
+</ul>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>在2个domain上的两个unlabel图像集上训练。general-purpose：不需要domain-specific的信息和pre-trained domain表征。</li>
+<li>与在全标注的书记上训练的cGAN有comparable results</li>
+</ul>
+<h2 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h2><p>CycleGAN</p>
+<p>CoGAN（Coupled generative adversarial networks）：也是不需要paired数据训练两个GAN，但这两个GAN没有cycle consistency约束。learns a joint distribution over images from two domains. 对2个G和2个D在高层语义上共享权重。但这样就使该方法不能得到general-purpose的方案。</p>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p>segmentation，stylization，abstraction都可以视为image-to-image translation的任务。用FCNs而不是LSTM或者GRU。</p>
+<p>primal task：$G_A: U\rightarrow V$</p>
+<p>dual task: $G_B: V \rightarrow U$</p>
+<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413150352364.png" alt></p>
+<p>上面的$z$是随机噪声。</p>
+<p>用了WGAN提升训练的稳定性。</p>
+<script type="math/tex; mode=display">
+l_A^d(u,v)=D_A(G_A(u,z))-D_A(v)</script><script type="math/tex; mode=display">
+l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B(v,z'))-D_A(G_A(u,z))</script><p>（感觉好像cycleGAN，除了这个WGAN），作者是这么说的：</p>
+<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413151854820.png" alt></p>
+<h3 id="training-details"><a href="#training-details" class="headerlink" title="training details"></a>training details</h3><p>依照WGAN的训练，先把判别器训练$n_{critic}$次，再训练一次生成器。用RMSProp（基于动量的adam优化器会导致训练不稳定）</p>
+<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413161908860.png" alt></p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413154509752.png" alt></p>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
-      <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
-<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
-
-  
-
-
-    
-  
-</div>
-<aside class='l_side'>
-  
+          
+            <div class='article_footer'>
+              
+                
   
     
     
 
-<section class="widget blogger shadow desktop mobile">
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
   <div class='content'>
     
       
-        <a class='avatar flat-box' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg'/>
-        </a>
-      
-    
-    
     
   </div>
 </section>
 
   
 
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-13T16:19:35+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 13, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-    
-    
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/GAN/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>GAN</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/unsupervised/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>unsupervised</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/image-to-image/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>image-to-image</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2021/04/13/CVPR21_toRead/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>CVPR 2021 待读论文列表</p>
+                <p class='content'>
+Contrastive Learning for Compact Single Image Dehazing
+
+
+
+</p>
+              </a>
+            
+            
+              <a class='next' href='/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/'>
+                <p class='title'>阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+出处：CVPR2019
+
+paper  code
+motivation
+之前的方法大多需要成对的训练数据，在实际中采集成对数据较困难。
+现有的无监督方法比如cycleGAN这种，往往编码了色彩...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
   
 
-  <section class="widget category shadow desktop">
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '阅读论文 DualGAN- Unsupervised Dual Learning for Image-to-Image Translation',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/LeetCode/" href="/categories/LeetCode/"
-            id="categoriesLeetCode"
-            ><div class='name'>LeetCode</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/LeetCode/easy/" href="/categories/LeetCode/easy/"
-            id="categoriesLeetCodeeasy"
-            ><div class='name'>easy</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/Paper-reading/" href="/categories/Paper-reading/"
-            id="categoriesPaper-reading"
-            ><div class='name'>Paper reading</div><div class='badge'>(11)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/CVPR21/" href="/categories/Paper-reading/CVPR21/"
-            id="categoriesPaper-readingCVPR21"
-            ><div class='name'>CVPR21</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/GAN/" href="/categories/Paper-reading/GAN/"
-            id="categoriesPaper-readingGAN"
-            ><div class='name'>GAN</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/deblurring/" href="/categories/Paper-reading/deblurring/"
-            id="categoriesPaper-readingdeblurring"
-            ><div class='name'>deblurring</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/denoising/" href="/categories/Paper-reading/denoising/"
-            id="categoriesPaper-readingdenoising"
-            ><div class='name'>denoising</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/enhancement/" href="/categories/Paper-reading/enhancement/"
-            id="categoriesPaper-readingenhancement"
-            ><div class='name'>enhancement</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/Paper-reading/super-resolution/" href="/categories/Paper-reading/super-resolution/"
-            id="categoriesPaper-readingsuper-resolution"
-            ><div class='name'>super-resolution</div><div class='badge'>(6)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/algorithm/" href="/categories/algorithm/"
-            id="categoriesalgorithm"
-            ><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/" href="/categories/algorithm/%E5%93%88%E5%B8%8C%E8%A1%A8/"
-            id="categoriesalgorithmE59388E5B88CE8A1A8"
-            ><div class='name'>哈希表</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/ubuntu/" href="/categories/ubuntu/"
-            id="categoriesubuntu"
-            ><div class='name'>ubuntu</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/ubuntu/bug/" href="/categories/ubuntu/bug/"
-            id="categoriesubuntubug"
-            ><div class='name'>bug</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
-            id="categoriesE5B7A5E585B7"
-            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E5%B7%A5%E5%85%B7/%E7%94%BB%E5%9B%BE/" href="/categories/%E5%B7%A5%E5%85%B7/%E7%94%BB%E5%9B%BE/"
-            id="categoriesE5B7A5E585B7E794BBE59BBE"
-            ><div class='name'>画图</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation"><span class="toc-text">motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#contribution"><span class="toc-text">contribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#related-work"><span class="toc-text">related work</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#method"><span class="toc-text">method</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#training-details"><span class="toc-text">training details</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#experiments"><span class="toc-text">experiments</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/GAN/" style="font-size: 20.67px; color: #6c6c6c">GAN</a> <a href="/tags/LV-HV/" style="font-size: 14px; color: #999">LV+HV</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/To-Do/" style="font-size: 14px; color: #999">To Do</a> <a href="/tags/audio-image/" style="font-size: 14px; color: #999">audio+image</a> <a href="/tags/blind/" style="font-size: 14px; color: #999">blind</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/deblurring/" style="font-size: 14px; color: #999">deblurring</a> <a href="/tags/denoising/" style="font-size: 14px; color: #999">denoising</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/enhancement/" style="font-size: 14px; color: #999">enhancement</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/image-to-image/" style="font-size: 14px; color: #999">image-to-image</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/loss-functions/" style="font-size: 14px; color: #999">loss functions</a> <a href="/tags/pseudo-supervision/" style="font-size: 17.33px; color: #828282">pseudo-supervision</a> <a href="/tags/segmentation/" style="font-size: 14px; color: #999">segmentation</a> <a href="/tags/self-supervised/" style="font-size: 14px; color: #999">self-supervised</a> <a href="/tags/super-resolution/" style="font-size: 24px; color: #555">super-resolution</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/unpaired/" style="font-size: 20.67px; color: #6c6c6c">unpaired</a> <a href="/tags/unsupervised/" style="font-size: 17.33px; color: #828282">unsupervised</a> <a href="/tags/zero-reference/" style="font-size: 14px; color: #999">zero-reference</a> <a href="/tags/zero-shot/" style="font-size: 14px; color: #999">zero-shot</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 17.33px; color: #828282">哈希表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 14px; color: #999">工具</a> <a href="/tags/%E7%94%BB%E5%9B%BE/" style="font-size: 14px; color: #999">画图</a>
-    </div>
-  </section>
-
-
-  
 
   
 
