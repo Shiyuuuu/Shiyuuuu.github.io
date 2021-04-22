@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Category: GAN - Shiyu&#39;s Blog</title>
+    <title>分类：GAN - Shiyu&#39;s Blog</title>
   
   
 
@@ -323,6 +323,8 @@
         
           
         
+          
+        
       
     
     
@@ -427,12 +429,166 @@
           </div>
         
       
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow reveal ">
+  
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h2 class="title">
+    <a href="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/">
+      阅读论文 Coupled Generative Adversarial Networks
+    </a>
+  </h2>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="" rel="nofollow">
+    <img src="https://cdn.jsdelivr.net/gh/Shiyuuuu/CDN@1.0/3.jpg">
+    <p>Shiyu</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Paper-reading/GAN/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Paper reading/GAN</p>
+    </a>
+  </div>
+
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 13, 2021</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/image-20210413162731547.png" alt></p>
+<p>NIPS 2016</p>
+      
+    </div>
+    
+      
+        <div class="button readmore">
+          <a href="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/">
+            阅读全文 <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      
+    
+  </section>
+</article>
+
+          </div>
+        
+      
     
   </section>
   
     
     <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
     
+    
+      <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
     
 
   
@@ -494,7 +650,7 @@
           <li><a class="flat-box"
             title="/categories/Paper-reading/" href="/categories/Paper-reading/"
             id="categoriesPaper-reading"
-            ><div class='name'>Paper reading</div><div class='badge'>(11)</div></a></li>
+            ><div class='name'>Paper reading</div><div class='badge'>(12)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/Paper-reading/CVPR21/" href="/categories/Paper-reading/CVPR21/"
@@ -504,7 +660,7 @@
           <li><a class="flat-box child"
             title="/categories/Paper-reading/GAN/" href="/categories/Paper-reading/GAN/"
             id="categoriesPaper-readingGAN"
-            ><div class='name'>GAN</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>GAN</div><div class='badge'>(2)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/Paper-reading/deblurring/" href="/categories/Paper-reading/deblurring/"
@@ -578,7 +734,7 @@
 
 
     <div class='content'>
-      <a href="/tags/GAN/" style="font-size: 20.67px; color: #6c6c6c">GAN</a> <a href="/tags/LV-HV/" style="font-size: 14px; color: #999">LV+HV</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/To-Do/" style="font-size: 14px; color: #999">To Do</a> <a href="/tags/audio-image/" style="font-size: 14px; color: #999">audio+image</a> <a href="/tags/blind/" style="font-size: 14px; color: #999">blind</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/deblurring/" style="font-size: 14px; color: #999">deblurring</a> <a href="/tags/denoising/" style="font-size: 14px; color: #999">denoising</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/enhancement/" style="font-size: 14px; color: #999">enhancement</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/image-to-image/" style="font-size: 14px; color: #999">image-to-image</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/loss-functions/" style="font-size: 14px; color: #999">loss functions</a> <a href="/tags/pseudo-supervision/" style="font-size: 17.33px; color: #828282">pseudo-supervision</a> <a href="/tags/segmentation/" style="font-size: 14px; color: #999">segmentation</a> <a href="/tags/self-supervised/" style="font-size: 14px; color: #999">self-supervised</a> <a href="/tags/super-resolution/" style="font-size: 24px; color: #555">super-resolution</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/unpaired/" style="font-size: 20.67px; color: #6c6c6c">unpaired</a> <a href="/tags/unsupervised/" style="font-size: 17.33px; color: #828282">unsupervised</a> <a href="/tags/zero-reference/" style="font-size: 14px; color: #999">zero-reference</a> <a href="/tags/zero-shot/" style="font-size: 14px; color: #999">zero-shot</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 17.33px; color: #828282">哈希表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 14px; color: #999">工具</a> <a href="/tags/%E7%94%BB%E5%9B%BE/" style="font-size: 14px; color: #999">画图</a>
+      <a href="/tags/GAN/" style="font-size: 21.5px; color: #666">GAN</a> <a href="/tags/LV-HV/" style="font-size: 14px; color: #999">LV+HV</a> <a href="/tags/Super-resolution/" style="font-size: 14px; color: #999">Super-resolution</a> <a href="/tags/To-Do/" style="font-size: 14px; color: #999">To Do</a> <a href="/tags/audio-image/" style="font-size: 14px; color: #999">audio+image</a> <a href="/tags/blind/" style="font-size: 14px; color: #999">blind</a> <a href="/tags/bug/" style="font-size: 14px; color: #999">bug</a> <a href="/tags/deblurring/" style="font-size: 14px; color: #999">deblurring</a> <a href="/tags/denoising/" style="font-size: 14px; color: #999">denoising</a> <a href="/tags/docker/" style="font-size: 14px; color: #999">docker</a> <a href="/tags/enhancement/" style="font-size: 14px; color: #999">enhancement</a> <a href="/tags/highly-ill-posed/" style="font-size: 14px; color: #999">highly ill-posed</a> <a href="/tags/image-to-image/" style="font-size: 14px; color: #999">image-to-image</a> <a href="/tags/leetcode/" style="font-size: 14px; color: #999">leetcode</a> <a href="/tags/loss-functions/" style="font-size: 14px; color: #999">loss functions</a> <a href="/tags/pseudo-supervision/" style="font-size: 16.5px; color: #888">pseudo-supervision</a> <a href="/tags/segmentation/" style="font-size: 14px; color: #999">segmentation</a> <a href="/tags/self-supervised/" style="font-size: 14px; color: #999">self-supervised</a> <a href="/tags/super-resolution/" style="font-size: 24px; color: #555">super-resolution</a> <a href="/tags/ubuntu/" style="font-size: 14px; color: #999">ubuntu</a> <a href="/tags/unpaired/" style="font-size: 19px; color: #777">unpaired</a> <a href="/tags/unsupervised/" style="font-size: 19px; color: #777">unsupervised</a> <a href="/tags/zero-reference/" style="font-size: 14px; color: #999">zero-reference</a> <a href="/tags/zero-shot/" style="font-size: 14px; color: #999">zero-shot</a> <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" style="font-size: 16.5px; color: #888">哈希表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 14px; color: #999">工具</a> <a href="/tags/%E7%94%BB%E5%9B%BE/" style="font-size: 14px; color: #999">画图</a>
     </div>
   </section>
 
@@ -631,16 +787,16 @@
       
     
       
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
 </div>
       
     
       
-        Use
+        本站使用
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
+        作为主题，总访问量为
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
+          次
         
       
     

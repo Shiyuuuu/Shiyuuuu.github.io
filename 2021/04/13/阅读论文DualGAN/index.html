@@ -500,10 +500,10 @@ l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-13T16:19:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-22T11:55:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 13, 2021</p>
+    <p>更新于：Apr 22, 2021</p>
   </a>
 </div>
 
@@ -546,15 +546,14 @@ Contrastive Learning for Compact Single Image Dehazing
               </a>
             
             
-              <a class='next' href='/2021/04/12/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87_Unsupervised%20Domain-Specific%20Deblurring%20via%20Disentangled%20Representations/'>
-                <p class='title'>阅读论文-Unsupervised Domain-Specific Deblurring via Disentangled Representations<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+              <a class='next' href='/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/'>
+                <p class='title'>阅读论文 Coupled Generative Adversarial Networks<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>
-出处：CVPR2019
+NIPS 2016
 
 paper  code
 motivation
-之前的方法大多需要成对的训练数据，在实际中采集成对数据较困难。
-现有的无监督方法比如cycleGAN这种，往往编码了色彩...</p>
+learning a joint distribution of multi-domain images. （例如不同属性人...</p>
               </a>
             
           </div>
@@ -577,6 +576,60 @@ motivation
 
 
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
 
 
 
@@ -659,16 +712,16 @@ motivation
       
     
       
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+        <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
 </div>
       
     
       
-        Use
+        本站使用
         <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
+        作为主题，总访问量为
           <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
+          次
         
       
     

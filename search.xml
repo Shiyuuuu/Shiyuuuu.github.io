@@ -973,4 +973,27 @@ l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B
         <tag>image-to-image</tag>
       </tags>
   </entry>
+  <entry>
+    <title>阅读论文 Coupled Generative Adversarial Networks</title>
+    <url>/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/</url>
+    <content><![CDATA[<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/image-20210413162731547.png" alt></p>
+<p>NIPS 2016</p>
+<a id="more"></a>
+<p><a href="https://arxiv.org/pdf/1606.07536.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/mingyuliutw/CoGAN" target="_blank" rel="noopener">code</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>learning a joint distribution of multi-domain images. （例如不同属性人脸图像的分布）</li>
+</ul>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>在domain adaptation和image transformation上的应用。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>GAN</category>
+      </categories>
+      <tags>
+        <tag>GAN</tag>
+        <tag>unsupervised</tag>
+      </tags>
+  </entry>
 </search>
