@@ -837,101 +837,6 @@ min_{E_a,F}=\sum_{a_i,x_i^h,x_i^l \in \mathcal{D}}|z_i^f-z_i|_1+\lambda|D \circ 
       </tags>
   </entry>
   <entry>
-    <title>阅读论文 DualSR- Zero-Shot Dual Learning for Real-World Super-Resolution</title>
-    <url>/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/</url>
-    <content><![CDATA[<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412203538357.png" alt></p>
-<p>WACV 2021</p>
-<a id="more"></a>
-<p><a href="https://openaccess.thecvf.com/content/WACV2021/papers/Emad_DualSR_Zero-Shot_Dual_Learning_for_Real-World_Super-Resolution_WACV_2021_paper.pdf" target="_blank" rel="noopener">paper</a>   <a href="https://github.com/memad73/DualSR" target="_blank" rel="noopener">code</a></p>
-<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
-<li>real world SR的降质过程复杂，而且每张图的降质可能都不同：每个相机的PSF都可能不同，同一相机不同的光照条件、场景深度、抖动。</li>
-</ul>
-<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
-<li>提出DualSR，<strong>只在测试图像的patches上训练</strong>（用基于kernelGAN的kernel estimation 估计输入图像patch的分布），是image-specific的</li>
-<li>ZSSR+CycleGAN+DualGAN</li>
-<li>masked interpolation loss</li>
-</ul>
-<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><h3 id="medical-image"><a href="#medical-image" class="headerlink" title="medical image"></a>medical image</h3><ul>
-<li><p>Kensuke Umehara, Junko Ota, and Takayuki Ishida. Application of super-resolution convolutional neural network for enhancing image resolution in chest ct. Journal of digital imaging, 31(4):441–450, 2018.</p>
-</li>
-<li><p>Chenyu You, Guang Li, Yi Zhang, Xiaoliu Zhang, Hongming Shan, Mengzhou Li, Shenghong Ju, Zhen Zhao, Zhuiyang Zhang, Wenxiang Cong, et al. Ct super-resolution gan constrained by the identical, residual, and cycle learning ensemble (gan-circle). IEEE Transactions on Medical Imaging, 39(1):188–203, 2019.</p>
-<p>  <strong>有paired images</strong></p>
-</li>
-</ul>
-<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412214204249.png" alt></p>
-<h3 id="blind-SR"><a href="#blind-SR" class="headerlink" title="blind SR"></a>blind SR</h3><script type="math/tex; mode=display">
-I_{LR}=(I_{HR}*k)\downarrow_s+n</script><p>估image-specific downsampler的：</p>
-<ul>
-<li><p>[2]. Sefi Bell-Kligler, Assaf Shocher, and Michal Irani. Blind super-resolution kernel estimation using an <strong>internal-gan</strong>. In Advances in Neural Information Processing Systems, pages 284–293, 2019.(<strong>kernelGAN</strong>， 只用LR测试图像作为训练集来估计image-specific的blur kernel)</p>
-</li>
-<li><p>[3]. Adrian Bulat, Jing Yang, and Georgios Tzimiropoulos. To learn image super-resolution, use a gan to learn how to do image degradation first. In Proceedings of the European conference on computer vision (ECCV), pages 185–200, 2018.</p>
-</li>
-<li><p>[11]. Jinjin Gu, Hannan Lu, Wangmeng Zuo, and Chao Dong. Blind super-resolution with iterative kernel correction. In Proceedings of the IEEE conference on computer vision and pattern recognition, pages 1604–1613, 2019.（<strong>IKC</strong>, 用了STF(spatial feature transform层来解决多个blurkernel）</p>
-</li>
-<li><p>[26]. Assaf Shocher, Nadav Cohen, and Michal Irani. Zero-shot super-resolution using deep internal learning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pages 3118–3126, 2018. （<strong>ZSSR</strong>）</p>
-</li>
-<li><p>[6]. Victor Cornillere, Abdelaziz Djelouah, Wang Yifan, Olga Sorkine-Hornung, and Christopher Schroers. Blind image super resolution with spatially variant degradations. ACM Transactions on Graphics (proceedings of ACM SIGGRAPH<br>  ASIA), 38(6), 2019（<strong><em>通过分析生成的HR中的artifacts来估计退化过程</em></strong>。训练一个<strong>kernel discrimination</strong>来预测错误核估计的误差，再通过最小化判别器的error，recover正确的核）</p>
-</li>
-<li><p>[16]. Shady Abu Hussein, Tom Tirer, and Raja Giryes. Correction filter for single image super-resolution: Robustifying off-the shelf deep super-resolvers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 1428–1437, 2020. （其校正滤波器的闭合形式推导(closed-form derivation of their correction filter)，以对降级的LR图像进行变换，<strong>使其与双三次降采样结果相匹配。</strong>在non-isotropic的退化上结果没有report）</p>
-</li>
-</ul>
-<h3 id="non-blind"><a href="#non-blind" class="headerlink" title="non-blind"></a>non-blind</h3><p>SRMD[36] 用dimensionality stretching使网络输入degradation的参数（blur kernel，noise level）</p>
-<p>USRNet [35]分开解决数据子问题和先验子问题，用MAP</p>
-<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="architecture"><a href="#architecture" class="headerlink" title="architecture"></a>architecture</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210412234545365.png" alt></p>
-<p>$G_{DN}$通过下采样输入的LR图像，使之与他自己（LR图像）在patch level上尽可能相似。</p>
-<p>patch的internal分布可以由internalGAN在输入图像的patch上训练得到。</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{total}=\mathcal{L}_{GAN}+\lambda_{cycle}\mathcal{L}_{cycle}+\lambda_{interp}\mathcal{L}_{interp}</script><p>其中$\mathcal{L}_{GAN}$加入了正则项：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{GAN}=\mathbb{E}_y[D_{DN}(G_{DN}(y))-1]^2+\mathcal{R}</script><p>其中$\mathcal{R}$是kernelGAN中估计的kernel的explicit先验。</p>
-<h3 id="masked-interpolation-loss"><a href="#masked-interpolation-loss" class="headerlink" title="masked interpolation loss"></a>masked interpolation loss</h3><p>保持色彩组成，消除输出图像的blurry。</p>
-<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000523260.png" alt></p>
-<p>upsampler的训练没有直接的监督，输出图在sharp edge的地方有ringing effects. 特别是在低频区域。引入一个loss 最小化bicubic上采样和输出的结果之差。（bicubic interpolation能正确上采样低频区域，但不能恢复高频细节。）所以如果对整张图加这个loss，效果也是不好的，如上图b。所以需要masked loss。</p>
-<p>由sobel算子得到频率mask。</p>
-<script type="math/tex; mode=display">
-f_{mask}=1-Sobel(Bicubic(x))</script><p>这个mask在低频部分值大，高频部分值小。</p>
-<p>masked interpolation loss为：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{interp}=\mathbb{E}_x||[G_{UP}(x)-Bicubic(x)]*f_{mask}||_1</script><h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><h3 id="loss权重的影响"><a href="#loss权重的影响" class="headerlink" title="loss权重的影响"></a>loss权重的影响</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413000552714.png" alt></p>
-<h3 id="synthesized-images"><a href="#synthesized-images" class="headerlink" title="synthesized images"></a>synthesized images</h3><ul>
-<li><strong>DIV2KRK</strong>：生成LR：11*11的anisotropic的高斯核，每张图的kernel都有不同的形状和sigma。再下采样，再非均匀的乘性噪声。</li>
-<li><p><strong>urban100</strong>：生成LR的方法同上。</p>
-</li>
-<li><p><strong>NTIRE2017</strong>：SISR track2的数据集，用DIV2K的验证集作为HR。降质未知。</p>
-</li>
-</ul>
-<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413101652084.png" alt></p>
-<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413102024913.png" alt></p>
-<p>比较的方法：</p>
-<ul>
-<li>第一类：在bicubic下采样上训练的模型。如EDSR+, SAN+, ZSSR(用bicubic下采样)</li>
-<li>第二类：盲方法- ZSSR/USRNet (kernel由kernelGAN估计出)</li>
-<li>第三类：有GT 的kernel。（除了在NTIRE2017数据集上没有GT的kernel）</li>
-</ul>
-<p>在NTIRE数据集上的结果（2nd比1st类方法好）是符合常理的。kernelGAN+ZSSR在NTIRE数据集上效果不好是因为降质过程较复杂，不能由kernelGAN精确估计出来。而加上masked interpolation loss 后，效果有所提升。</p>
-<p>blindSR是假设blur kernel是传统滤波器和anisotropic 高斯核的卷积。</p>
-<p>但是kernelGAN+USRNet比不过bicubic类的方法，就不是很能理解。</p>
-<h3 id="real-images"><a href="#real-images" class="headerlink" title="real images"></a>real images</h3><p>用的数据集：RealSR数据集（NTIRE2019中所用），由DSLR相机获得。用28mm焦距得到的图像作为LR，50mm焦距得到的图像作为HR。长焦得到的图像有finer的细节。由于很难完全对齐，所以还是没有成pair的图像。（畅师兄的camera lens SR）</p>
-<p>kernelGAN或者blindSR都不能准确估计出退化模型。</p>
-<p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413111403584.png" alt></p>
-<h3 id="ablation-study"><a href="#ablation-study" class="headerlink" title="ablation study"></a>ablation study</h3><p><img src="/2021/04/14/DualSR:%20Zero-Shot%20Dual%20Learning%20for%20Real-World%20Super-Resolution/image-20210413112657120.png" alt></p>
-<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>没有跟cycleGAN，cycle-in-cycle这类方法比较。</p>
-<h2 id="future-work"><a href="#future-work" class="headerlink" title="future work"></a>future work</h2><p>larger scale factors</p>
-<p>harder use-cases with more extreme degradation settings</p>
-<p>applications in medical imaging or electron microscopy.</p>
-]]></content>
-      <categories>
-        <category>Paper reading</category>
-        <category>super-resolution</category>
-      </categories>
-      <tags>
-        <tag>GAN</tag>
-        <tag>super-resolution</tag>
-        <tag>zero-shot</tag>
-        <tag>self-supervised</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>阅读论文 DualGAN- Unsupervised Dual Learning for Image-to-Image Translation</title>
     <url>/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/</url>
     <content><![CDATA[<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualGAN/image-20210413114408951.png" alt></p>
@@ -975,17 +880,21 @@ l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B
   </entry>
   <entry>
     <title>阅读论文 Coupled Generative Adversarial Networks</title>
-    <url>/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/</url>
-    <content><![CDATA[<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/image-20210413162731547.png" alt></p>
+    <url>/2021/04/22/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/</url>
+    <content><![CDATA[<p><img src="/2021/04/22/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/image-20210413162731547.png" alt></p>
 <p>NIPS 2016</p>
 <a id="more"></a>
 <p><a href="https://arxiv.org/pdf/1606.07536.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/mingyuliutw/CoGAN" target="_blank" rel="noopener">code</a></p>
 <h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
-<li>learning a joint distribution of multi-domain images. （例如不同属性人脸图像的分布）</li>
+<li>通过只从边缘分布采样，learning a joint distribution of multi-domain images. （例如不同属性人脸图像的分布）</li>
 </ul>
 <h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>不需要不同domain的相应的图像元组作为训练集，只需要与各个分布边界分开的一组图像。</li>
 <li>在domain adaptation和image transformation上的应用。</li>
 </ul>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><p>使high-level的语义信息层共享权重，让这组GAN对高层语义有相同的解码。对底层细节解码的层能将共享的表示映射到各个domain的图像。</p>
+<p><img src="/2021/04/22/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87coGAN/image-20210422224454363.png" alt></p>
+<p>$z$服从均匀分布，Generator的前面几层提取高层语义信息，discrimination后面几层提取语义信息。</p>
 ]]></content>
       <categories>
         <category>Paper reading</category>
@@ -993,6 +902,449 @@ l^g(u,v)=\lambda_U||u-G_B(G_A(u,z),z')||+\lambda_V||v-G_A(G_B(v,z'),z)||-D_B(G_B
       </categories>
       <tags>
         <tag>GAN</tag>
+        <tag>unsupervised</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>泊松图像编辑(Poisson Image Editing)</title>
+    <url>/2021/04/25/Poisson%20Image%20Editting/</url>
+    <content><![CDATA[<p><img src="/2021/04/25/Poisson%20Image%20Editting/image-20210425160939629.png" alt></p>
+<p>出处：SIGGRAPH2003</p>
+<a id="more"></a>
+<p><a href="https://hsuanwei.codes/2019/04/14/PoissonEditing/" target="_blank" rel="noopener">paper</a>  </p>
+<p>来源论文：Perez, P., Gangnet, M., &amp; Blake, A. (2003). Poisson Image Editing. ACM SIGGRAPH 2003.</p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>原有的图像融合方法cut and paste和alpha融合都要求精准的抠图，而且得到的边界过度不自然。like this：</p>
+<p><img src="/2021/04/25/Poisson%20Image%20Editting/image-20210425161309866.png" alt></p>
+<p>希望实现：</p>
+<p><img src="/2021/04/25/Poisson%20Image%20Editting/image-20210425161407143.png" alt></p>
+<p>人类的视觉对局部对比度变化的敏感度远高于对整体亮度变化的敏感度，可以使图像在融合边界处完全一致，调整图像整体的亮度/颜色。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>g是原图像，S是目标图像，图像融合就是将g插入到S中的区域$\Omega$，边界为$\partial \Omega$。目标图像的像素值</p>
+<script type="math/tex; mode=display">\triangle f =\triangle g \ over\ \Omega,\ with\ f|\*{\partial \Omega} = f^\*|\*{\partial \Omega}</script><h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a href="https://zhuanlan.zhihu.com/p/58867397" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/58867397</a></p>
+<p><a href="https://blog.csdn.net/ZJU_fish1996/article/details/72760571" target="_blank" rel="noopener">https://blog.csdn.net/ZJU_fish1996/article/details/72760571</a></p>
+<p><a href="https://hsuanwei.codes/2019/04/14/PoissonEditing/" target="_blank" rel="noopener">https://hsuanwei.codes/2019/04/14/PoissonEditing/</a></p>
+]]></content>
+      <categories>
+        <category>图像处理</category>
+        <category>传统算法</category>
+      </categories>
+      <tags>
+        <tag>图像处理</tag>
+        <tag>传统算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-“Zero-Shot” Super-Resolution using Deep Internal Learning</title>
+    <url>/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/</url>
+    <content><![CDATA[<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210604101300806.png" alt></p>
+<p><strong>ZSSR</strong>；出处：CVPR2018</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_cvpr_2018/papers/Shocher_Zero-Shot_Super-Resolution_Using_CVPR_2018_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/assafshocher/ZSSR" target="_blank" rel="noopener">code</a>  <a href="http://www.wisdom.weizmann.ac.il/~vision/zssr/" target="_blank" rel="noopener">project</a></p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>不依赖于prior training, 是image-specific的internal self-supervision（在从待测试的LR图像上训练）</li>
+<li>在待测试的图像上训练，利用图像内部的冗余信息（cross-scale internal recurrence）。<ul>
+<li>the visual entropy inside a single image is much smaller than in a general external collection of images.</li>
+</ul>
+</li>
+<li>可以用于real old photos, noisy images, biological data, 和其他成像过程未知或non-ideal的图像。</li>
+<li>在acquisition process未知的图像上超过已有的SOTA supervised 的CNN和unsupervised方法。<ul>
+<li>“supervised” for any method that trains on externally supplied examples (even if their generation does not require manual labelling).  </li>
+</ul>
+</li>
+</ul>
+<h2 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h2><ul>
+<li><strong>第一个 unsupervised 的</strong>CNN-based SR方法</li>
+<li>可以处理non-ideal的图像</li>
+<li>不需要pretraining</li>
+<li>可以应用到任意大小、任意长宽比的SR</li>
+<li>可以适应到已知和未知的成像条件</li>
+<li>在’non-ideal’上得到SotA的结果，在‘ideal’ 上得到与在’ideal’条件下训练的SotA的supervised的方法相competitive的结果。</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在有混叠图像上(a), EDSR+表现不好（usually a Bicubic kernel with antialiasing – MATLAB’s default imresize command)  ）</p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210622170516283.png" alt></p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210622223737048.png" alt></p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210622224726818.png" alt></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>前提：strong internal data repetition</p>
+<p>小的image patches (eg. $5 \times 5$, $7 \times 7$) 在一张图的同一个尺度和不同尺度下重复很多次（高冗余性）。</p>
+<p>简单来说就是，由待测试的LR图像和它downscale的版本LLR构成 HR-LR 对，训练一个8层64通道+ReLU的全卷积网络。尽管其感受野有限，ZSSR可以捕获测试图像里non-local的冗余信息。当用这个训练好的CNN恢复原本的LR图像，仍然可以恢复图像中所有的新重复的part（因为用了同一个image-specific的filter）。</p>
+<p>在训练阶段，随机裁$128 \times 128$ 的patch。</p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210604175036180.png" alt></p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210622223925036.png" alt></p>
+<h3 id="the-SR-is-performed-gradually"><a href="#the-SR-is-performed-gradually" class="headerlink" title="the SR is performed gradually"></a>the SR is performed gradually</h3><p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210624163807387.png" alt></p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210624185201523.png" alt></p>
+<h2 id="results"><a href="#results" class="headerlink" title="results"></a>results</h2><p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210624164527044.png" alt></p>
+<p>SelfExSR： J.-B. Huang, A. Singh, and N. Ahuja. Single image superresolution from transformed self-exemplars. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pages 5197–5206, 2015.  </p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210625150944373.png" alt></p>
+<p><img src="/2021/06/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87ZSSR/image-20210625152422425.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>zero-shot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Deep Plug-and-Play Super-Resolution for Arbitrary Blur Kernels</title>
+    <url>/2021/06/24/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87plug-and-play-SR/</url>
+    <content><![CDATA[<p><img src="/2021/06/24/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87plug-and-play-SR/image-20210628150152950.png" alt></p>
+<p>plug-and-play；出处：CVPR2019</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_Deep_Plug-And-Play_Super-Resolution_for_Arbitrary_Blur_Kernels_CVPR_2019_paper.pdf" target="_blank" rel="noopener">paper</a>  <a href="https://github.com/cszn/DPSR" target="_blank" rel="noopener">code</a>  <a href="https://arxiv.org/pdf/2008.13751.pdf" target="_blank" rel="noopener">扩展TPAMI2021</a></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>plug-and-play image restoration：</p>
+<p>[15]. Aram Danielyan, Vladimir Katkovnik, and Karen Egiazarian. <strong>Image deblurring by augmented lagrangian with BM3D frame prior</strong>. In Workshop on Information Theoretic Methods in Science and Engineering, pages 16–18, 2010.  </p>
+<p>[57]. Singanallur V Venkatakrishnan, Charles A Bouman, and Brendt Wohlberg. <strong>Plug-and-play priors for model based reconstruction</strong>. In IEEE Global Conference on Signal and Information Processing, pages 945–948, 2013.  </p>
+<p>[69]. Daniel Zoran and Yair Weiss. <strong>From learning models of natural image patches to whole image restoration</strong>. In IEEE International Conference on Computer Vision, pages 479–486, 2011.</p>
+<p>做法：(1). 通过变量分离展开能量方程；(2). 把和先验相关的子问题换成任意现有的高斯去噪器。</p>
+<p>plug-and-play相关工作的进展：</p>
+<ul>
+<li>不同的变量分离算法：half-quadratic splitting (HQS), alternating direction method of multipliers (<strong>ADMM</strong>), FISTA, primal-dual …</li>
+<li>不同任务：Poisson denoising， demosaicking，deblurring，super-resolution，inpainting</li>
+<li>不同的denoiser prior：BM3D, DNN-based denoiser （通常用Gaussian denoiser）</li>
+<li>从不动点与纳什均衡两方面对收敛性的理论分析</li>
+</ul>
+<p>为了方便估计kernel，将degradation model写成：</p>
+<script type="math/tex; mode=display">
+\mathbf{y}=(\mathbf{x}\downarrow_s)\otimes \mathbf{k}+\mathbf{n}</script><p>这里的$\downarrow_s$是bicubic下采样。所以SR问题变为了先做SISR再做deblurring。</p>
+<p>根据最大后验概率（MAP）写出能量方程（energy function）：</p>
+<script type="math/tex; mode=display">
+\mathop{\mathbf{min}} \limits_{x}\frac{1}{2\sigma^2}||\mathbf{y}-(\mathbf{x}\downarrow_s)\otimes\mathbf{k}||^2+\lambda\Phi(\mathbf{x})</script><p>引入辅助变量$\mathbf{z}$, 求解：</p>
+<script type="math/tex; mode=display">
+\hat{x}=\mathbb{arg} \mathop{\mathbf{min}} \limits_{x}\frac{1}{2\sigma^2}||\mathbf{y}-\mathbf{z}\otimes\mathbf{k}||^2+\lambda\Phi(\mathbf{x}),\mathbb{subject}\ \mathbb{to}\; \mathbf{z}=\mathbf{x}\downarrow_s</script><p>下面用HQS求解：<a href="https://www.cnblogs.com/wxl845235800/p/10734866.html" target="_blank" rel="noopener">HQS</a></p>
+<script type="math/tex; mode=display">
+\mathcal{L}_\mu(\mathbf{x},\mathbf{z})=
+\frac{1}{2\sigma^2}||\mathbf{y}-\mathbf{z}\otimes \mathbf{k}||^2+
+\lambda\Phi(\mathbf{x})+
+\frac{\mu}{2}||\mathbf{z}-\mathbf{x}\downarrow_s||^2</script><p>得到迭代解：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\mathbf{z}_{k+1}=\mathbb{arg}\ \mathbb{min}_\mathbf{z}||\mathbf{y}-\mathbf{z}\otimes\mathbf{k}||^2 + \mu\sigma^2||\mathbf{z}-\mathbf{x}_k\downarrow_{s}||^2\\
+
+\mathbf{x}_{k+1}=\mathbb{arg}\ \mathbb{min}_\mathbf{x}\frac{\mu}{2}||\mathbf{z}_{k+1}-\mathbf{x}\downarrow_s||^2+\lambda\Phi(\mathbf{x})
+\end{cases}</script><p>得到闭式解：</p>
+<p><img src="/2021/06/24/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87plug-and-play-SR/image-20210629230007034.png" alt></p>
+<p><img src="/2021/06/24/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87plug-and-play-SR/image-20210629230057214.png" alt></p>
+<p>对比式(10)和能量方程，$\mathbf{z}_{k+1}$由$\mathbf{x}$ 先bicubic下采样s倍，再由噪声level为$\sqrt{1/\mu}$的AWGN得到。</p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>plug-and-play</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Image Hallucination with Primal Sketch Priors</title>
+    <url>/2021/06/16/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87sketch_priors/</url>
+    <content><![CDATA[<p><img src="/2021/06/16/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87sketch_priors/image-20210616104503390.png" alt></p>
+<p>sketch priors, CVPR 2003</p>
+<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=1211539" target="_blank" rel="noopener">paper</a>  </p>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><ul>
+<li>不依赖于prior training</li>
+<li>在待测试的图像上训练，利用图像内部的冗余信息。</li>
+<li>在acquisition process未知的图像上超过已有的SOTA supervised 的CNN和unsupervised方法。<ul>
+<li>“supervised” for any method that trains on externally supplied examples (even if their generation does not require manual<br>labelling).  </li>
+</ul>
+</li>
+</ul>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>设计了</li>
+</ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="/2021/06/16/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87sketch_priors/image-20210604175036180.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>Hallucination</tag>
+        <tag>priors</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Analyzing and Mitigating Compression Defects in Deep Learning</title>
+    <url>/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/</url>
+    <content><![CDATA[<p><img src="/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/image-20210702111915026.png" alt></p>
+<p>compression artifacts correction + segmentation/classification/detection；出处：arxiv 2020.11</p>
+<a id="more"></a>
+<p><a href="https://arxiv.org/pdf/2011.08932.pdf" target="_blank" rel="noopener">paper</a> </p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li>从学术模型到商业落地，consumer setting下图片常常是有损压缩的，而目前还很少有研究网络对压缩图像的效果或 提出有损压缩benchmark数据集的。</li>
+<li>他们研究了在segmentation/classification/detection上JPEG压缩对性能的影响<ul>
+<li>中等到严重的JPEG压缩（quality factor=10到50）导致了严重的性能下降（<strong>baseline</strong>）</li>
+<li>用JPEG压缩后的图像fine-tuning，可以很大程度地减轻性能损失（但是会牺牲在无损图像上的表现）（<strong>supervised fine-tuning</strong>）</li>
+<li>对于缺少训练标签  或者  不希望损失在无损图像上性能  的任务，fine-tuning变得不可行。<ul>
+<li>用一个现有的JPEG artifact correction模型作为预处理。（<strong>Artifact Correction</strong>）</li>
+<li>self-supervised方法：可以接近甚至超过fine-tuning的情况。（<strong>task-targeted artifact correction</strong>）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h2><p>一个很简单的自监督方法：用未压缩图像经过已经训练好的网络（fixed）得到的prediction作为标签，算出 与  校正后的压缩图像经过已经训练好的网络（fixed）得到的prediction  之间的L1距离，优化更新correction网络。</p>
+<p><img src="/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/image-20210702144014283.png" alt></p>
+<h2 id="results"><a href="#results" class="headerlink" title="results"></a>results</h2><p><img src="/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/image-20210702142418099.png" alt></p>
+<p><img src="/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/image-20210702141617148.png" alt></p>
+<ul>
+<li><p>对于efficientNet B3，加上现有的artifacts correction作为预处理反而会降低性能。</p>
+</li>
+<li><p>而把self-supervised 的task-targeted artifact correction与supervised fine tuning相比，task-targeted artifact correction能得到差不多甚至有时更好的表现。</p>
+</li>
+</ul>
+<p><img src="/2021/07/01/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87compression_Defects/image-20210702141237755.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>LV+HV</category>
+      </categories>
+      <tags>
+        <tag>LV+HV</tag>
+        <tag>compression</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Unsupervised Degradation Representation Learning for Blind Super-Resolution</title>
+    <url>/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/</url>
+    <content><![CDATA[<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706113147243.png" alt></p>
+<p><strong>DASR （degradation-aware SR）</strong>；无监督对比学习得到degradation representation；出处：CVPR 2021</p>
+<a id="more"></a>
+<p><a href="http://arxiv.org/pdf/2104.00416" target="_blank" rel="noopener">paper</a>    <a href="https://github.com/LongguangWang/DASR" target="_blank" rel="noopener">code</a></p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><p>real-world的degradation既复杂且未知。现有的degradation estimation方法很耗时而且可能估错。</p>
+<ul>
+<li>这篇文章无监督隐式地学习degradation representation（通过对比学习：假设同一图像内的退化一致；不同图像的退化不一致），进一步在表征空间区分degradation。</li>
+<li>再有监督地训练SR网络DASR，输入是LR和前面得到的degradation representation。从而适应到不同的degradation。</li>
+</ul>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="unsupervised-degradation-representation-learning"><a href="#unsupervised-degradation-representation-learning" class="headerlink" title="unsupervised degradation representation learning"></a>unsupervised degradation representation learning</h3><p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706114326385.png" alt></p>
+<p>目的是获取LR的判别式表示。以由同一种degradation生成的图像Patch为正样本（同一、不同图像，同一degradation）,不同degradation的patch为负样本，以获得与内容无关的degradation representation。</p>
+<p>中间得到的degradation representations再通过两层MLP（SimCLR, MocoV2）</p>
+<p>loss：</p>
+<script type="math/tex; mode=display">
+L_x=-\mathbb{log}\frac{\mathbb{exp}(x \cdot x^+/ \tau)}{\sum_{n=1}^N\mathbb{exp}(x  \cdot x^-_n/\tau)}</script><p>其中$\tau$是超参。</p>
+<p>对比学习关键：a large dictionary covering a rich set of negative samples.</p>
+<h2 id="degradation-aware-SR-network"><a href="#degradation-aware-SR-network" class="headerlink" title="degradation-aware SR network"></a>degradation-aware SR network</h2><p>参照RCAN；loss是L1</p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706115921648.png" alt></p>
+<p>2个DA层（紫框）</p>
+<p>对于DA卷积层，1）退化表征首先经过两个FC层，学习到基于退化表示的深度卷积核w，然后结合图像特征F，经过1*1卷积层，获得特征F1；2）受到CResMD[2] 启发（使用控制变量来重新缩放不同的C以处理多种降级），退化表征通过两个FC层以及一个激活层后，生成逐通道调制系数v，结合图像特征F，获得特征F2。最后DAblock的输出由F1加上F2生成</p>
+<p>现有的方法通常把image features与degradation representations 合在一起concat，但这二者之间存在domain gap。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><ol>
+<li>noise-free degradation model + isotropic Gaussian kernel</li>
+<li>anisotropic Gaussian kernels and noises</li>
+<li>real-world degradations</li>
+</ol>
+<p>Gaussian kernel：21$\times$21，σ were set to [0.2,2.0], [0.2,3.0] and[0.2,4.0] for ×2, 3, 4 SR  </p>
+<p>Anisotropic Gaussian kernels characterized by a Gaussian probability density function N(0; Σ)  </p>
+<p>The covariance matrix Σ was determined by two random eigenvalues λ1; λ2 ∼ U(0:2; 4) and a random rotation angle θ ∼ U(0; π). The range of noise level was set to [0; 25]  </p>
+<p>patch size: 48 $\times$ 48</p>
+<p>先训练degradation encoder 100个epochs, 再训练整个网络500 epochs。</p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120245324.png" alt></p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120308002.png" alt></p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120343567.png" alt></p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120407645.png" alt></p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120436990.png" alt></p>
+<p>DASR trained on isotropic Gaussian kernels is used for evaluation on <strong>real images</strong>  </p>
+<p><img src="/2021/07/05/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DASR/image-20210706120452206.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>unsupervised</tag>
+        <tag>contrastive learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Flow-based Kernel Prior with Application to Blind Super-Resolution</title>
+    <url>/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/</url>
+    <content><![CDATA[<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706143613157.png" alt></p>
+<p><strong>FKP（flow-based kernel prior）</strong>；出处：CVPR 2021</p>
+<a id="more"></a>
+<p><a href="https://arxiv.org/pdf/2103.15977.pdf" target="_blank" rel="noopener">paper</a>    <a href="https://github.com/JingyunLiang/FKP/releases/tag/supp" target="_blank" rel="noopener">supp</a>    <a href="https://github.com/JingyunLiang/FKP" target="_blank" rel="noopener">code</a></p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><p>real-world的degradation既复杂且未知。现有的degradation estimation方法很耗时而且可能估错。</p>
+<ul>
+<li>这篇文章无监督隐式地学习degradation representation（通过对比学习：假设同一图像内的退化一致；不同图像的退化不一致），进一步在表征空间区分degradation。</li>
+<li>再有监督地训练SR网络DASR，输入是LR和前面得到的degradation representation。从而适应到不同的degradation。</li>
+</ul>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="unsupervised-degradation-representation-learning"><a href="#unsupervised-degradation-representation-learning" class="headerlink" title="unsupervised degradation representation learning"></a>unsupervised degradation representation learning</h3><p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706114326385.png" alt></p>
+<p>目的是获取LR的判别式表示。以由同一种degradation生成的图像Patch为正样本（同一、不同图像，同一degradation）,不同degradation的patch为负样本，以获得与内容无关的degradation representation。</p>
+<p>中间得到的degradation representations再通过两层MLP（SimCLR, MocoV2）</p>
+<p>loss：</p>
+<script type="math/tex; mode=display">
+L_x=-\mathbb{log}\frac{\mathbb{exp}(x \cdot x^+/ \tau)}{\sum_{n=1}^N\mathbb{exp}(x  \cdot x^-_n/\tau)}</script><p>其中$\tau$是超参。</p>
+<p>对比学习关键：a large dictionary covering a rich set of negative samples.</p>
+<h2 id="degradation-aware-SR-network"><a href="#degradation-aware-SR-network" class="headerlink" title="degradation-aware SR network"></a>degradation-aware SR network</h2><p>参照RCAN；loss是L1</p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706115921648.png" alt></p>
+<p>2个DA层（紫框）</p>
+<p>对于DA卷积层，1）退化表征首先经过两个FC层，学习到基于退化表示的深度卷积核w，然后结合图像特征F，经过1*1卷积层，获得特征F1；2）受到CResMD[2] 启发（使用控制变量来重新缩放不同的C以处理多种降级），退化表征通过两个FC层以及一个激活层后，生成逐通道调制系数v，结合图像特征F，获得特征F2。最后DAblock的输出由F1加上F2生成</p>
+<p>现有的方法通常把image features与degradation representations 合在一起concat，但这二者之间存在domain gap。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><ol>
+<li>noise-free degradation model + isotropic Gaussian kernel</li>
+<li>anisotropic Gaussian kernels and noises</li>
+<li>real-world degradations</li>
+</ol>
+<p>Gaussian kernel：21$\times$21，σ were set to [0.2,2.0], [0.2,3.0] and[0.2,4.0] for ×2, 3, 4 SR  </p>
+<p>Anisotropic Gaussian kernels characterized by a Gaussian probability density function N(0; Σ)  </p>
+<p>The covariance matrix Σ was determined by two random eigenvalues λ1; λ2 ∼ U(0:2; 4) and a random rotation angle θ ∼ U(0; π). The range of noise level was set to [0; 25]  </p>
+<p>patch size: 48 $\times$ 48</p>
+<p>先训练degradation encoder 100个epochs, 再训练整个网络500 epochs。</p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120245324.png" alt></p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120308002.png" alt></p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120343567.png" alt></p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120407645.png" alt></p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120436990.png" alt></p>
+<p>DASR trained on isotropic Gaussian kernels is used for evaluation on <strong>real images</strong>  </p>
+<p><img src="/2021/07/06/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87FKP/image-20210706120452206.png" alt></p>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>flow</tag>
+        <tag>kernel</tag>
+        <tag>invertible</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Learning Continuous Image Representation with Local Implicit Image Function</title>
+    <url>/2021/07/02/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87LIIF/</url>
+    <content><![CDATA[<p><img src="/2021/07/02/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87LIIF/image-20210703225213371.png" alt></p>
+<p>LIIF；出处：CVPR 2021 oral</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Learning_Continuous_Image_Representation_With_Local_Implicit_Image_Function_CVPR_2021_paper.pdf" target="_blank" rel="noopener">paper</a>     <a href="https://github.com/yinboc/liif" target="_blank" rel="noopener">code</a>      <a href="https://yinboc.github.io/liif/" target="_blank" rel="noopener">project</a></p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><p>视觉世界都是连续的，而平时都是用离散的2D矩阵表示图像。这篇文章提出图像的连续表示。</p>
+<ul>
+<li>inspired by implicit function，提出<strong>Local Implicit Image Function</strong>. 输入是图像坐标及坐标附近的2D深度特征，输出是给定坐标的RGB值. 由于坐标值可以是连续的，所以可以得到任意分辨率的图像。<ul>
+<li>train an encoder and LIIF representation via a self-supervised task with super-resolution.</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<p><img src="/2021/07/02/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87LIIF/window.png" alt></p>
+<video src="C:/Users/Administrator/Downloads/window.mp4"></video>
+
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2>]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>continuous</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文-Invertible Image Rescaling</title>
+    <url>/2021/07/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87rescaling/</url>
+    <content><![CDATA[<p><img src="/2021/07/04/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87rescaling/image-20210704151806621.png" alt></p>
+<p>Invertible rescaling；出处：ECCV 2020 oral</p>
+<a id="more"></a>
+<p><a href="https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Learning_Continuous_Image_Representation_With_Local_Implicit_Image_Function_CVPR_2021_paper.pdf" target="_blank" rel="noopener">paper</a>     <a href="https://github.com/yinboc/liif" target="_blank" rel="noopener">code</a>      <a href="https://yinboc.github.io/liif/" target="_blank" rel="noopener">project</a></p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><p>[26]. Kim, H., Choi, M., Lim, B., Mu Lee, K.: Task-aware image downscaling. In: Proceedings of the European Conference on Computer Vision (ECCV). pp. 399–414 (2018)  </p>
+<p>[34]. Li, Y., Liu, D., Li, H., Li, L., Li, Z., Wu, F.: Learning a convolutional neural network for image compact-resolution. IEEE Transactions on Image Processing 28(3), 1092–1107 (2018)  </p>
+<p>[49]. Sun, W., Chen, Z.: Learned image downscaling for upscaling using content adaptive resampler. IEEE Transactions on Image Processing 29, 4027–4040 (2020)   </p>
+<p>主要问题：没有捕捉丢失信息的特征。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2>]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>super-resolution</tag>
+        <tag>Invertible</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阅读论文 DualSR_zero-shot Dual Learning for real-world super-resolution</title>
+    <url>/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/</url>
+    <content><![CDATA[<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210412203538357.png" alt>WACV 2021; <a href="https://openaccess.thecvf.com/content/WACV2021/papers/Emad_DualSR_Zero-Shot_Dual_Learning_for_Real-World_Super-Resolution_WACV_2021_paper.pdf" target="_blank" rel="noopener">paper</a> <a href="https://github.com/memad73/DualSR" target="_blank" rel="noopener">code</a></p>
+<a id="more"></a>
+<h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>real world SR的降质过程复杂，而且每张图的降质可能都不同：每个相机的PSF都可能不同，同一相机不同的光照条件、场景深度、抖动。</p>
+<h2 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h2><ul>
+<li><p>提出DualSR，<strong>只在测试图像的patches上训练</strong>（用基于kernelGAN的kernel estimation 估计输入图像patch的分布），是image-specific的</p>
+</li>
+<li><p>ZSSR+CycleGAN+DualGAN</p>
+</li>
+<li><p>masked interpolation loss</p>
+</li>
+</ul>
+<h2 id="related-works"><a href="#related-works" class="headerlink" title="related works"></a>related works</h2><h3 id="medical-image"><a href="#medical-image" class="headerlink" title="medical image"></a>medical image</h3><p>Kensuke Umehara, Junko Ota, and Takayuki Ishida. Application of super-resolution convolutional neural network for enhancing image resolution in chest ct. Journal of digital imaging, 31(4):441–450, 2018.</p>
+<p>Chenyu You, Guang Li, Yi Zhang, Xiaoliu Zhang, Hongming Shan, Mengzhou Li, Shenghong Ju, Zhen Zhao, Zhuiyang Zhang, Wenxiang Cong, et al. Ct super-resolution gan constrained by the identical, residual, and cycle learning ensemble (gan-circle). IEEE Transactions on Medical Imaging, 39(1):188–203, 2019.</p>
+<p><strong>有paired images</strong><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210412214204249.png" alt></p>
+<h3 id="blind-SR"><a href="#blind-SR" class="headerlink" title="blind SR"></a>blind SR</h3><script type="math/tex; mode=display">
+I_{LR}=(I_{HR}*k)\downarrow_s+n</script><p>估image-specific downsampler的：</p>
+<ul>
+<li><p>[2]. Sefi Bell-Kligler, Assaf Shocher, and Michal Irani. Blind super-resolution kernel estimation using an <strong>internal-gan</strong>. In Advances in Neural Information Processing Systems, pages 284–293, 2019.(<strong>kernelGAN</strong>， 只用LR测试图像作为训练集来估计image-specific的blur kernel)</p>
+</li>
+<li><p>[3]. Adrian Bulat, Jing Yang, and Georgios Tzimiropoulos. To learn image super-resolution, use a gan to learn how to do image degradation first. In Proceedings of the European conference on computer vision (ECCV), pages 185–200, 2018.</p>
+</li>
+<li><p>[11]. Jinjin Gu, Hannan Lu, Wangmeng Zuo, and Chao Dong. Blind super-resolution with iterative kernel correction. In Proceedings of the IEEE conference on computer vision and pattern recognition, pages 1604–1613, 2019.（<strong>IKC</strong>, 用了STF(spatial feature transform层来解决多个blurkernel）</p>
+</li>
+<li><p>[26]. Assaf Shocher, Nadav Cohen, and Michal Irani. Zero-shot super-resolution using deep internal learning. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pages 3118–3126, 2018. （<strong>ZSSR</strong>）</p>
+</li>
+<li><p>[6]. Victor Cornillere, Abdelaziz Djelouah, Wang Yifan, Olga Sorkine-Hornung, and Christopher Schroers. Blind image super resolution with spatially variant degradations. ACM Transactions on Graphics (proceedings of ACM SIGGRAPHASIA), 38(6), 2019（<strong>通过分析生成的HR中的artifacts来估计退化过程</strong>。训练一个<strong>kernel discrimination</strong>来预测错误核估计的误差，再通过最小化判别器的error，recover正确的核）</p>
+</li>
+<li><p>[16]. Shady Abu Hussein, Tom Tirer, and Raja Giryes. Correction filter for single image super-resolution: Robustifying off-the shelf deep super-resolvers. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 1428–1437, 2020. （其校正滤波器的闭合形式推导(closed-form derivation of their correction filter)，以对降级的LR图像进行变换，<strong>使其与双三次降采样结果相匹配。</strong>在non-isotropic的退化上结果没有report）</p>
+</li>
+</ul>
+<h3 id="non-blind"><a href="#non-blind" class="headerlink" title="non-blind"></a>non-blind</h3><ul>
+<li><p>SRMD[36] 用dimensionality stretching使网络输入degradation的参数（blur kernel，noise level）</p>
+</li>
+<li><p>USRNet [35]分开解决数据子问题和先验子问题，用MAP</p>
+</li>
+</ul>
+<h2 id="method"><a href="#method" class="headerlink" title="method"></a>method</h2><h3 id="architecture"><a href="#architecture" class="headerlink" title="architecture"></a>architecture</h3><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210412234545365.png" alt></p>
+<p>GDN通过下采样输入的LR图像，使之与他自己（LR图像）在patch level上尽可能相似。</p>
+<p>patch的internal分布可以由internalGAN在输入图像的patch上训练得到。Ltotal=LGAN+λcycleLcycle+λinterpLinterp</p>
+<p>其中LGAN加入了正则项：LGAN=Ey[DDN(GDN(y))−1]2+R</p>
+<p>其中R是kernelGAN中估计的kernel的explicit先验。</p>
+<h3 id="masked-interpolation-loss"><a href="#masked-interpolation-loss" class="headerlink" title="masked interpolation loss"></a>masked interpolation loss</h3><p>保持色彩组成，消除输出图像的blurry。<img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413000523260.png" alt></p>
+<p>upsampler的训练没有直接的监督，输出图在sharp edge的地方有ringing effects. 特别是在低频区域。引入一个loss 最小化bicubic上采样和输出的结果之差。（bicubic interpolation能正确上采样低频区域，但不能恢复高频细节。）所以如果对整张图加这个loss，效果也是不好的，如上图b。所以需要masked loss。</p>
+<p>由sobel算子得到频率mask。</p>
+<p>fmask=1−Sobel(Bicubic(x))</p>
+<p>这个mask在低频部分值大，高频部分值小。</p>
+<p>masked interpolation loss为：</p>
+<p>Linterp=Ex||[GUP(x)−Bicubic(x)]∗fmask||_1</p>
+<h2 id="experiments"><a href="#experiments" class="headerlink" title="experiments"></a>experiments</h2><h3 id="loss权重的影响"><a href="#loss权重的影响" class="headerlink" title="loss权重的影响"></a>loss权重的影响</h3><p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413000552714.png" alt></p>
+<h3 id="synthesized-images"><a href="#synthesized-images" class="headerlink" title="synthesized images"></a>synthesized images</h3><ul>
+<li><p><strong>DIV2KRK</strong>：生成LR：11*11的anisotropic的高斯核，每张图的kernel都有不同的形状和sigma。再下采样，再非均匀的乘性噪声。</p>
+</li>
+<li><p><strong>urban100</strong>：生成LR的方法同上。</p>
+</li>
+<li><p><strong>NTIRE2017</strong>：SISR track2的数据集，用DIV2K的验证集作为HR。降质未知。</p>
+</li>
+</ul>
+<p><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413101652084.png" alt><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413102024913.png" alt></p>
+<p>比较的方法：</p>
+<ul>
+<li>第一类：在bicubic下采样上训练的模型。如EDSR+, SAN+, ZSSR(用bicubic下采样)</li>
+<li>第二类：盲方法- ZSSR/USRNet (kernel由kernelGAN估计出)</li>
+<li>第三类：有GT 的kernel。（除了在NTIRE2017数据集上没有GT的kernel）</li>
+</ul>
+<p>在NTIRE数据集上的结果（2nd比1st类方法好）是符合常理的。kernelGAN+ZSSR在NTIRE数据集上效果不好是因为降质过程较复杂，不能由kernelGAN精确估计出来。而加上masked interpolation loss 后，效果有所提升。</p>
+<p>blindSR是假设blur kernel是传统滤波器和anisotropic 高斯核的卷积。</p>
+<p>但是kernelGAN+USRNet比不过bicubic类的方法，就不是很能理解。</p>
+<h3 id="real-images"><a href="#real-images" class="headerlink" title="real images"></a>real images</h3><p>用的数据集：RealSR数据集（NTIRE2019中所用），由DSLR相机获得。用28mm焦距得到的图像作为LR，50mm焦距得到的图像作为HR。长焦得到的图像有finer的细节。由于很难完全对齐，所以还是没有成pair的图像。（畅师兄的camera lens SR）</p>
+<p>kernelGAN或者blindSR都不能准确估计出退化模型。<img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413111403584.png" alt><img src="/2021/04/13/%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87DualSR/image-20210413112657120.png" alt></p>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>没有跟cycleGAN，cycle-in-cycle这类方法比较。</p>
+<h2 id="future-work"><a href="#future-work" class="headerlink" title="future work"></a>future work</h2><ul>
+<li>larger scale factors</li>
+<li>harder use-cases with more extreme degradation settings</li>
+<li>applications in medical imaging or electron microscopy.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Paper reading</category>
+        <category>super-resolution</category>
+      </categories>
+      <tags>
+        <tag>GAN</tag>
+        <tag>super-resolution</tag>
         <tag>unsupervised</tag>
       </tags>
   </entry>
